@@ -47,8 +47,7 @@ export function QuotesPage(): JSX.Element {
   filter((p) => p.count > 0);
 
   const handleReuse = (id: string) => {
-    const next = cloneCase(id);
-    if (next) navigate(`/quotes/${next.id}/overview`);
+    navigate(`/quotes/new?cloneFrom=${id}`);
   };
 
   return (

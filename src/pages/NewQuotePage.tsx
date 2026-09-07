@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
   CheckIcon,
@@ -15,19 +15,22 @@ import { products } from '../data/products';
 import type { ProductId } from '../types';
 
 export function NewQuotePage(): JSX.Element {
-  const { createCase } = useCaseStore();
+  const { createCase, getCase } = useCaseStore();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const cloneFromId = searchParams.get('cloneFrom');
+  const sourceCase = useMemo(() => cloneFromId ? getCase(cloneFromId) : null, [cloneFromId, getCase]);
 
-  const [name, setName] = useState('');
-  const [client, setClient] = useState('');
-  const [producer, setProducer] = useState('');
-  const [situsState, setSitusState] = useState('DE');
-  const [dueDate, setDueDate] = useState('');
-  const [product, setProduct] = useState<ProductId>('EPPVUL_AVME');
-  const [premium, setPremium] = useState('5000000');
-  const [payYears, setPayYears] = useState('7');
-  const [creditedRate, setCreditedRate] = useState('7');
-  const [faSpread, setFaSpread] = useState('80');
+  const [name, setName] = useState(() => sourceCase ? sourceCase.name : '');
+  const [client, setClient] = useState(() => sourceCase ? sourceCase.client : '');
+  const [producer, setProducer] = useState(() => sourceCase ? sourceCase.producer : '');
+  const [situsState, setSitusState] = useState(() => sourceCase ? sourceCase.situsState : 'DE');
+  const [dueDate, setDueDate] = useState(() => sourceCase ? sourceCase.dueDate : '');
+  const [product, setProduct] = useState<ProductId>(() => sourceCase ? sourceCase.product : 'EPPVUL_AVME');
+  const [premium, setPremium] = useState(() => sourceCase ? String(sourceCase.inputs.premium) : '5000000');
+  const [payYears, setPayYears] = useState(() => sourceCase ? String(sourceCase.inputs.payYears) : '7');
+  const [creditedRate, setCreditedRate] = useState(() => sourceCase ? String(sourceCase.inputs.saReturn) : '7');
+  const [faSpread, setFaSpread] = useState(() => sourceCase ? String(sourceCase.inputs.faSpread) : '80');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,8 +54,8 @@ export function NewQuotePage(): JSX.Element {
   return (
     <div className="mx-auto max-w-[980px] p-6">
       <PageHeader
-        title="New Quote"
-        subtitle="Enter deal terms from the broker. The engine auto-prices and sends to the review queue."
+        title={sourceCase ? 'Clone Quote' : 'New Quote'}
+        subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'}
         action={
         <Button
           variant="secondary"
@@ -63,7 +66,22 @@ export function NewQuotePage(): JSX.Element {
             Browse Templates
           </Button>
         } />
-      
+
+      {sourceCase && (
+        <div className="mb-5 rounded-md border border-success/40 bg-success-tint px-4 py-3">
+          <div className="flex items-start gap-3">
+            <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-success" strokeWidth={2} />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-success">
+                Cloned from <span className="font-bold">{sourceCase.name}</span>
+              </p>
+              <p className="mt-1 text-sm text-success/90">
+                Configuration and census pre-loaded. Just update the client details and client name to get started.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Card accent="primary" title="Case details">

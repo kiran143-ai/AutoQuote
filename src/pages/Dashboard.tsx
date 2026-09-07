@@ -43,8 +43,7 @@ export function Dashboard(): JSX.Element {
   slice(0, 6);
 
   const handleReuse = (id: string) => {
-    const next = cloneCase(id);
-    if (next) navigate(`/quotes/${next.id}/overview`);
+    navigate(`/quotes/new?cloneFrom=${id}`);
   };
 
   return (
