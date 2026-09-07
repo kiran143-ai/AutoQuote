@@ -54,19 +54,14 @@ export function NewQuotePage(): JSX.Element {
         title="New Quote"
         subtitle="Enter deal terms from the broker. The engine auto-prices and sends to the review queue."
         action={
-        <>
-            <Button
-            variant="secondary"
-            icon={
-            <LayoutTemplateIcon className="h-4 w-4" strokeWidth={1.75} />
-            }>
-            
-              Browse Templates
-            </Button>
-            <Button variant="secondary" onClick={() => navigate('/quotes')}>
-              Cancel
-            </Button>
-          </>
+        <Button
+          variant="secondary"
+          icon={
+          <LayoutTemplateIcon className="h-4 w-4" strokeWidth={1.75} />
+          }>
+
+            Browse Templates
+          </Button>
         } />
       
 
@@ -225,17 +220,24 @@ export function NewQuotePage(): JSX.Element {
           </p>
         </Card>
 
-        <div className="flex flex-wrap items-center justify-end gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-micro text-muted">
             Auto-calibrates M&amp;E, runs pricing, generates evidence packet
           </p>
-          <Button
-            type="submit"
-            variant="primary"
-            icon={<ZapIcon className="h-4 w-4" strokeWidth={1.75} />}>
-            
-            Create &amp; Price
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              variant="secondary"
+              onClick={() => navigate('/quotes')}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              icon={<ZapIcon className="h-4 w-4" strokeWidth={1.75} />}>
+
+              Create &amp; Price
+            </Button>
+          </div>
         </div>
       </form>
     </div>);

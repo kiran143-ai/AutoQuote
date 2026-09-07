@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PlusIcon, SearchIcon } from 'lucide-react';
+import { PlusIcon, SearchIcon, TargetIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
@@ -57,13 +57,20 @@ export function QuotesPage(): JSX.Element {
         title="All Quotes"
         subtitle={`Showing ${filtered.length} of ${cases.length} cases`}
         action={
-        <Button
-          variant="primary"
-          onClick={() => navigate('/quotes/new')}
-          icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
-          
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            onClick={() => navigate('/quotes/new')}
+            icon={<TargetIcon className="h-4 w-4" strokeWidth={2} />}>
+            Quick Run
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => navigate('/quotes/new')}
+            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
             New Quote
           </Button>
+        </div>
         } />
       
 

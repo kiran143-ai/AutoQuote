@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeftIcon, PlusIcon, RotateCwIcon } from 'lucide-react';
+import { ArrowLeftIcon, CheckIcon, PlusIcon, RotateCwIcon } from 'lucide-react';
 import { StatusBadge } from '../ui/StatusBadge';
 import { CheckChip } from '../ui/CheckChip';
 import { Button } from '../ui/Button';
@@ -13,8 +13,27 @@ export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
   const { runPricing, newRound } = useCaseStore();
   const m = quote.metrics;
 
+  const isCloned = quote.feed[0]?.detail.includes('Cloned from');
+  const clonedFromMatch = quote.feed[0]?.detail.match(/Cloned from (.+?) —/);
+  const clonedFromName = clonedFromMatch?.[1];
+
   return (
     <div className="border-b border-line bg-white">
+      {isCloned && (
+        <div className="border-b border-line bg-primary-tint px-6 py-3">
+          <div className="mx-auto max-w-[1440px] flex items-start gap-3">
+            <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={2} aria-hidden="true" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-primary">
+                Cloned from <span className="font-semibold">{clonedFromName}</span>
+              </p>
+              <p className="mt-1 text-xs text-primary/80">
+                Configuration and census pre-loaded. Just update the client details and client name to get started.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mx-auto max-w-[1440px] px-6 pb-4 pt-4">
         <Link
           to="/quotes"

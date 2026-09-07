@@ -53,13 +53,20 @@ export function Dashboard(): JSX.Element {
         title="Dashboard"
         subtitle="Pipeline, pricing health, and cases awaiting your action."
         action={
-        <Button
-          variant="primary"
-          onClick={() => navigate('/quotes/new')}
-          icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
-          
+        <div className="flex gap-2">
+          <Button
+            variant="secondary"
+            onClick={() => navigate('/quotes/new')}
+            icon={<TargetIcon className="h-4 w-4" strokeWidth={2} />}>
+            Quick Run
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => navigate('/quotes/new')}
+            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
             New Quote
           </Button>
+        </div>
         } />
       
 
