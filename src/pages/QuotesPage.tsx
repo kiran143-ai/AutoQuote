@@ -11,7 +11,7 @@ import { products } from '../data/products';
 import type { CaseStatus } from '../types';
 
 export function QuotesPage(): JSX.Element {
-  const { cases, cloneCase } = useCaseStore();
+  const { cases } = useCaseStore();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<(typeof statusFilters)[number]>('All');
@@ -59,7 +59,7 @@ export function QuotesPage(): JSX.Element {
         <div className="flex gap-2">
           <Button
             variant="secondary"
-            onClick={() => navigate('/quotes/new')}
+            disabled
             icon={<TargetIcon className="h-4 w-4" strokeWidth={2} />}>
             Quick Run
           </Button>

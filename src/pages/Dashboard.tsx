@@ -19,7 +19,7 @@ const pipelineOrder: CaseStatus[] = [
 
 
 export function Dashboard(): JSX.Element {
-  const { cases, cloneCase } = useCaseStore();
+  const { cases } = useCaseStore();
   const navigate = useNavigate();
 
   const priced = cases.filter((c) => c.metrics);
@@ -55,7 +55,7 @@ export function Dashboard(): JSX.Element {
         <div className="flex gap-2">
           <Button
             variant="secondary"
-            onClick={() => navigate('/quotes/new')}
+            disabled
             icon={<TargetIcon className="h-4 w-4" strokeWidth={2} />}>
             Quick Run
           </Button>
