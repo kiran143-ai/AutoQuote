@@ -92,7 +92,7 @@ export function Dashboard(): JSX.Element {
           </div>
         </Card>
 
-        <Card>
+        <Card accent="primary">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
