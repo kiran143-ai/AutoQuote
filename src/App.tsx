@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
 import { CaseStoreProvider } from './contexts/CaseStore';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
@@ -18,8 +19,9 @@ import { EvidenceTab } from './pages/workspace/EvidenceTab';
 
 export function App(): JSX.Element {
   return (
-    <CaseStoreProvider>
-      <BrowserRouter>
+    <ThemeProvider>
+      <CaseStoreProvider>
+        <BrowserRouter>
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Dashboard />} />
@@ -130,7 +132,8 @@ export function App(): JSX.Element {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </CaseStoreProvider>);
+        </BrowserRouter>
+      </CaseStoreProvider>
+    </ThemeProvider>);
 
 }

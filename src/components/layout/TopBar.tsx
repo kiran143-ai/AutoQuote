@@ -1,7 +1,10 @@
-import { BellIcon } from 'lucide-react';
+import { BellIcon, PaletteIcon } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import nylLogo from '../../nyl-logo-1.svg';
 
 export function TopBar(): JSX.Element {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-line bg-white px-6">
       <div className="flex items-center gap-3">
@@ -15,6 +18,15 @@ export function TopBar(): JSX.Element {
       </div>
 
       <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'current' ? 'client' : 'current'} theme`}
+          className="inline-flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-xs font-medium text-muted transition-colors duration-150 ease-out hover:bg-canvas hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+
+          <PaletteIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
+          {theme === 'current' ? 'Current' : 'Client'}
+        </button>
         <button
           type="button"
           aria-label="Notifications"
