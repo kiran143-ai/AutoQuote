@@ -65,9 +65,7 @@ export function SideNav(): JSX.Element {
                 'text-nav-text hover:text-white'}`
 
                 }
-                style={isActive ? { backgroundColor: colors.primary } : { backgroundColor: 'transparent' }}
-                onMouseEnter={(e) => !isActive && (e.currentTarget.style.backgroundColor = colors.navHover)}
-                onMouseLeave={(e) => !isActive && (e.currentTarget.style.backgroundColor = 'transparent')}>
+                style={({ isActive }) => ({ backgroundColor: isActive ? colors.primary : 'transparent' })}>
 
                     <item.icon
                   className="h-4 w-4 shrink-0"
