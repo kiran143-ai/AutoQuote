@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
-import { themeColors } from '../../utils/theme';
+// import { useTheme } from '../../contexts/ThemeContext';
+// import { themeColors } from '../../utils/theme';
 import { navGroups } from '../../data/navigation';
+
+const currentThemeColors = { primary: '#2563EB', nav: '#1F2937', navHover: '#374151' };
 
 export function SideNav(): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { theme } = useTheme();
-  const colors = themeColors[theme];
+  // const { theme } = useTheme();
+  // const colors = themeColors[theme];
+  const colors = currentThemeColors;
 
   return (
     <nav

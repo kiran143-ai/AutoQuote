@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AlertTriangleIcon,
   CheckIcon,
@@ -10,6 +10,9 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { ProgressRing } from '../../components/ui/ProgressRing';
 import { MetricTile } from '../../components/ui/MetricTile';
+import { ApprovalTimeline } from '../../components/workspace/ApprovalTimeline';
+import { ApprovalActions } from '../../components/workspace/ApprovalActions';
+import { RoleSwitcher } from '../../components/workspace/RoleSwitcher';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { readinessChecks, readinessSummary } from '../../utils/caseDerived';
 import { governanceThresholds } from '../../data/analysisTools';
@@ -20,10 +23,12 @@ export function EvidenceTab(): JSX.Element {
   const checks = readinessChecks(quote);
   const summary = readinessSummary(quote);
   const m = quote.metrics;
+  const [currentRole, setCurrentRole] = useState('Actuary');
 
   return (
-    <div className="space-y-5">
-      {summary.failed > 0 &&
+    <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="space-y-5">
+        {summary.failed > 0 &&
       <div
         role="alert"
         className="flex items-start gap-2.5 rounded-card border border-danger/40 bg-danger-tint px-4 py-3 shadow-card">
@@ -170,6 +175,29 @@ export function EvidenceTab(): JSX.Element {
           })}
         </ul>
       </Card>
+      </div>
+
+      <div className="space-y-5">
+      <div className="rounded-lg border-2 border-primary bg-primary-tint p-6">
+        <div className="flex items-center gap-2">
+          <CheckIcon className="h-6 w-6 text-primary" strokeWidth={2} />
+          <div>
+            <h2 className="text-lg font-bold text-primary">Approval Workflow</h2>
+            <p className="text-xs text-primary/80">Submit for multi-level approval</p>
+          </div>
+        </div>
+
+        <div className="space-y-5">
+          <ApprovalTimeline quote={quote} />
+
+          <hr className="border-primary/20" />
+
+          <RoleSwitcher currentRole={currentRole} onRoleChange={setCurrentRole} />
+
+          <ApprovalActions quote={quote} currentRole={currentRole} />
+        </div>
+      </div>
+      </div>
     </div>);
 
 }
