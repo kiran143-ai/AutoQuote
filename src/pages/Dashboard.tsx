@@ -120,7 +120,7 @@ export function Dashboard(): JSX.Element {
           </div>
         </Card>
 
-        <Card accent="none">
+        <Card accent="primary">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
@@ -176,6 +176,7 @@ export function Dashboard(): JSX.Element {
         title="Your Cases / Recent Quotes"
         meta={`${recent.length} of ${cases.length} · latest activity`}
         padded={false}
+        className="mt-6"
         action={
         <Link
           to="/quotes"
