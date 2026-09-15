@@ -3,13 +3,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
   CheckIcon,
-  FolderIcon,
-  LayoutTemplateIcon,
   ZapIcon } from
 'lucide-react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
+import { CensusSelector } from '../components/workspace/CensusSelector';
 import { useCaseStore } from '../contexts/CaseStore';
 import { products } from '../data/products';
 import type { ProductId } from '../types';
@@ -55,17 +54,7 @@ export function NewQuotePage(): JSX.Element {
     <div className="mx-auto max-w-[980px] p-6">
       <PageHeader
         title={sourceCase ? 'Clone Quote' : 'New Quote'}
-        subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'}
-        action={
-        <Button
-          variant="secondary"
-          icon={
-          <LayoutTemplateIcon className="h-4 w-4" strokeWidth={1.75} />
-          }>
-
-            Browse Templates
-          </Button>
-        } />
+        subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'} />
 
       {sourceCase && (
         <div className="mb-5 rounded-md border border-success/40 bg-success-tint px-4 py-3">
@@ -207,40 +196,13 @@ export function NewQuotePage(): JSX.Element {
           </div>
         </Card>
 
-        <Card
-          title="Census"
-          meta="optional">
-          
-          <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-line bg-canvas px-6 py-8 text-center">
-            <FolderIcon
-              className="h-7 w-7 text-warning"
-              strokeWidth={1.5}
-              aria-hidden="true" />
-            
-            <p className="mt-2 text-[13px] font-medium text-ink">
-              Drag &amp; drop census files here
-            </p>
-            <p className="mt-1 text-micro text-muted">
-              or click to browse — CSV, TSV, XLSX · up to 10 files · 5MB max each
-            </p>
-            <p className="mt-1 text-micro text-muted">
-              For Excel files, the "Census" sheet is used automatically
-            </p>
-          </div>
-          <p className="mt-4 flex items-center gap-2 text-[13px] text-muted">
-            <CheckIcon
-              className="h-4 w-4 text-success"
-              strokeWidth={2}
-              aria-hidden="true" />
-            
-            Using standard assumptions (auto-configured). Editable in the case
-            workspace after creation.
-          </p>
+        <Card title="Census">
+          <CensusSelector />
         </Card>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-micro text-muted">
-            Auto-calibrates M&amp;E, runs pricing, generates evidence packet
+            Pricing engine will auto-calibrate and generate evidence
           </p>
           <div className="flex gap-3">
             <Button
@@ -253,7 +215,7 @@ export function NewQuotePage(): JSX.Element {
               variant="primary"
               icon={<ZapIcon className="h-4 w-4" strokeWidth={1.75} />}>
 
-              Create &amp; Price
+              Create Quote
             </Button>
           </div>
         </div>
