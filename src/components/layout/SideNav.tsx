@@ -5,7 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 // import { themeColors } from '../../utils/theme';
 import { navGroups } from '../../data/navigation';
 
-const currentThemeColors = { primary: '#2563EB', nav: '#1F2937', navHover: '#374151' };
+const currentThemeColors = { primary: '#1D4ED8', nav: '#1F2937', navHover: '#374151' };
 
 export function SideNav(): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);

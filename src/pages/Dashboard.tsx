@@ -20,7 +20,7 @@ const pipelineOrder: CaseStatus[] = [
 'Lost'];
 
 
-const buttonColor = '#2563EB';
+const buttonColor = '#1D4ED8';
 
 export function Dashboard(): JSX.Element {
   const { cases } = useCaseStore();

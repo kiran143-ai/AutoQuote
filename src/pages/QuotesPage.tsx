@@ -10,7 +10,7 @@ import { statusFilters } from '../data/cases';
 import { products } from '../data/products';
 import type { CaseStatus } from '../types';
 
-const buttonColor = '#2563EB';
+const buttonColor = '#1D4ED8';
 
 export function QuotesPage(): JSX.Element {
   const { cases } = useCaseStore();
