@@ -10,6 +10,8 @@ import { statusFilters } from '../data/cases';
 import { products } from '../data/products';
 import type { CaseStatus } from '../types';
 
+const buttonColor = '#2563EB';
+
 export function QuotesPage(): JSX.Element {
   const { cases } = useCaseStore();
   const navigate = useNavigate();
@@ -66,7 +68,8 @@ export function QuotesPage(): JSX.Element {
           <Button
             variant="primary"
             onClick={() => navigate('/quotes/new')}
-            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
+            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}
+            style={{ backgroundColor: buttonColor }}>
             New Quote
           </Button>
         </div>
