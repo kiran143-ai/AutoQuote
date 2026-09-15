@@ -82,7 +82,7 @@ export function Dashboard(): JSX.Element {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
-                Total Premium in Pipeline
+                Metric 1
               </p>
               <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">
                 $250M
@@ -103,7 +103,7 @@ export function Dashboard(): JSX.Element {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
-                Avg. MVP %
+                Metric 2
               </p>
               <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">
                 3.45%
@@ -124,7 +124,7 @@ export function Dashboard(): JSX.Element {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
-                Pending Actions
+                Metric 3
               </p>
               <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">
                 2
