@@ -121,7 +121,7 @@ export function NewQuotePage(): JSX.Element {
           </div>
 
           <fieldset className="mt-5">
-            <legend className="mb-2 text-xs text-muted">Product *</legend>
+            <legend className="mb-2 text-xs text-muted">Product <span className="font-semibold text-danger">*</span></legend>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {products.map((p) => {
                 const active = product === p.id;
@@ -155,22 +155,25 @@ export function NewQuotePage(): JSX.Element {
         <Card title="Deal Terms">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <TextInput
-              label="Annual Premium ($) *"
+              label="Annual Premium ($)"
               value={premium}
               onChange={setPremium}
-              numeric />
-            
+              numeric
+              required />
+
             <TextInput
-              label="Pay Years *"
+              label="Pay Years"
               value={payYears}
               onChange={setPayYears}
-              numeric />
-            
+              numeric
+              required />
+
             <TextInput
-              label="Credited Rate (%) *"
+              label="Credited Rate (%)"
               value={creditedRate}
               onChange={setCreditedRate}
-              numeric />
+              numeric
+              required />
             
             <TextInput
               label="FA Spread (bps)"
@@ -244,6 +247,7 @@ function TextInput({
     <div className="flex flex-col">
       <label htmlFor={id} className="mb-1 text-xs text-muted">
         {label}
+        {required && <span className="ml-1 font-semibold text-danger">*</span>}
       </label>
       <input
         id={id}
