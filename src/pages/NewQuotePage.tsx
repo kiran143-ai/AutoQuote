@@ -96,8 +96,7 @@ export function NewQuotePage(): JSX.Element {
               label="Client"
               value={client}
               onChange={setClient}
-              placeholder="e.g. Regional Bank"
-              required />
+              placeholder="e.g. Regional Bank" />
             
             <TextInput
               label="Producer"
