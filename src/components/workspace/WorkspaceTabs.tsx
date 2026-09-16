@@ -23,7 +23,7 @@ export function WorkspaceTabs({ quote }: {quote: QuoteCase;}): JSX.Element {
     <div className="sticky top-0 z-10 border-b border-line bg-white shadow-card">
       <nav
         aria-label="Case workspace"
-        className="mx-auto flex max-w-[1440px] gap-1 overflow-x-auto px-6 thin-scroll">
+        className="mx-auto w-full flex max-w-[1440px] gap-1 px-6">
         
         {tabs.map((tab) =>
         <NavLink

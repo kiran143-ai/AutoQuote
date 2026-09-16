@@ -152,7 +152,7 @@ export function NewQuotePage(): JSX.Element {
           </fieldset>
         </Card>
 
-        <Card title="Deal Terms">
+        <Card accent="primary" title="Deal Terms">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <TextInput
               label="Annual Premium ($)"
@@ -199,7 +199,7 @@ export function NewQuotePage(): JSX.Element {
           </div>
         </Card>
 
-        <Card title="Census">
+        <Card accent="primary" title="Census">
           <CensusSelector />
         </Card>
 

@@ -9,6 +9,7 @@ export function AnalysisToolsPanel(): JSX.Element {
 
   return (
     <Card
+      accent="primary"
       title="Analysis tools"
       action={
       <Button

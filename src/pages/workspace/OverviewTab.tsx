@@ -69,7 +69,7 @@ export function OverviewTab(): JSX.Element {
           </div>
         </Card>
 
-        <Card title="Next actions">
+        <Card accent="primary" title="Next actions">
           {!quote.priced ?
           <div className="rounded-md border border-primary/30 bg-primary-tint px-4 py-4">
               <p className="text-[13px] font-medium text-primary">
@@ -130,7 +130,7 @@ export function OverviewTab(): JSX.Element {
       </div>
 
       <div className="space-y-5">
-        <Card title="Configuration snapshot" meta="Frozen at 2026-09-05. Repricing uses this snapshot.">
+        <Card accent="primary" title="Configuration snapshot" meta="Frozen at 2026-09-05. Repricing uses this snapshot.">
           <dl className="divide-y divide-line text-[13px]">
             {[
             ['Product', productLabel(quote.product)],
@@ -151,6 +151,7 @@ export function OverviewTab(): JSX.Element {
         </Card>
 
         <Card
+          accent="primary"
           title="Save as Template"
           meta="Publish this case's parameters to the Template Marketplace for team reuse."
           action={

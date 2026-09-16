@@ -18,6 +18,7 @@ body {
   background-color: #f1f3f5;
   color: #111827;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden !important;
 }
 .tnum {
   font-variant-numeric: tabular-nums;

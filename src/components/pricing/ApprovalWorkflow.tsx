@@ -23,6 +23,7 @@ export function ApprovalWorkflow({ quote }: {quote: QuoteCase;}): JSX.Element {
 
   return (
     <Card
+      accent="primary"
       title="Approval Workflow"
       action={
       <p className="text-xs text-muted">

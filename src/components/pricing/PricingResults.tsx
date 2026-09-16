@@ -10,7 +10,7 @@ export function PricingResults({ quote }: {quote: QuoteCase;}): JSX.Element {
   const m = quote.metrics;
   if (!m) {
     return (
-      <Card title="Pricing results">
+      <Card accent="primary" title="Pricing results">
         <p className="rounded-md border border-dashed border-line bg-canvas px-4 py-6 text-center text-[13px] text-muted">
           Not yet priced. Run pricing to generate results for this round.
         </p>
@@ -23,7 +23,7 @@ export function PricingResults({ quote }: {quote: QuoteCase;}): JSX.Element {
   const position = Math.min(98, Math.max(2, 50 + m.mvp / TARGET_MVP * 45));
 
   return (
-    <Card title="Pricing results">
+    <Card accent="primary" title="Pricing results">
       <div className="flex items-center justify-between text-micro">
         <span className="inline-flex items-center gap-1.5 font-semibold uppercase tracking-[0.06em] text-muted">
           Deal Health

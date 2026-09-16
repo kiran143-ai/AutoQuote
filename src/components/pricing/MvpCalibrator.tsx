@@ -13,6 +13,7 @@ export function MvpCalibrator({ quote }: {quote: QuoteCase;}): JSX.Element {
 
   return (
     <Card
+      accent="primary"
       title={
       <span className="flex items-center gap-2">
           <TargetIcon

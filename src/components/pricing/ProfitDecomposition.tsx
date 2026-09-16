@@ -37,6 +37,7 @@ export function ProfitDecomposition(): JSX.Element {
 
   return (
     <Card
+      accent="primary"
       title={
       <span className="flex items-center gap-2">
           <BarChart3Icon
