@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
   CheckIcon,
+  ChevronLeftIcon,
   ZapIcon } from
 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -52,6 +53,15 @@ export function NewQuotePage(): JSX.Element {
 
   return (
     <div className="mx-auto max-w-[980px] p-6">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => navigate('/quotes')}
+        className="mb-3 -ml-3"
+        icon={<ChevronLeftIcon className="h-4 w-4" strokeWidth={1.75} />}>
+        All Quotes
+      </Button>
+
       <PageHeader
         title={sourceCase ? 'Clone Quote' : 'New Quote'}
         subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'} />
