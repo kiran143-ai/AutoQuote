@@ -6,6 +6,8 @@ import { CaseStoreProvider } from './contexts/CaseStore';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
+import { WhatIfPage } from './pages/WhatIfPage';
+import { GoalSeekPage } from './pages/GoalSeekPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OverviewTab } from './pages/workspace/OverviewTab';
@@ -27,6 +29,8 @@ export function App(): JSX.Element {
             <Route index element={<Dashboard />} />
             <Route path="/quotes" element={<QuotesPage />} />
             <Route path="/quotes/new" element={<NewQuotePage />} />
+            <Route path="/quotes/new/what-if" element={<WhatIfPage />} />
+            <Route path="/quotes/new/goal-seek" element={<GoalSeekPage />} />
             <Route path="/quotes/:caseId" element={<WorkspacePage />}>
               <Route index element={<Navigate to="overview" replace />} />
               <Route path="overview" element={<OverviewTab />} />

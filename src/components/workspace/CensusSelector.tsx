@@ -57,7 +57,7 @@ export function CensusSelector({ onSelect }: CensusSelectorProps): JSX.Element {
           </div>
         </div>
         <Button
-          variant="primary"
+          variant="outline"
           onClick={() => setShowUploadModal(true)}
           icon={<UploadIcon className="h-4 w-4" strokeWidth={1.75} />}>
           Upload New Census

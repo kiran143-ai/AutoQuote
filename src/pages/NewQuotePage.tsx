@@ -4,6 +4,8 @@ import {
   AlertTriangleIcon,
   CheckIcon,
   ChevronLeftIcon,
+  TargetIcon,
+  TrendingUpIcon,
   ZapIcon } from
 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -64,7 +66,25 @@ export function NewQuotePage(): JSX.Element {
 
       <PageHeader
         title={sourceCase ? 'Clone Quote' : 'New Quote'}
-        subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'} />
+        subtitle={sourceCase ? `Cloning from ${sourceCase.name}` : 'Enter deal terms from the broker. The engine auto-prices and sends to the review queue.'}
+        action={
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/quotes/new/what-if')}
+            icon={<TrendingUpIcon className="h-4 w-4" strokeWidth={1.75} />}>
+            What-If
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate('/quotes/new/goal-seek')}
+            icon={<TargetIcon className="h-4 w-4" strokeWidth={1.75} />}>
+            Goal Seek
+          </Button>
+        </div>
+        } />
 
       {sourceCase && (
         <div className="mb-5 rounded-md border border-success/40 bg-success-tint px-4 py-3">

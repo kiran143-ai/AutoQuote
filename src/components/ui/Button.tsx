@@ -1,7 +1,7 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
+type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
 type Size = 'sm' | 'md';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -15,6 +15,8 @@ const variants: Record<Variant, string> = {
   'bg-primary text-white border border-primary hover:bg-primary-hover hover:border-primary-hover',
   secondary:
   'bg-white text-ink border border-line hover:bg-canvas hover:border-[#d5d9df]',
+  outline:
+  'bg-white text-primary border border-primary hover:bg-primary-tint',
   ghost: 'bg-transparent text-primary border border-transparent hover:bg-primary-tint',
   danger:
   'bg-white text-danger border border-line hover:bg-danger-tint hover:border-danger/40'
