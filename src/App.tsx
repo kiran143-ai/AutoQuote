@@ -8,6 +8,7 @@ import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
 import { WhatIfPage } from './pages/WhatIfPage';
 import { GoalSeekPage } from './pages/GoalSeekPage';
+import { DesignSystemPage } from './pages/DesignSystemPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OverviewTab } from './pages/workspace/OverviewTab';
@@ -133,6 +134,8 @@ export function App(): JSX.Element {
 
               } />
             
+            <Route path="/design-system" element={<DesignSystemPage />} />
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

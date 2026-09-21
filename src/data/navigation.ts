@@ -6,6 +6,7 @@ import {
   GitCompareIcon,
   LayoutDashboardIcon,
   LineChartIcon,
+  PaletteIcon,
   RotateCcwIcon,
   SlidersHorizontalIcon,
   ZapIcon } from
@@ -59,6 +60,7 @@ export const navGroups: NavGroup[] = [
     label: 'Restart Welcome Tour',
     to: '/welcome-tour',
     icon: RotateCcwIcon
-  }]
+  },
+  { label: 'Design System', to: '/design-system', icon: PaletteIcon }]
 
 }];
