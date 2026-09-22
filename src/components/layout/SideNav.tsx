@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-// import { useTheme } from '../../contexts/ThemeContext';
-// import { themeColors } from '../../utils/theme';
 import { navGroups } from '../../data/navigation';
-
-const currentThemeColors = { primary: '#1D4ED8', nav: '#1F2937', navHover: '#374151' };
 
 export function SideNav(): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  // const { theme } = useTheme();
-  // const colors = themeColors[theme];
-  const colors = currentThemeColors;
 
   return (
     <nav
       aria-label="Main"
-      className={`flex h-full shrink-0 flex-col overflow-y-auto thin-scroll transition-all duration-300 ease-out ${
+      className={`flex h-full shrink-0 flex-col overflow-y-auto thin-scroll bg-nav transition-all duration-300 ease-out ${
         isCollapsed ? 'w-20' : 'w-[248px]'
-      }`}
-      style={{ backgroundColor: colors.nav }}>
+      }`}>
 
       <div className={`flex items-center justify-between ${isCollapsed ? 'px-3' : 'px-5'} pb-5 pt-6`}>
         {!isCollapsed && (
@@ -50,7 +42,7 @@ export function SideNav(): JSX.Element {
         {navGroups.map((group) =>
         <div key={group.label}>
             {!isCollapsed && (
-              <p className="px-5 pb-2 text-micro font-semibold uppercase tracking-[0.08em] text-[#6B7280]">
+              <p className="px-5 pb-2 text-micro font-semibold uppercase tracking-[0.08em] text-nav-text">
                 {group.label}
               </p>
             )}
@@ -64,11 +56,10 @@ export function SideNav(): JSX.Element {
                 className={({ isActive }) =>
                 `flex items-center ${isCollapsed ? 'justify-center' : 'gap-2.5'} rounded-md px-3 py-2 text-[13px] font-medium transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 ${
                 isActive ?
-                'text-white' :
-                'text-nav-text hover:text-white'}`
+                'bg-navActive text-navActive-text' :
+                'text-nav-text hover:bg-nav-hover hover:text-white'}`
 
-                }
-                style={({ isActive }) => ({ backgroundColor: isActive ? colors.primary : 'transparent' })}>
+                }>
 
                     <item.icon
                   className="h-4 w-4 shrink-0"

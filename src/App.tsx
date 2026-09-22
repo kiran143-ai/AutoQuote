@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
 import { CaseStoreProvider } from './contexts/CaseStore';
-// import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
@@ -22,27 +22,27 @@ import { EvidenceTab } from './pages/workspace/EvidenceTab';
 
 export function App(): JSX.Element {
   return (
-    // <ThemeProvider>
-    <CaseStoreProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppShell />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/quotes" element={<QuotesPage />} />
-            <Route path="/quotes/new" element={<NewQuotePage />} />
-            <Route path="/quotes/new/what-if" element={<WhatIfPage />} />
-            <Route path="/quotes/new/goal-seek" element={<GoalSeekPage />} />
-            <Route path="/quotes/:caseId" element={<WorkspacePage />}>
-              <Route index element={<Navigate to="overview" replace />} />
-              <Route path="overview" element={<OverviewTab />} />
-              <Route path="pricing" element={<PricingTab />} />
-              <Route path="census" element={<CensusTab />} />
-              <Route path="config" element={<ConfigTab />} />
-              <Route path="illustration" element={<IllustrationTab />} />
-              <Route path="rounds" element={<RoundsTab />} />
-              <Route path="history" element={<HistoryTab />} />
-              <Route path="evidence" element={<EvidenceTab />} />
-            </Route>
+    <ThemeProvider>
+      <CaseStoreProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppShell />}>
+              <Route index element={<Dashboard />} />
+              <Route path="/quotes" element={<QuotesPage />} />
+              <Route path="/quotes/new" element={<NewQuotePage />} />
+              <Route path="/quotes/new/what-if" element={<WhatIfPage />} />
+              <Route path="/quotes/new/goal-seek" element={<GoalSeekPage />} />
+              <Route path="/quotes/:caseId" element={<WorkspacePage />}>
+                <Route index element={<Navigate to="overview" replace />} />
+                <Route path="overview" element={<OverviewTab />} />
+                <Route path="pricing" element={<PricingTab />} />
+                <Route path="census" element={<CensusTab />} />
+                <Route path="config" element={<ConfigTab />} />
+                <Route path="illustration" element={<IllustrationTab />} />
+                <Route path="rounds" element={<RoundsTab />} />
+                <Route path="history" element={<HistoryTab />} />
+                <Route path="evidence" element={<EvidenceTab />} />
+              </Route>
 
             <Route
               path="/analytics"
@@ -141,7 +141,6 @@ export function App(): JSX.Element {
         </Routes>
       </BrowserRouter>
     </CaseStoreProvider>
-    // </ThemeProvider>
-    );
+    </ThemeProvider>);
 
 }

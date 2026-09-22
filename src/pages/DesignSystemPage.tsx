@@ -2,52 +2,63 @@ import React from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
-import { ZapIcon } from 'lucide-react';
+import { ZapIcon, PaletteIcon } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+import { themeColors } from '../utils/theme';
 
 interface Swatch {
   name: string;
   hex: string;
+  usage: string;
   className: string;
-  note?: string;
+}
+
+function getBrandColors(theme: 'current' | 'client'): Swatch[] {
+  const c = themeColors[theme];
+  return [
+  { name: 'Primary', hex: c.primary, usage: 'Buttons, links, active states, focus rings', className: 'bg-primary' },
+  { name: 'Primary Hover', hex: c.primaryHover, usage: 'Hover state for primary buttons', className: 'bg-primary-hover' },
+  { name: 'Primary Tint', hex: c.primaryTint, usage: 'Light backgrounds — selected rows, outline/ghost hover', className: 'bg-primary-tint border border-line' }];
+
+}
+
+function getNavColors(theme: 'current' | 'client'): Swatch[] {
+  const c = themeColors[theme];
+  return [
+  { name: 'Nav Background', hex: c.nav, usage: 'Left sidebar background', className: 'bg-nav' },
+  { name: 'Nav Hover', hex: c.navHover, usage: 'Sidebar item hover background', className: 'bg-nav-hover' },
+  { name: 'Nav Text', hex: c.navText, usage: 'Sidebar item & section label text', className: 'bg-nav-text' },
+  { name: 'Nav Active Background', hex: c.navActiveBg, usage: 'Highlight behind the active sidebar item', className: 'bg-navActive' },
+  { name: 'Nav Active Text', hex: c.navActiveText, usage: 'Text on the active sidebar item', className: 'bg-navActive-text' }];
+
 }
 
 const coreColors: Swatch[] = [
-{ name: 'Primary', hex: '#1D4ED8', className: 'bg-primary' },
-{ name: 'Primary Hover', hex: '#1A44BC', className: 'bg-primary-hover' },
-{ name: 'Primary Tint', hex: '#EFF6FF', className: 'bg-primary-tint border border-line' },
-{ name: 'Ink (text)', hex: '#111827', className: 'bg-ink' },
-{ name: 'Muted (text)', hex: '#6B7280', className: 'bg-muted' },
-{ name: 'Canvas (page bg)', hex: '#F1F3F5', className: 'bg-canvas border border-line' },
-{ name: 'Line (borders)', hex: '#E5E7EB', className: 'bg-line' }];
+{ name: 'Ink', hex: '#111827', usage: 'Primary body & heading text', className: 'bg-ink' },
+{ name: 'Muted', hex: '#6B7280', usage: 'Secondary / helper text', className: 'bg-muted' },
+{ name: 'Canvas', hex: '#F1F3F5', usage: 'Main page background', className: 'bg-canvas border border-line' },
+{ name: 'Line', hex: '#E5E7EB', usage: 'Borders and dividers', className: 'bg-line' }];
 
 
 const statusColors: Swatch[] = [
-{ name: 'Success', hex: '#16A34A', className: 'bg-success' },
-{ name: 'Success Tint', hex: '#ECFDF3', className: 'bg-success-tint border border-line' },
-{ name: 'Warning', hex: '#F59E0B', className: 'bg-warning' },
-{ name: 'Warning Tint', hex: '#FFFBEB', className: 'bg-warning-tint border border-line' },
-{ name: 'Danger', hex: '#DC2626', className: 'bg-danger' },
-{ name: 'Danger Tint', hex: '#FEF2F2', className: 'bg-danger-tint border border-line' }];
-
-
-const navColors: Swatch[] = [
-{ name: 'Nav Background', hex: '#1F2937', className: '' },
-{ name: 'Nav Hover', hex: '#374151', className: '' },
-{ name: 'Nav Text', hex: '#9CA3AF', className: '' }];
+{ name: 'Success', hex: '#16A34A', usage: 'Positive states, confirmations', className: 'bg-success' },
+{ name: 'Success Tint', hex: '#ECFDF3', usage: 'Success banner background', className: 'bg-success-tint border border-line' },
+{ name: 'Warning', hex: '#F59E0B', usage: 'Caution, needs-attention states', className: 'bg-warning' },
+{ name: 'Warning Tint', hex: '#FFFBEB', usage: 'Warning banner background', className: 'bg-warning-tint border border-line' },
+{ name: 'Danger', hex: '#DC2626', usage: 'Errors, destructive actions', className: 'bg-danger' },
+{ name: 'Danger Tint', hex: '#FEF2F2', usage: 'Error banner background', className: 'bg-danger-tint border border-line' }];
 
 
 function SwatchGrid({ swatches }: {swatches: Swatch[];}): JSX.Element {
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {swatches.map((s) =>
-      <div key={s.name} className="flex items-center gap-3">
-          <div
-          className={`h-10 w-10 shrink-0 rounded-md ${s.className}`}
-          style={s.className ? undefined : { backgroundColor: s.hex }} />
-
+      <div key={s.name} className="flex items-start gap-3">
+          <div className={`h-10 w-10 shrink-0 rounded-md ${s.className}`} />
           <div className="min-w-0">
             <p className="truncate text-[13px] font-medium text-ink">{s.name}</p>
             <p className="text-micro text-muted tnum">{s.hex}</p>
+            <p className="mt-0.5 text-micro text-muted">{s.usage}</p>
           </div>
         </div>
       )}
@@ -74,6 +85,9 @@ function TypeRow({
 }
 
 export function DesignSystemPage(): JSX.Element {
+  const { theme } = useTheme();
+  const themeLabel = theme === 'current' ? 'Current' : 'Client';
+
   return (
     <div className="mx-auto max-w-[1200px] p-6">
       <PageHeader
@@ -81,17 +95,34 @@ export function DesignSystemPage(): JSX.Element {
         subtitle="Reference for colors, typography, components, and layout used across AutoQuote. Purely informational — does not affect other pages." />
 
 
+      <div className="mb-5 flex items-center gap-2.5 rounded-md border border-primary/30 bg-primary-tint px-3.5 py-2.5 text-[13px] text-primary">
+        <PaletteIcon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+        Showing the <span className="font-semibold">{themeLabel}</span> theme palette — use the palette icon in the top bar to switch and see these swatches update live.
+      </div>
+
       <div className="space-y-5">
-        <Card accent="primary" title="Core Colors" meta="Primary brand, text, and surface tokens">
+        <Card
+          accent="primary"
+          title={`Brand Colors — ${themeLabel} theme`}
+          meta="Switches with the top-bar theme toggle">
+
+          <SwatchGrid swatches={getBrandColors(theme)} />
+        </Card>
+
+        <Card
+          accent="primary"
+          title={`Navigation Colors — ${themeLabel} theme`}
+          meta="Left sidebar tokens, switches with the theme toggle">
+
+          <SwatchGrid swatches={getNavColors(theme)} />
+        </Card>
+
+        <Card accent="primary" title="Core Colors" meta="Text and surface tokens — same across both themes">
           <SwatchGrid swatches={coreColors} />
         </Card>
 
-        <Card accent="primary" title="Status Colors" meta="Success, warning, and danger states">
+        <Card accent="primary" title="Status Colors" meta="Success, warning, and danger states — same across both themes">
           <SwatchGrid swatches={statusColors} />
-        </Card>
-
-        <Card accent="primary" title="Left Navigation" meta="Hardcoded in SideNav.tsx, not the Tailwind theme">
-          <SwatchGrid swatches={navColors} />
         </Card>
 
         <Card accent="primary" title="Typography" meta="Inter, with system-ui fallback">

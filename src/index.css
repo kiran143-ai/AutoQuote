@@ -14,6 +14,26 @@ body,
   height: 100%;
   width: 100%;
 }
+:root {
+  --color-primary: #1D4ED8;
+  --color-primary-hover: #1A44BC;
+  --color-primary-tint: #EFF6FF;
+  --color-nav: #1F2937;
+  --color-nav-hover: #374151;
+  --color-nav-text: #9CA3AF;
+  --color-nav-active-bg: #1D4ED8;
+  --color-nav-active-text: #FFFFFF;
+}
+[data-theme='client'] {
+  --color-primary: #005991;
+  --color-primary-hover: #00456F;
+  --color-primary-tint: #E6F4FB;
+  --color-nav: #005991;
+  --color-nav-hover: #0A6FA8;
+  --color-nav-text: #D6E9F2;
+  --color-nav-active-bg: #00A3E0;
+  --color-nav-active-text: #06283D;
+}
 body {
   background-color: #f1f3f5;
   color: #111827;

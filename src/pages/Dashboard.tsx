@@ -6,8 +6,6 @@ import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
 import { QuotesTable } from '../components/quotes/QuotesTable';
 import { useCaseStore } from '../contexts/CaseStore';
-// import { useTheme } from '../contexts/ThemeContext';
-// import { themeColors } from '../utils/theme';
 import { premiumShort } from '../utils/format';
 import type { CaseStatus } from '../types';
 
@@ -20,13 +18,9 @@ const pipelineOrder: CaseStatus[] = [
 'Lost'];
 
 
-const buttonColor = '#1D4ED8';
-
 export function Dashboard(): JSX.Element {
   const { cases } = useCaseStore();
-  // const { theme } = useTheme();
   const navigate = useNavigate();
-  // const colors = themeColors[theme];
 
   const priced = cases.filter((c) => c.metrics);
   const avgMvp = priced.length ?
@@ -68,8 +62,7 @@ export function Dashboard(): JSX.Element {
           <Button
             variant="primary"
             onClick={() => navigate('/quotes/new')}
-            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}
-            style={{ backgroundColor: buttonColor }}>
+            icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
             New Quote
           </Button>
         </div>

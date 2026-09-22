@@ -1,15 +1,37 @@
 import { Theme } from '../contexts/ThemeContext';
 
-export const themeColors: Record<Theme, {primary: string;nav: string;navHover: string;}> = {
+export interface ThemePalette {
+  primary: string;
+  primaryHover: string;
+  primaryTint: string;
+  nav: string;
+  navHover: string;
+  navText: string;
+  navActiveBg: string;
+  navActiveText: string;
+}
+
+// Keep in sync with the CSS variables defined in src/index.css
+export const themeColors: Record<Theme, ThemePalette> = {
   current: {
-    primary: '#2563EB',
+    primary: '#1D4ED8',
+    primaryHover: '#1A44BC',
+    primaryTint: '#EFF6FF',
     nav: '#1F2937',
-    navHover: '#374151'
+    navHover: '#374151',
+    navText: '#9CA3AF',
+    navActiveBg: '#1D4ED8',
+    navActiveText: '#FFFFFF'
   },
   client: {
-    primary: '#0079C2',
-    nav: '#003D7A',
-    navHover: '#004A94'
+    primary: '#005991',
+    primaryHover: '#00456F',
+    primaryTint: '#E6F4FB',
+    nav: '#005991',
+    navHover: '#0A6FA8',
+    navText: '#D6E9F2',
+    navActiveBg: '#00A3E0',
+    navActiveText: '#06283D'
   }
 };
 

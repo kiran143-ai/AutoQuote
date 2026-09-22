@@ -6,14 +6,18 @@ export default {content: [
     extend: {
       colors: {
         nav: {
-          DEFAULT: '#0D1117',
-          hover: '#171E29',
-          text: '#9CA3AF',
+          DEFAULT: 'var(--color-nav)',
+          hover: 'var(--color-nav-hover)',
+          text: 'var(--color-nav-text)',
+        },
+        navActive: {
+          DEFAULT: 'var(--color-nav-active-bg)',
+          text: 'var(--color-nav-active-text)',
         },
         primary: {
-          DEFAULT: '#1D4ED8',
-          hover: '#1A44BC',
-          tint: '#EFF6FF',
+          DEFAULT: 'var(--color-primary)',
+          hover: 'var(--color-primary-hover)',
+          tint: 'var(--color-primary-tint)',
         },
         ink: '#111827',
         muted: '#6B7280',
