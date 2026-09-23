@@ -10,6 +10,7 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ClipboardIcon,
   CommandIcon,
   FileIcon,
   FilterIcon,
@@ -109,6 +110,132 @@ function TypeRow({
       <span className="shrink-0 text-micro text-muted tnum">{sizeLabel}</span>
     </div>);
 
+}
+
+// ---------------------------------------------------------------------------
+// AWS Quick App prompts
+// ---------------------------------------------------------------------------
+
+function PromptBlock({ text }: {text: string;}): JSX.Element {
+  const [copied, setCopied] = useState(false);
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable — nothing to do, user can still select the text manually.
+    }
+  };
+
+  return (
+    <div className="mt-4 rounded-md border border-line bg-canvas">
+      <div className="flex items-center justify-between border-b border-line px-3 py-1.5">
+        <span className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
+          Prompt for AWS Quick App
+        </span>
+        <button
+          type="button"
+          onClick={onCopy}
+          className="flex items-center gap-1 text-micro font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+
+          {copied ?
+          <CheckIcon className="h-3 w-3" strokeWidth={2} /> :
+
+          <ClipboardIcon className="h-3 w-3" strokeWidth={1.75} />
+          }
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </div>
+      <pre className="whitespace-pre-wrap px-3 py-2.5 font-mono text-micro leading-5 text-ink">{text}</pre>
+    </div>);
+
+}
+
+function getPrompts(theme: 'current' | 'client'): Record<string, string> {
+  const c = themeColors[theme];
+  return {
+    master: `Design system for "AutoQuote Pricing Portal", a professional B2B insurance pricing tool. Tone: clean, precise, trustworthy, minimal decoration, data-dense but uncluttered.
+
+Font: Inter (fallback Segoe UI, system-ui, sans-serif). Type scale: 22px bold for page titles, 15px semibold for card titles, 14px regular for body text, 13px medium for buttons and secondary text, 12px regular for labels, 11px semibold uppercase with wide letter-spacing for section labels/micro tags, 34px bold for large KPI numbers. Numbers use tabular figures so they align in columns.
+
+Color tokens:
+- Primary ${c.primary} — buttons, links, active states, focus rings
+- Primary hover ${c.primaryHover}
+- Primary tint ${c.primaryTint} — light selected/hover backgrounds
+- Ink #111827 — body and heading text
+- Muted #6B7280 — secondary/helper text
+- Canvas #F1F3F5 — page background
+- Line #E5E7EB — borders and dividers
+- Success #16A34A (tint #ECFDF3), Warning #F59E0B (tint #FFFBEB), Danger #DC2626 (tint #FEF2F2)
+- Left sidebar background ${c.nav}, hover ${c.navHover}, text ${c.navText}, active item background ${c.navActiveBg} with text ${c.navActiveText}
+
+Surfaces: white cards on the canvas background, 10px corner radius, 1px solid Line-colored border, soft shadow (0 1px 3px rgba(0,0,0,0.08)). Cards can show a 2px colored top border (primary/warning/danger) as a status accent.
+
+Interactive elements: every focusable control shows a visible 2px Primary-colored focus ring. All text/background pairs meet WCAG AA contrast (4.5:1 normal text, 3:1 large text/icons). Every form control has a visible label.`,
+
+    typography: `Typography scale for a data-dense enterprise app using Inter font. Page title: 22px bold, ink color. Card title: 15px semibold, ink color. Body text: 14px regular, ink color. Button and secondary text: 13px medium. Field labels and meta text: 12px regular, muted gray (#6B7280). Section labels / tags: 11px semibold, uppercase, wide letter-spacing, muted gray. Large KPI numbers: 34px bold with tabular figures for alignment. Keep line-height comfortable for scanning dense tables and forms.`,
+
+    buttons: `Button component with 5 variants, 36px tall (32px small size), rounded-md (6-8px) corners, 13px medium-weight label, horizontal icon+label layout with 8px gap.
+- Primary: solid fill ${c.primary}, white text, darkens to ${c.primaryHover} on hover.
+- Secondary: white background, 1px gray border, dark ink text, hover fills light gray.
+- Outline: white background, ${c.primary}-colored 1px border and text, hover fills a light ${c.primaryTint} tint.
+- Ghost: transparent background, ${c.primary}-colored text, hover fills a light ${c.primaryTint} tint.
+- Danger: white background, red (#DC2626) text, hover fills a light red tint.
+Disabled state: 50% opacity, not-allowed cursor. Every button shows a 2px ${c.primary} focus ring when tabbed to.`,
+
+    buttonGroups: `Segmented button group for single-selection choices (e.g. Day/Week/Month). Buttons sit edge-to-edge inside one rounded-md container with a shared 1px gray border and a 1px divider between segments. Selected segment: solid ${c.primary} background with white text. Unselected segments: white background, ink text, light gray hover. Use aria-pressed on each button to expose selection state to screen readers.`,
+
+    avatars: `Circular avatar component in 3 sizes (28px, 36px, 48px). Default style: light ${c.primaryTint} background, ${c.primary}-colored initials text (2 letters, semibold), thin ${c.primary} border at 30% opacity. Fallback (no name known): muted gray background with a generic person icon instead of initials.`,
+
+    badges: `Pill-shaped badge/tag component, 12px medium text, small rounded-full shape with a 1px border. Tone variants: Neutral (light gray background, muted text), Primary (${c.primaryTint} background, ${c.primary} text), Success (light green background, dark green text), Warning (light amber background, dark amber text), Danger (light red background, dark red text). Also include a small circular notification-count badge: solid red background, white bold number, positioned at the top-right corner of an icon.`,
+
+    tagsTabs: `Two related patterns.
+Tags: removable chip with white background, 1px gray border, rounded-full shape, 12px medium text, and a small "x" remove button on the right that turns gray on hover.
+Tabs: horizontal row of text labels separated by a thin bottom border line. Active tab: ${c.primary}-colored text with a 2px ${c.primary} underline. Inactive tabs: muted gray text, no underline, turns ink-colored on hover.`,
+
+    checkboxes: `Checkbox input, 16x16px, rounded corners (4px), 1px gray border. Checked state fills with ${c.primary} and shows a white checkmark (native accent-color set to ${c.primary}). Indeterminate state shows a horizontal dash instead of a checkmark. Disabled state is 50% opacity with a not-allowed cursor. Label sits to the right of the box in 13px ink-colored text. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
+
+    radio: `Radio button input, 16x16px circle, 1px gray border. Selected state fills the center dot with ${c.primary} (native accent-color set to ${c.primary}). Grouped radios share the same name so only one can be selected at a time. Disabled option is 50% opacity. Label sits to the right in 13px ink-colored text. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
+
+    toggles: `Toggle switch, pill-shaped track 36x20px with a round 16px white thumb. Off state: light gray track, thumb on the left. On state: ${c.primary}-colored track, thumb slides to the right with a smooth transition. Disabled: 50% opacity. Use switch semantics (role="switch"). Label sits to the right in 13px ink-colored text. Focus shows a 2px ${c.primary} ring around the track.`,
+
+    sliders: `Horizontal range slider, 8px tall track with fully rounded ends, light gray (#E5E7EB) unfilled track, native browser thumb tinted ${c.primary}. Show the current numeric value above the slider in bold ${c.primary} text, and min/max labels in small muted gray text below the track ends.`,
+
+    inputs: `Text input / form field group. Field wrapper: 12px muted-gray label above a 36px-tall input with a 1px gray border, 6px corner radius, white background, 10px horizontal padding, 14px ink-colored text.
+States: Default (gray border). Focus (border turns ${c.primary} plus a soft ${c.primary} glow ring). Required field shows a red asterisk after the label. Error state: red border, red glow ring, and a small red helper line below the field explaining the problem. Disabled: light gray background, muted text, not-allowed cursor.`,
+
+    select: `Native-style select/dropdown field, same sizing and border treatment as the text input (36px tall, gray border, 6px radius, white background). Focus state turns the border ${c.primary} with a soft glow ring. Disabled state uses a light gray background and muted text with a not-allowed cursor.`,
+
+    dropdownDatepicker: `Two components.
+Dropdown menu: a button labeled "Actions" with a chevron-down icon opens a floating white panel below it — 1px gray border, 8px corner radius, drop shadow, list of plain-text menu items that highlight with a light gray background on hover/focus.
+Date picker: a text input with a small calendar icon on the left side, native browser date picker on click, same border/focus treatment as other inputs.`,
+
+    textEditor: `Simple rich-text editor pattern: a bordered container with a compact toolbar strip along the top (light gray background, bottom border) containing icon-only buttons for Bold, Italic, Underline, and Bulleted list — each a 28px square button that highlights on hover. Below the toolbar, a plain multi-line text area with no visible border, comfortable padding, and placeholder text in muted gray.`,
+
+    progress: `Linear progress bar: 8px tall, fully rounded, light gray track, colored fill that grows from left to right. Tone variants: ${c.primary} (default/in-progress), amber (needs attention), green (complete). Show a numeric percentage label above the bar in small muted text. Also include an indeterminate spinner: a small rotating ring icon in ${c.primary}, paired with a status label like "Processing…".`,
+
+    tooltips: `Tooltip: small dark (near-black) rounded rectangle with white 11px text, appears above the trigger element on hover or keyboard focus, with a brief fade-in transition. Keep tooltip text short (one line where possible) and attach it to icon buttons or info icons that need extra context.`,
+
+    commandMenu: `Command palette / quick-search overlay: a semi-transparent dark backdrop covering the screen, with a centered white panel (rounded corners, drop shadow) near the top of the viewport. Panel header is a borderless search input with a search icon on the left and an "Esc" hint on the right. Below, grouped results are listed under small uppercase section labels, each result row showing an icon, a label, and a keyboard-shortcut hint on the right; rows highlight with a light ${c.primaryTint} background and ${c.primary} text on hover/focus. Closes on Escape or clicking outside the panel.`,
+
+    filters: `Filter bar: a row of pill-shaped toggle buttons for quick status filters (selected pill fills solid ${c.primary} with white text, unselected pills are white with a gray border), plus a rectangular toggle button for a personal filter like "Mine" (selected state uses a light ${c.primaryTint} background with ${c.primary} text and border). Below, an "Active filters" row shows removable chip tags summarizing applied filters, with a "Clear all" text link at the end.`,
+
+    fileUpload: `File upload dropzone: a large dashed-border rectangle with light gray background, an upload-cloud icon, "Drag & drop a file here, or" text, a "Browse files" outline button, and small muted helper text listing accepted formats/size limit. Once a file is added, show it as a row below: file icon in ${c.primary}, file name, a small progress bar, and a green checkmark once complete.`,
+
+    emptyState: `Empty state pattern: centered content inside a dashed-border, light gray rounded box. A circular light ${c.primaryTint} badge holds a simple line icon in ${c.primary}. Below it, a short bold heading (15px) and one line of muted gray explanatory text (13px). Optionally include a primary button call-to-action beneath the text. Use one version for "no data yet" (with a CTA button) and one for "no search results" (without a CTA).`,
+
+    modals: `Modal dialog: semi-transparent dark backdrop, centered white panel (max ~420px wide, rounded corners, drop shadow). Header row has a bold 15px title on the left and a small round close (x) button on the right, separated from the body by a thin bottom border. Body has one short paragraph of muted gray explanatory text. Footer, separated by a thin top border, right-aligns a "Cancel" secondary button and a confirm button. Three tones: Default (neutral confirm button), Confirmation (primary-colored confirm button, e.g. "Submit"), Destructive (red confirm button, e.g. "Delete", with a small red warning icon next to the title). Closes on the Escape key or clicking the backdrop.`,
+
+    tablePagination: `Data table: header row has a light gray background, small uppercase muted-gray column labels. Body rows are separated by thin gray divider lines and highlight with a very light gray background on hover. Include a status badge column and a right-aligned numeric column with tabular figures. Below the table, a pagination bar shows "Showing X–Y of Z" on the left and page controls on the right: previous/next chevron buttons plus numbered page buttons (current page filled solid ${c.primary} with white text, others outlined).`,
+
+    treeview: `Expandable tree list for hierarchical data (e.g. product categories). Each row has a chevron icon that rotates 90° when expanded, a folder or file icon, and a text label, indented 20px per depth level. Selected row gets a light ${c.primaryTint} background with ${c.primary}-colored bold text. Rows highlight light gray on hover. Use proper tree/treeitem accessibility roles so screen readers announce expand state and selection.`,
+
+    cards: `Card container: white background, 10px corner radius, 1px gray border, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title and small muted meta text beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (blue for emphasis, amber for warning, red for danger) to flag the card's status at a glance.`,
+
+    layout: `Page layout: light gray (#F1F3F5) canvas background for the whole app, with white rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar + top bar shell around all pages.`
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -769,6 +896,7 @@ function TooltipDemo({ label, tip }: {label: string;tip: string;}): JSX.Element 
 export function DesignSystemPage(): JSX.Element {
   const { theme } = useTheme();
   const themeLabel = theme === 'current' ? 'Current' : 'Client';
+  const prompts = getPrompts(theme);
 
   // Interactive demo state
   const [tab, setTab] = useState('overview');
@@ -804,6 +932,13 @@ export function DesignSystemPage(): JSX.Element {
         <PaletteIcon className="h-4 w-4 shrink-0" strokeWidth={1.75} aria-hidden="true" />
         Showing the <span className="font-semibold">{themeLabel}</span> theme palette — components below use shared tokens, so every one re-colors automatically when you switch themes in the top bar.
       </div>
+
+      <Card accent="primary" title={`Master Theme Prompt — ${themeLabel} theme`} meta="Paste this once into AWS Quick App before the component prompts below" className="mb-5">
+        <p className="text-[13px] text-muted">
+          Sets up the overall look and feel (fonts, colors, surfaces, accessibility rules) so every screen you generate afterwards stays consistent. Re-copy this if you switch the theme toggle above.
+        </p>
+        <PromptBlock text={prompts.master} />
+      </Card>
 
       <Card accent="primary" title="On this page" className="mb-5" bodyClassName="pt-3">
         <nav aria-label="Design system sections" className="flex flex-wrap gap-1.5">
@@ -846,6 +981,7 @@ export function DesignSystemPage(): JSX.Element {
             <TypeRow sizeLabel="12px · regular — Labels / meta" sampleClassName="text-xs" />
             <TypeRow sizeLabel="11px · semibold uppercase — Micro tags" sampleClassName="text-micro uppercase tracking-[0.06em]" weight="font-semibold" />
             <TypeRow sizeLabel="34px · bold — KPI numbers" sampleClassName="text-[34px] tnum" weight="font-bold" />
+            <PromptBlock text={prompts.typography} />
           </Card>
         </SectionAnchor>
 
@@ -868,6 +1004,7 @@ export function DesignSystemPage(): JSX.Element {
                 <Button variant="danger" size="sm">Danger sm</Button>
               </div>
             </div>
+            <PromptBlock text={prompts.buttons} />
           </Card>
         </SectionAnchor>
 
@@ -889,6 +1026,7 @@ export function DesignSystemPage(): JSX.Element {
                 </button>
               )}
             </div>
+            <PromptBlock text={prompts.buttonGroups} />
           </Card>
         </SectionAnchor>
 
@@ -900,6 +1038,7 @@ export function DesignSystemPage(): JSX.Element {
               <Avatar initials="KY" size="lg" />
               <Avatar size="md" tone="muted" />
             </div>
+            <PromptBlock text={prompts.avatars} />
           </Card>
         </SectionAnchor>
 
@@ -916,6 +1055,7 @@ export function DesignSystemPage(): JSX.Element {
                 <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-semibold text-white tnum">3</span>
               </span>
             </div>
+            <PromptBlock text={prompts.badges} />
           </Card>
         </SectionAnchor>
 
@@ -953,6 +1093,7 @@ export function DesignSystemPage(): JSX.Element {
                 </div>
               </div>
             </div>
+            <PromptBlock text={prompts.tagsTabs} />
           </Card>
         </SectionAnchor>
 
@@ -964,6 +1105,7 @@ export function DesignSystemPage(): JSX.Element {
               <Checkbox label="Select all (indeterminate)" checked={false} indeterminate onChange={() => {}} />
               <Checkbox label="Locked field (disabled)" checked disabled />
             </div>
+            <PromptBlock text={prompts.checkboxes} />
           </Card>
         </SectionAnchor>
 
@@ -974,6 +1116,7 @@ export function DesignSystemPage(): JSX.Element {
               <RadioOption name="ds-billing" label="Monthly premium" value="monthly" selected={radio} onChange={setRadio} />
               <RadioOption name="ds-billing" label="Single premium (disabled)" value="single" selected={radio} disabled />
             </div>
+            <PromptBlock text={prompts.radio} />
           </Card>
         </SectionAnchor>
 
@@ -984,6 +1127,7 @@ export function DesignSystemPage(): JSX.Element {
               <Toggle label="Send weekly digest" checked={toggle2} onChange={setToggle2} />
               <Toggle label="Locked setting (disabled)" checked disabled />
             </div>
+            <PromptBlock text={prompts.toggles} />
           </Card>
         </SectionAnchor>
 
@@ -1008,6 +1152,7 @@ export function DesignSystemPage(): JSX.Element {
                 <span>300</span>
               </div>
             </div>
+            <PromptBlock text={prompts.sliders} />
           </Card>
         </SectionAnchor>
 
@@ -1032,6 +1177,7 @@ export function DesignSystemPage(): JSX.Element {
                 <input id="ds-input-disabled" defaultValue="CASE-00142" disabled className="h-9 cursor-not-allowed rounded-md border border-line bg-canvas px-2.5 text-sm text-muted" />
               </div>
             </div>
+            <PromptBlock text={prompts.inputs} />
           </Card>
         </SectionAnchor>
 
@@ -1053,6 +1199,7 @@ export function DesignSystemPage(): JSX.Element {
                 </select>
               </div>
             </div>
+            <PromptBlock text={prompts.select} />
           </Card>
         </SectionAnchor>
 
@@ -1071,6 +1218,7 @@ export function DesignSystemPage(): JSX.Element {
                 </div>
               </div>
             </div>
+            <PromptBlock text={prompts.dropdownDatepicker} />
           </Card>
         </SectionAnchor>
 
@@ -1094,6 +1242,7 @@ export function DesignSystemPage(): JSX.Element {
                 className="w-full resize-none rounded-b-md bg-white px-3 py-2.5 text-[13px] text-ink placeholder:text-muted focus:outline-none" />
 
             </div>
+            <PromptBlock text={prompts.textEditor} />
           </Card>
         </SectionAnchor>
 
@@ -1117,6 +1266,7 @@ export function DesignSystemPage(): JSX.Element {
                 Running pricing engine…
               </div>
             </div>
+            <PromptBlock text={prompts.progress} />
           </Card>
         </SectionAnchor>
 
@@ -1126,6 +1276,7 @@ export function DesignSystemPage(): JSX.Element {
               <TooltipDemo label="MVP" tip="Minimum Viable Profit — governance target for this product." />
               <TooltipDemo label="M&amp;E" tip="Mortality & expense charge, in basis points." />
             </div>
+            <PromptBlock text={prompts.tooltips} />
           </Card>
         </SectionAnchor>
 
@@ -1135,6 +1286,7 @@ export function DesignSystemPage(): JSX.Element {
               Open Command Menu
             </Button>
             <CommandMenuOverlay open={commandOpen} onClose={() => setCommandOpen(false)} />
+            <PromptBlock text={prompts.commandMenu} />
           </Card>
         </SectionAnchor>
 
@@ -1176,6 +1328,7 @@ export function DesignSystemPage(): JSX.Element {
                 </div>
               }
             </div>
+            <PromptBlock text={prompts.filters} />
           </Card>
         </SectionAnchor>
 
@@ -1199,6 +1352,7 @@ export function DesignSystemPage(): JSX.Element {
                 </div>
               </div>
             </div>
+            <PromptBlock text={prompts.fileUpload} />
           </Card>
         </SectionAnchor>
 
@@ -1208,6 +1362,7 @@ export function DesignSystemPage(): JSX.Element {
               <EmptyState icon={InboxIcon} title="No quotes yet" description="Create your first quote to see it appear here." action={<Button variant="primary" size="sm">New Quote</Button>} />
               <EmptyState icon={SearchIcon} title="No results found" description="Try adjusting your filters or search terms." />
             </div>
+            <PromptBlock text={prompts.emptyState} />
           </Card>
         </SectionAnchor>
 
@@ -1219,12 +1374,14 @@ export function DesignSystemPage(): JSX.Element {
               <Button variant="danger" onClick={() => setModalKind('danger')}>Open Destructive</Button>
             </div>
             <ModalOverlay kind={modalKind} onClose={() => setModalKind(null)} />
+            <PromptBlock text={prompts.modals} />
           </Card>
         </SectionAnchor>
 
         <SectionAnchor id="table-pagination">
           <Card accent="primary" title="Table &amp; Pagination" meta="Row hover, status badges, page controls">
             <TablePaginationDemo />
+            <PromptBlock text={prompts.tablePagination} />
           </Card>
         </SectionAnchor>
 
@@ -1243,6 +1400,7 @@ export function DesignSystemPage(): JSX.Element {
 
               )}
             </div>
+            <PromptBlock text={prompts.treeview} />
           </Card>
         </SectionAnchor>
 
@@ -1262,6 +1420,7 @@ export function DesignSystemPage(): JSX.Element {
                 <p className="text-[13px] text-muted">Red top border</p>
               </Card>
             </div>
+            <PromptBlock text={prompts.cards} />
           </Card>
         </SectionAnchor>
 
@@ -1277,6 +1436,7 @@ export function DesignSystemPage(): JSX.Element {
                 <p className="mt-1 text-micro text-muted">shadow-card · rounded-card (10px) · border-line</p>
               </div>
             </div>
+            <PromptBlock text={prompts.layout} />
           </Card>
         </SectionAnchor>
       </div>
