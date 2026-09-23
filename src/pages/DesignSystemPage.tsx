@@ -80,6 +80,45 @@ const statusColors: Swatch[] = [
 { name: 'Danger Tint', hex: '#FEF2F2', usage: 'Error banner background', className: 'bg-danger-tint border border-line' }];
 
 
+const nylStatusColors: Swatch[] = [
+{
+  name: 'Success (Green)',
+  hex: '#28A745',
+  usage: 'Success badges, "Active" status, "Resolved" metrics, user role badge (default/VIEWER), positive health scores, closed-rate indicators',
+  className: 'bg-[#28A745]'
+},
+{
+  name: 'Success (Green) Tint',
+  hex: '#F2FAF4',
+  usage: 'Light background for success badges and banners',
+  className: 'bg-[#F2FAF4] border border-line'
+},
+{
+  name: 'Warning (Amber)',
+  hex: '#F0A500',
+  usage: 'Warning banners, "Near SLA" metrics, "Needs Attention" health label, user role badge (CROSS_LOB)',
+  className: 'bg-[#F0A500]'
+},
+{
+  name: 'Warning (Amber) Tint',
+  hex: '#FEFAF0',
+  usage: 'Light background for warning banners and badges',
+  className: 'bg-[#FEFAF0] border border-line'
+},
+{
+  name: 'Danger (Red)',
+  hex: '#DC3545',
+  usage: 'Danger buttons, "Breached/Overdue" metrics, "Critical" health label, error messages, delete actions',
+  className: 'bg-[#DC3545]'
+},
+{
+  name: 'Danger (Red) Tint',
+  hex: '#FDF3F4',
+  usage: 'Light background for error messages and danger badges',
+  className: 'bg-[#FDF3F4] border border-line'
+}];
+
+
 function SwatchGrid({ swatches }: {swatches: Swatch[];}): JSX.Element {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -966,8 +1005,11 @@ export function DesignSystemPage(): JSX.Element {
             <Card accent="primary" title="Core Colors" meta="Text and surface tokens — same across both themes">
               <SwatchGrid swatches={coreColors} />
             </Card>
-            <Card accent="primary" title="Status Colors" meta="Success, warning, and danger states — same across both themes">
+            {/* <Card accent="primary" title="Status Colors" meta="Success, warning, and danger states — same across both themes">
               <SwatchGrid swatches={statusColors} />
+            </Card> */}
+            <Card accent="primary" title="Status Colors" meta="NYL-specific status palette and usage mapping">
+              <SwatchGrid swatches={nylStatusColors} />
             </Card>
           </div>
         </SectionAnchor>
