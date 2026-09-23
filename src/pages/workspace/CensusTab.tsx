@@ -8,7 +8,7 @@ export function CensusTab(): JSX.Element {
   const quote = useWorkspaceCase();
 
   return (
-    <div className="max-w-[900px]">
+    <div className="space-y-5">
       <Card
         accent="primary"
         title="Census"

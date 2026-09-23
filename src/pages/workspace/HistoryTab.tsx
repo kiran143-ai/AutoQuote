@@ -44,7 +44,7 @@ export function HistoryTab(): JSX.Element {
   const commentCount = quote.feed.filter((e) => e.kind === 'Comment').length;
 
   return (
-    <div className="max-w-[980px] space-y-4">
+    <div className="space-y-5">
       <div className="flex gap-1.5">
         {(['Comments', 'Activity Log'] as const).map((v) =>
         <button

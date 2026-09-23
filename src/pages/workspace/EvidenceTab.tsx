@@ -12,6 +12,7 @@ import { ProgressRing } from '../../components/ui/ProgressRing';
 import { MetricTile } from '../../components/ui/MetricTile';
 import { ApprovalTimeline } from '../../components/workspace/ApprovalTimeline';
 import { ApprovalActions } from '../../components/workspace/ApprovalActions';
+import { ApprovalStepsCard } from '../../components/workspace/ApprovalStepsCard';
 import { RoleSwitcher } from '../../components/workspace/RoleSwitcher';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { readinessChecks, readinessSummary } from '../../utils/caseDerived';
@@ -26,8 +27,9 @@ export function EvidenceTab(): JSX.Element {
   const [currentRole, setCurrentRole] = useState('Actuary');
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-      <div className="space-y-5">
+    <div className="space-y-5">
+        <ApprovalStepsCard quote={quote} />
+
         {summary.failed > 0 &&
       <div
         role="alert"
@@ -175,10 +177,8 @@ export function EvidenceTab(): JSX.Element {
           })}
         </ul>
       </Card>
-      </div>
 
-      <div className="space-y-5">
-      <div className="rounded-lg border-2 border-primary bg-primary-tint p-6">
+      {/* <div className="rounded-lg border-2 border-primary bg-primary-tint p-6">
         <div className="flex items-center gap-2">
           <CheckIcon className="h-6 w-6 text-primary" strokeWidth={2} />
           <div>
@@ -196,8 +196,7 @@ export function EvidenceTab(): JSX.Element {
 
           <ApprovalActions quote={quote} currentRole={currentRole} />
         </div>
-      </div>
-      </div>
+      </div> */}
     </div>);
 
 }

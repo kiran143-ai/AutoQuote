@@ -7,7 +7,7 @@ export function IllustrationTab(): JSX.Element {
   const [running, setRunning] = useState(false);
 
   return (
-    <div className="max-w-[900px]">
+    <div className="space-y-5">
       <Card
         accent="primary"
         title="Illustration"

@@ -24,8 +24,7 @@ export function OverviewTab(): JSX.Element {
   const summary = readinessSummary(quote);
 
   return (
-    <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-      <div className="space-y-5">
+    <div className="space-y-5">
         <Card accent={summary.failed ? 'warning' : 'primary'}>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
@@ -127,9 +126,7 @@ export function OverviewTab(): JSX.Element {
             }
           </div>
         </Card>
-      </div>
 
-      <div className="space-y-5">
         <Card accent="primary" title="Configuration snapshot" meta="Frozen at 2026-09-05. Repricing uses this snapshot.">
           <dl className="divide-y divide-line text-[13px]">
             {[
@@ -173,7 +170,6 @@ export function OverviewTab(): JSX.Element {
             Templates capture deal terms and configuration, not census data.
           </p>
         </Card>
-      </div>
     </div>);
 
 }
