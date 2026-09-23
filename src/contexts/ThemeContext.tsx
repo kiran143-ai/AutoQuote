@@ -10,14 +10,14 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('current');
+  const [theme, setTheme] = useState<Theme>('client');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme: () => setTheme(t => t === 'current' ? 'client' : 'current') }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme: () => setTheme(t => t === 'client' ? 'current' : 'client') }}>
       {children}
     </ThemeContext.Provider>
   );
