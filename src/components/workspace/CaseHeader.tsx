@@ -21,7 +21,7 @@ export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
         <Link
           to="/quotes"
           className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-          
+
           <ArrowLeftIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
           Quotes
         </Link>
@@ -47,7 +47,7 @@ export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
               variant="secondary"
               onClick={() => runPricing(quote.id)}
               icon={<RotateCwIcon className="h-4 w-4" strokeWidth={1.75} />}>
-              
+
               Re-run
             </Button>
             <Button
