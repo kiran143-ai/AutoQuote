@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircleIcon, Clock, MailIcon } from 'lucide-react';
+import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import type { ApprovalStage, QuoteCase } from '../../types';
 
@@ -15,16 +16,18 @@ export function ApprovalStepsCard({ quote }: {quote: QuoteCase;}): JSX.Element {
   const currentIndex = Math.max(0, steps.findIndex((s) => s.stage === quote.approvalStage));
 
   return (
-    <div className="rounded-lg border-2 border-primary bg-primary-tint p-5">
-      <div className="flex items-center gap-2">
-        <CheckCircleIcon className="h-5 w-5 text-primary" strokeWidth={2} aria-hidden="true" />
-        <div>
-          <h2 className="text-[15px] font-bold text-primary">Approval Workflow</h2>
-          <p className="text-xs text-primary/80">Submit for multi-level approval</p>
-        </div>
-      </div>
+    <Card
+      accent="primary"
+      className="bg-primary-tint"
+      title="Approval Workflow"
+      meta="Submit for multi-level approval"
+      action={
+      <Button variant="primary" icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
+          Send for Review
+        </Button>
+      }>
 
-      <div className="mt-4 rounded-card border border-line bg-white p-5">
+      <div className="rounded-md bg-white p-4">
         <div className="relative">
           {steps.slice(0, -1).map((_, i) => {
             const isCompleted = i < currentIndex;
@@ -76,13 +79,7 @@ export function ApprovalStepsCard({ quote }: {quote: QuoteCase;}): JSX.Element {
             })}
           </div>
         </div>
-
-        <div className="mt-5 flex justify-end border-t border-line pt-4">
-          <Button variant="primary" icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
-            Send for Review
-          </Button>
-        </div>
       </div>
-    </div>);
+    </Card>);
 
 }
