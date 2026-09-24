@@ -19,8 +19,8 @@ export function WorkspaceTabs({
 
   const tabs = [
   { slug: 'overview', label: 'Overview' },
-  { slug: 'pricing', label: 'Pricing', primary: true },
   { slug: 'census', label: 'Census', count: quote.inputs.lives },
+  { slug: 'pricing', label: 'Pricing', primary: true },
   { slug: 'config', label: 'Config' },
   { slug: 'illustration', label: 'Illustration' },
   { slug: 'rounds', label: 'Rounds', count: quote.round },
