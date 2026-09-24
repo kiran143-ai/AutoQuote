@@ -4,6 +4,7 @@ import {
   AlertTriangleIcon,
   CheckIcon,
   ChevronLeftIcon,
+  LayoutTemplateIcon,
   TargetIcon,
   TrendingUpIcon,
   ZapIcon } from
@@ -103,7 +104,19 @@ export function NewQuotePage(): JSX.Element {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        <Card accent="primary" title="Case details">
+        <Card
+          accent="primary"
+          title="Case details"
+          action={
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<LayoutTemplateIcon className="h-4 w-4" strokeWidth={1.75} />}>
+
+              Browse Templates
+            </Button>
+          }>
+
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <TextInput
               label="Case Name"
