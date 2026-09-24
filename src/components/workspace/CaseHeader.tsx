@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeftIcon, PlusIcon, RotateCwIcon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { ArrowLeftIcon, MailIcon, PlusIcon, RotateCwIcon } from 'lucide-react';
 import { StatusBadge } from '../ui/StatusBadge';
 import { CheckChip } from '../ui/CheckChip';
 import { Button } from '../ui/Button';
@@ -10,7 +10,9 @@ import { useCaseStore } from '../../contexts/CaseStore';
 import type { QuoteCase } from '../../types';
 
 export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
-  const { runPricing, newRound } = useCaseStore();
+  const { runPricing, newRound, advanceApproval } = useCaseStore();
+  const location = useLocation();
+  const isEvidenceTab = location.pathname.endsWith('/evidence');
   const m = quote.metrics;
 
   return (
@@ -49,12 +51,21 @@ export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
               Re-run
             </Button>
             <Button
-              variant="primary"
+              variant="outline"
               onClick={() => newRound(quote.id)}
               icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
-              
+
               New Round
             </Button>
+            {isEvidenceTab &&
+            <Button
+              variant="primary"
+              onClick={() => advanceApproval(quote.id, '')}
+              icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
+
+                Send for Review
+              </Button>
+            }
           </div>
         </div>
 

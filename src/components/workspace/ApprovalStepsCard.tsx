@@ -1,7 +1,6 @@
 import React from 'react';
-import { CheckCircleIcon, Clock, MailIcon } from 'lucide-react';
+import { CheckCircleIcon, Clock } from 'lucide-react';
 import { Card } from '../ui/Card';
-import { Button } from '../ui/Button';
 import type { ApprovalStage, QuoteCase } from '../../types';
 
 const steps: {stage: ApprovalStage;label: string;}[] = [
@@ -20,12 +19,7 @@ export function ApprovalStepsCard({ quote }: {quote: QuoteCase;}): JSX.Element {
       accent="primary"
       className="bg-primary-tint"
       title="Approval Workflow"
-      meta="Submit for multi-level approval"
-      action={
-      <Button variant="primary" icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
-          Send for Review
-        </Button>
-      }>
+      meta="Submit for multi-level approval">
 
       <div className="rounded-md bg-white p-4">
         <div className="relative">
