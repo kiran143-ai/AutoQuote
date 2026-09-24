@@ -75,7 +75,7 @@ export function EvidenceTab(): JSX.Element {
         
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
           <div className="flex items-center gap-3">
-            <ProgressRing value={summary.score} size={64} />
+            <ProgressRing value={summary.score} size={64} tone={summary.failed ? '#F0A500' : '#28A745'} />
           </div>
           <div className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-4">
             <MetricTile
@@ -156,7 +156,7 @@ export function EvidenceTab(): JSX.Element {
                   }
                   {check.state === 'warn' &&
                   <AlertTriangleIcon
-                    className="h-4 w-4 text-warning"
+                    className="h-4 w-4 text-[#92400E]"
                     strokeWidth={1.75}
                     aria-hidden="true" />
 

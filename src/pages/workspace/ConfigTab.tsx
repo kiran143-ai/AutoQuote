@@ -29,7 +29,7 @@ export function ConfigTab(): JSX.Element {
         
         <p className="flex items-center gap-2 text-[13px] text-[#92400E]">
           <AlertTriangleIcon
-            className="h-4 w-4 shrink-0 text-warning"
+            className="h-4 w-4 shrink-0 text-[#92400E]"
             strokeWidth={1.75}
             aria-hidden="true" />
           

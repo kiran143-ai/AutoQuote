@@ -9,10 +9,10 @@ export interface DecompositionComponent {
 export const decompositionComponents: DecompositionComponent[] = [
 { key: 'meFees', label: 'M&E Fees', color: '#1D4ED8', total: 47.61 },
 { key: 'coiMargin', label: 'COI Margin', color: '#7C3AED', total: 2.0 },
-{ key: 'invIncome', label: 'Inv. Income', color: '#16A34A', total: 137.16 },
+{ key: 'invIncome', label: 'Inv. Income', color: '#28A745', total: 137.16 },
 { key: 'commission', label: 'Commission', color: '#0EA5E9', total: -1.91 },
-{ key: 'expenses', label: 'Expenses', color: '#F59E0B', total: -2.4 },
-{ key: 'claims', label: 'Claims', color: '#DC2626', total: -1.1 },
+{ key: 'expenses', label: 'Expenses', color: '#F0A500', total: -2.4 },
+{ key: 'claims', label: 'Claims', color: '#DC3545', total: -1.1 },
 { key: 'premTax', label: 'Prem Tax', color: '#EC4899', total: -0.7 },
 { key: 'reinsurance', label: 'Reinsurance', color: '#14B8A6', total: -0.35 },
 { key: 'reservesDelta', label: 'Reserves Δ', color: '#B45309', total: -89.29 },

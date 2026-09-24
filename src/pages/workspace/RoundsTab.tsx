@@ -36,7 +36,7 @@ export function RoundsTab(): JSX.Element {
         <div className="px-5 pb-5">
           <p className="mb-3 flex items-center gap-2 text-[13px] text-[#92400E]">
             <AlertTriangleIcon
-              className="h-4 w-4 shrink-0 text-warning"
+              className="h-4 w-4 shrink-0 text-[#92400E]"
               strokeWidth={1.75}
               aria-hidden="true" />
             

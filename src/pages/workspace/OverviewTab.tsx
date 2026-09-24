@@ -30,7 +30,7 @@ export function OverviewTab(): JSX.Element {
             <div className="flex items-center gap-4">
               <ProgressRing
                 value={summary.score}
-                tone={summary.failed ? '#F59E0B' : '#16A34A'} />
+                tone={summary.failed ? '#F0A500' : '#28A745'} />
               
               <div>
                 <h2 className="text-[15px] font-semibold text-ink">
@@ -163,7 +163,7 @@ export function OverviewTab(): JSX.Element {
           
           <p className="flex items-start gap-2 text-xs text-muted">
             <AlertTriangleIcon
-              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning"
+              className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#92400E]"
               strokeWidth={1.75}
               aria-hidden="true" />
             

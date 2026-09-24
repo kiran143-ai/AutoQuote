@@ -207,73 +207,79 @@ Color tokens:
 - Muted #6B7280 — secondary/helper text
 - Canvas #F1F3F5 — page background
 - Line #E5E7EB — borders and dividers
-- Success #16A34A (tint #ECFDF3), Warning #F59E0B (tint #FFFBEB), Danger #DC2626 (tint #FEF2F2)
+- Success #28A745 (tint #F2FAF4), Warning #F0A500 (tint #FEFAF0), Danger #DC3545 (tint #FDF3F4)
 - Left sidebar background ${c.nav}, hover ${c.navHover}, text ${c.navText}, active item background ${c.navActiveBg} with text ${c.navActiveText}
 
 Surfaces: white cards on the canvas background, 10px corner radius, 1px solid Line-colored border, soft shadow (0 1px 3px rgba(0,0,0,0.08)). Cards can show a 2px colored top border (primary/warning/danger) as a status accent.
 
 Interactive elements: every focusable control shows a visible 2px Primary-colored focus ring. All text/background pairs meet WCAG AA contrast (4.5:1 normal text, 3:1 large text/icons). Every form control has a visible label.`,
 
-    typography: `Typography scale for a data-dense enterprise app using Inter font. Page title: 22px bold, ink color. Card title: 15px semibold, ink color. Body text: 14px regular, ink color. Button and secondary text: 13px medium. Field labels and meta text: 12px regular, muted gray (#6B7280). Section labels / tags: 11px semibold, uppercase, wide letter-spacing, muted gray. Large KPI numbers: 34px bold with tabular figures for alignment. Keep line-height comfortable for scanning dense tables and forms.`,
+    typography: `Typography scale for a data-dense enterprise app using Inter font. Page title: 22px bold, text color #111827. Card title: 15px semibold, #111827. Body text: 14px regular, #111827. Button and secondary text: 13px medium, #111827. Field labels and meta text: 12px regular, #6B7280. Section labels / tags: 11px semibold, uppercase, wide letter-spacing, #6B7280. Large KPI numbers: 34px bold, #111827, with tabular figures for alignment. Keep line-height comfortable for scanning dense tables and forms.`,
 
     buttons: `Button component with 5 variants, 36px tall (32px small size), rounded-md (6-8px) corners, 13px medium-weight label, horizontal icon+label layout with 8px gap.
-- Primary: solid fill ${c.primary}, white text, darkens to ${c.primaryHover} on hover.
-- Secondary: white background, 1px gray border, dark ink text, hover fills light gray.
-- Outline: white background, ${c.primary}-colored 1px border and text, hover fills a light ${c.primaryTint} tint.
-- Ghost: transparent background, ${c.primary}-colored text, hover fills a light ${c.primaryTint} tint.
-- Danger: white background, red (#DC2626) text, hover fills a light red tint.
+- Primary: solid fill ${c.primary}, white (#FFFFFF) text, darkens to ${c.primaryHover} on hover.
+- Secondary: white (#FFFFFF) background, 1px border #E5E7EB, text #111827, hover fills #F1F3F5.
+- Outline: white (#FFFFFF) background, ${c.primary} 1px border and text, hover fills ${c.primaryTint}.
+- Ghost: transparent background, ${c.primary} text, hover fills ${c.primaryTint}.
+- Danger: white (#FFFFFF) background, text #DC3545, hover fills #FDF3F4.
 Disabled state: 50% opacity, not-allowed cursor. Every button shows a 2px ${c.primary} focus ring when tabbed to.`,
 
-    buttonGroups: `Segmented button group for single-selection choices (e.g. Day/Week/Month). Buttons sit edge-to-edge inside one rounded-md container with a shared 1px gray border and a 1px divider between segments. Selected segment: solid ${c.primary} background with white text. Unselected segments: white background, ink text, light gray hover. Use aria-pressed on each button to expose selection state to screen readers.`,
+    buttonGroups: `Segmented button group for single-selection choices (e.g. Day/Week/Month). Buttons sit edge-to-edge inside one rounded-md container with a shared 1px border #E5E7EB and a 1px divider (#E5E7EB) between segments. Selected segment: solid ${c.primary} background with white (#FFFFFF) text. Unselected segments: white (#FFFFFF) background, #111827 text, hover fills #F1F3F5. Use aria-pressed on each button to expose selection state to screen readers.`,
 
-    avatars: `Circular avatar component in 3 sizes (28px, 36px, 48px). Default style: light ${c.primaryTint} background, ${c.primary}-colored initials text (2 letters, semibold), thin ${c.primary} border at 30% opacity. Fallback (no name known): muted gray background with a generic person icon instead of initials.`,
+    avatars: `Circular avatar component in 3 sizes (28px, 36px, 48px). Default style: ${c.primaryTint} background, ${c.primary} initials text (2 letters, semibold), 1px ${c.primary} border at 30% opacity. Fallback (no name known): #F1F3F5 background with a #6B7280 generic person icon instead of initials.`,
 
-    badges: `Pill-shaped badge/tag component, 12px medium text, small rounded-full shape with a 1px border. Tone variants: Neutral (light gray background, muted text), Primary (${c.primaryTint} background, ${c.primary} text), Success (light green background, dark green text), Warning (light amber background, dark amber text), Danger (light red background, dark red text). Also include a small circular notification-count badge: solid red background, white bold number, positioned at the top-right corner of an icon.`,
+    badges: `Pill-shaped badge/tag component, 12px medium text, small rounded-full shape with a 1px border. Tone variants:
+- Neutral: background #F1F3F5, text #6B7280, border #E5E7EB.
+- Primary: background ${c.primaryTint}, text ${c.primary}, border ${c.primary} at 30% opacity.
+- Success: background #F2FAF4, text #15803D, border #28A745 at 40% opacity.
+- Warning: background #FEFAF0, text #92400E, border #F0A500 at 40% opacity.
+- Danger: background #FDF3F4, text #B91C1C, border #DC3545 at 40% opacity.
+Also include a small circular notification-count badge: solid #DC3545 background, white (#FFFFFF) bold number, positioned at the top-right corner of an icon.`,
 
     tagsTabs: `Two related patterns.
-Tags: removable chip with white background, 1px gray border, rounded-full shape, 12px medium text, and a small "x" remove button on the right that turns gray on hover.
-Tabs: horizontal row of text labels separated by a thin bottom border line. Active tab: ${c.primary}-colored text with a 2px ${c.primary} underline. Inactive tabs: muted gray text, no underline, turns ink-colored on hover.`,
+Tags: removable chip with white (#FFFFFF) background, 1px border #E5E7EB, rounded-full shape, 12px medium text #111827, and a small "x" remove button on the right that fills #F1F3F5 on hover.
+Tabs: horizontal row of text labels separated by a thin bottom border line (#E5E7EB). Active tab: ${c.primary} text with a 2px ${c.primary} underline. Inactive tabs: #6B7280 text, no underline, turns #111827 on hover.`,
 
-    checkboxes: `Checkbox input, 16x16px, rounded corners (4px), 1px gray border. Checked state fills with ${c.primary} and shows a white checkmark (native accent-color set to ${c.primary}). Indeterminate state shows a horizontal dash instead of a checkmark. Disabled state is 50% opacity with a not-allowed cursor. Label sits to the right of the box in 13px ink-colored text. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
+    checkboxes: `Checkbox input, 16x16px, rounded corners (4px), 1px border #E5E7EB. Checked state fills with ${c.primary} and shows a white (#FFFFFF) checkmark (native accent-color set to ${c.primary}). Indeterminate state shows a horizontal white dash instead of a checkmark. Disabled state is 50% opacity with a not-allowed cursor. Label sits to the right of the box in 13px text #111827. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
 
-    radio: `Radio button input, 16x16px circle, 1px gray border. Selected state fills the center dot with ${c.primary} (native accent-color set to ${c.primary}). Grouped radios share the same name so only one can be selected at a time. Disabled option is 50% opacity. Label sits to the right in 13px ink-colored text. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
+    radio: `Radio button input, 16x16px circle, 1px border #E5E7EB. Selected state fills the center dot with ${c.primary} (native accent-color set to ${c.primary}). Grouped radios share the same name so only one can be selected at a time. Disabled option is 50% opacity. Label sits to the right in 13px text #111827. Focus shows a 2px ${c.primary} ring with a 1px offset.`,
 
-    toggles: `Toggle switch, pill-shaped track 36x20px with a round 16px white thumb. Off state: light gray track, thumb on the left. On state: ${c.primary}-colored track, thumb slides to the right with a smooth transition. Disabled: 50% opacity. Use switch semantics (role="switch"). Label sits to the right in 13px ink-colored text. Focus shows a 2px ${c.primary} ring around the track.`,
+    toggles: `Toggle switch, pill-shaped track 36x20px with a round 16px white (#FFFFFF) thumb. Off state: track #E5E7EB, thumb on the left. On state: track ${c.primary}, thumb slides to the right with a smooth transition. Disabled: 50% opacity. Use switch semantics (role="switch"). Label sits to the right in 13px text #111827. Focus shows a 2px ${c.primary} ring around the track.`,
 
-    sliders: `Horizontal range slider, 8px tall track with fully rounded ends, light gray (#E5E7EB) unfilled track, native browser thumb tinted ${c.primary}. Show the current numeric value above the slider in bold ${c.primary} text, and min/max labels in small muted gray text below the track ends.`,
+    sliders: `Horizontal range slider, 8px tall track with fully rounded ends, unfilled track color #E5E7EB, native browser thumb tinted ${c.primary}. Show the current numeric value above the slider in bold ${c.primary} text, and min/max labels in small #6B7280 text below the track ends.`,
 
-    inputs: `Text input / form field group. Field wrapper: 12px muted-gray label above a 36px-tall input with a 1px gray border, 6px corner radius, white background, 10px horizontal padding, 14px ink-colored text.
-States: Default (gray border). Focus (border turns ${c.primary} plus a soft ${c.primary} glow ring). Required field shows a red asterisk after the label. Error state: red border, red glow ring, and a small red helper line below the field explaining the problem. Disabled: light gray background, muted text, not-allowed cursor.`,
+    inputs: `Text input / form field group. Field wrapper: 12px label in #6B7280 above a 36px-tall input with a 1px border #E5E7EB, 6px corner radius, white (#FFFFFF) background, 10px horizontal padding, 14px text #111827.
+States: Default (border #E5E7EB). Focus (border turns ${c.primary} plus a soft ${c.primary} glow ring at 20% opacity). Required field shows a red (#DC3545) asterisk after the label. Error state: border #DC3545, glow ring #DC3545 at 20% opacity, and a small helper line below the field in #DC3545 explaining the problem. Disabled: background #F1F3F5, text #6B7280, not-allowed cursor.`,
 
-    select: `Native-style select/dropdown field, same sizing and border treatment as the text input (36px tall, gray border, 6px radius, white background). Focus state turns the border ${c.primary} with a soft glow ring. Disabled state uses a light gray background and muted text with a not-allowed cursor.`,
+    select: `Native-style select/dropdown field, same sizing and border treatment as the text input (36px tall, 1px border #E5E7EB, 6px radius, white #FFFFFF background, text #111827). Focus state turns the border ${c.primary} with a soft glow ring at 20% opacity. Disabled state uses background #F1F3F5 and text #6B7280 with a not-allowed cursor.`,
 
     dropdownDatepicker: `Two components.
-Dropdown menu: a button labeled "Actions" with a chevron-down icon opens a floating white panel below it — 1px gray border, 8px corner radius, drop shadow, list of plain-text menu items that highlight with a light gray background on hover/focus.
-Date picker: a text input with a small calendar icon on the left side, native browser date picker on click, same border/focus treatment as other inputs.`,
+Dropdown menu: a button labeled "Actions" with a chevron-down icon opens a floating white (#FFFFFF) panel below it — 1px border #E5E7EB, 8px corner radius, drop shadow (0 8px 24px rgba(0,0,0,0.12)), list of plain-text menu items (#111827) that fill #F1F3F5 on hover/focus.
+Date picker: a text input with a small #6B7280 calendar icon on the left side, native browser date picker on click, same border/focus treatment as other inputs (border #E5E7EB, focus border ${c.primary}).`,
 
-    textEditor: `Simple rich-text editor pattern: a bordered container with a compact toolbar strip along the top (light gray background, bottom border) containing icon-only buttons for Bold, Italic, Underline, and Bulleted list — each a 28px square button that highlights on hover. Below the toolbar, a plain multi-line text area with no visible border, comfortable padding, and placeholder text in muted gray.`,
+    textEditor: `Simple rich-text editor pattern: a bordered container (1px border #E5E7EB) with a compact toolbar strip along the top (background #F1F3F5, bottom border #E5E7EB) containing icon-only buttons for Bold, Italic, Underline, and Bulleted list — each a 28px square button, icon color #6B7280, that turns #111827 and fills white (#FFFFFF) on hover. Below the toolbar, a plain multi-line text area with no visible border, white (#FFFFFF) background, comfortable padding, and placeholder text in #6B7280.`,
 
-    progress: `Linear progress bar: 8px tall, fully rounded, light gray track, colored fill that grows from left to right. Tone variants: ${c.primary} (default/in-progress), amber (needs attention), green (complete). Show a numeric percentage label above the bar in small muted text. Also include an indeterminate spinner: a small rotating ring icon in ${c.primary}, paired with a status label like "Processing…".`,
+    progress: `Linear progress bar: 8px tall, fully rounded, track color #F1F3F5, colored fill that grows from left to right. Tone variants: ${c.primary} (default/in-progress), #F0A500 (needs attention), #28A745 (complete). Show a numeric percentage label above the bar in small #6B7280 text. Also include an indeterminate spinner: a small rotating ring icon in ${c.primary}, paired with a #6B7280 status label like "Processing…".`,
 
-    tooltips: `Tooltip: small dark (near-black) rounded rectangle with white 11px text, appears above the trigger element on hover or keyboard focus, with a brief fade-in transition. Keep tooltip text short (one line where possible) and attach it to icon buttons or info icons that need extra context.`,
+    tooltips: `Tooltip: small rounded rectangle, background #111827, white (#FFFFFF) 11px text, appears above the trigger element on hover or keyboard focus, with a brief fade-in transition. Keep tooltip text short (one line where possible) and attach it to icon buttons or info icons that need extra context.`,
 
-    commandMenu: `Command palette / quick-search overlay: a semi-transparent dark backdrop covering the screen, with a centered white panel (rounded corners, drop shadow) near the top of the viewport. Panel header is a borderless search input with a search icon on the left and an "Esc" hint on the right. Below, grouped results are listed under small uppercase section labels, each result row showing an icon, a label, and a keyboard-shortcut hint on the right; rows highlight with a light ${c.primaryTint} background and ${c.primary} text on hover/focus. Closes on Escape or clicking outside the panel.`,
+    commandMenu: `Command palette / quick-search overlay: a semi-transparent dark backdrop (#111827 at 50% opacity) covering the screen, with a centered white (#FFFFFF) panel (rounded corners, drop shadow 0 8px 24px rgba(0,0,0,0.12)) near the top of the viewport. Panel header is a borderless search input (text #111827, placeholder #6B7280) with a #6B7280 search icon on the left and an "Esc" hint (background #F1F3F5, text #6B7280) on the right. Below, grouped results are listed under small uppercase #6B7280 section labels, each result row showing an icon, a label (#111827), and a keyboard-shortcut hint on the right; rows highlight with a ${c.primaryTint} background and ${c.primary} text on hover/focus. Closes on Escape or clicking outside the panel.`,
 
-    filters: `Filter bar: a row of pill-shaped toggle buttons for quick status filters (selected pill fills solid ${c.primary} with white text, unselected pills are white with a gray border), plus a rectangular toggle button for a personal filter like "Mine" (selected state uses a light ${c.primaryTint} background with ${c.primary} text and border). Below, an "Active filters" row shows removable chip tags summarizing applied filters, with a "Clear all" text link at the end.`,
+    filters: `Filter bar: a row of pill-shaped toggle buttons for quick status filters (selected pill fills solid ${c.primary} with white #FFFFFF text, unselected pills are white #FFFFFF with a 1px border #E5E7EB and text #111827), plus a rectangular toggle button for a personal filter like "Mine" (selected state uses background ${c.primaryTint} with ${c.primary} text and border). Below, an "Active filters" row shows removable chip tags (white #FFFFFF background, border #E5E7EB) summarizing applied filters, with a "Clear all" text link in ${c.primary} at the end.`,
 
-    fileUpload: `File upload dropzone: a large dashed-border rectangle with light gray background, an upload-cloud icon, "Drag & drop a file here, or" text, a "Browse files" outline button, and small muted helper text listing accepted formats/size limit. Once a file is added, show it as a row below: file icon in ${c.primary}, file name, a small progress bar, and a green checkmark once complete.`,
+    fileUpload: `File upload dropzone: a large dashed-border (#E5E7EB) rectangle with background #F1F3F5, a #6B7280 upload-cloud icon, "Drag & drop a file here, or" text in #111827, a "Browse files" outline button (${c.primary} border/text), and small helper text in #6B7280 listing accepted formats/size limit. Once a file is added, show it as a row below (1px border #E5E7EB): file icon in ${c.primary}, file name in #111827, a small progress bar, and a #28A745 checkmark once complete.`,
 
-    emptyState: `Empty state pattern: centered content inside a dashed-border, light gray rounded box. A circular light ${c.primaryTint} badge holds a simple line icon in ${c.primary}. Below it, a short bold heading (15px) and one line of muted gray explanatory text (13px). Optionally include a primary button call-to-action beneath the text. Use one version for "no data yet" (with a CTA button) and one for "no search results" (without a CTA).`,
+    emptyState: `Empty state pattern: centered content inside a dashed border (#E5E7EB), background #F1F3F5, rounded box. A circular ${c.primaryTint} badge holds a simple line icon in ${c.primary}. Below it, a short bold heading (15px, #111827) and one line of explanatory text (13px, #6B7280). Optionally include a primary button call-to-action beneath the text. Use one version for "no data yet" (with a CTA button) and one for "no search results" (without a CTA).`,
 
-    modals: `Modal dialog: semi-transparent dark backdrop, centered white panel (max ~420px wide, rounded corners, drop shadow). Header row has a bold 15px title on the left and a small round close (x) button on the right, separated from the body by a thin bottom border. Body has one short paragraph of muted gray explanatory text. Footer, separated by a thin top border, right-aligns a "Cancel" secondary button and a confirm button. Three tones: Default (neutral confirm button), Confirmation (primary-colored confirm button, e.g. "Submit"), Destructive (red confirm button, e.g. "Delete", with a small red warning icon next to the title). Closes on the Escape key or clicking the backdrop.`,
+    modals: `Modal dialog: semi-transparent dark backdrop (#111827 at 50% opacity), centered white (#FFFFFF) panel (max ~420px wide, rounded corners, drop shadow 0 8px 24px rgba(0,0,0,0.12)). Header row has a bold 15px title (#111827) on the left and a small round close (x) button (#6B7280, hover fills #F1F3F5) on the right, separated from the body by a thin bottom border (#E5E7EB). Body has one short paragraph of explanatory text in #6B7280. Footer, separated by a thin top border (#E5E7EB), right-aligns a "Cancel" secondary button and a confirm button. Three tones: Default (neutral secondary-style confirm button), Confirmation (${c.primary} confirm button, e.g. "Submit"), Destructive (#DC3545 confirm button, e.g. "Delete", with a small #DC3545 warning icon on a #FDF3F4 circular badge next to the title). Closes on the Escape key or clicking the backdrop.`,
 
-    tablePagination: `Data table: header row has a light gray background, small uppercase muted-gray column labels. Body rows are separated by thin gray divider lines and highlight with a very light gray background on hover. Include a status badge column and a right-aligned numeric column with tabular figures. Below the table, a pagination bar shows "Showing X–Y of Z" on the left and page controls on the right: previous/next chevron buttons plus numbered page buttons (current page filled solid ${c.primary} with white text, others outlined).`,
+    tablePagination: `Data table: header row background #F1F3F5, small uppercase column labels in #6B7280. Body rows are separated by thin divider lines (#E5E7EB) and highlight with background #F1F3F5 on hover (row text #111827). Include a status badge column and a right-aligned numeric column with tabular figures. Below the table, a pagination bar shows "Showing X–Y of Z" in #6B7280 on the left and page controls on the right: previous/next chevron buttons (border #E5E7EB, icon #6B7280) plus numbered page buttons (current page filled solid ${c.primary} with white #FFFFFF text, others white #FFFFFF with border #E5E7EB and text #111827).`,
 
-    treeview: `Expandable tree list for hierarchical data (e.g. product categories). Each row has a chevron icon that rotates 90° when expanded, a folder or file icon, and a text label, indented 20px per depth level. Selected row gets a light ${c.primaryTint} background with ${c.primary}-colored bold text. Rows highlight light gray on hover. Use proper tree/treeitem accessibility roles so screen readers announce expand state and selection.`,
+    treeview: `Expandable tree list for hierarchical data (e.g. product categories). Each row has a #6B7280 chevron icon that rotates 90° when expanded, a #6B7280 folder or file icon, and a text label (#111827), indented 20px per depth level. Selected row gets a ${c.primaryTint} background with ${c.primary} bold text. Rows highlight with background #F1F3F5 on hover. Use proper tree/treeitem accessibility roles so screen readers announce expand state and selection.`,
 
-    cards: `Card container: white background, 10px corner radius, 1px gray border, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title and small muted meta text beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (blue for emphasis, amber for warning, red for danger) to flag the card's status at a glance.`,
+    cards: `Card container: white (#FFFFFF) background, 10px corner radius, 1px border #E5E7EB, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title (#111827) and small meta text (#6B7280) beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (${c.primary} for emphasis, #F0A500 for warning, #DC3545 for danger) to flag the card's status at a glance.`,
 
-    layout: `Page layout: light gray (#F1F3F5) canvas background for the whole app, with white rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar + top bar shell around all pages.`
+    layout: `Page layout: background #F1F3F5 (canvas) for the whole app, with white (#FFFFFF) rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar (${c.nav} background) + top bar (white #FFFFFF) shell around all pages.`
   };
 }
 
@@ -1268,10 +1274,17 @@ export function DesignSystemPage(): JSX.Element {
           <Card accent="primary" title="Text Editors" meta="Rich-text toolbar pattern">
             <div className="rounded-md border border-line">
               <div className="flex items-center gap-1 border-b border-line bg-canvas px-2 py-1.5">
-                {[BoldIcon, ItalicIcon, UnderlineIcon, ListIcon].map((Icon, i) =>
+                {[
+                { Icon: BoldIcon, label: 'Bold' },
+                { Icon: ItalicIcon, label: 'Italic' },
+                { Icon: UnderlineIcon, label: 'Underline' },
+                { Icon: ListIcon, label: 'Bulleted list' }].
+                map(({ Icon, label }) =>
                 <button
-                  key={i}
+                  key={label}
                   type="button"
+                  aria-label={label}
+                  title={label}
                   className="flex h-7 w-7 items-center justify-center rounded-md text-muted hover:bg-white hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
 
                     <Icon className="h-3.5 w-3.5" strokeWidth={1.75} />

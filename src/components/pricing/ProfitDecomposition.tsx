@@ -22,11 +22,15 @@ import {
   topDrags,
   topDrivers } from
 '../../data/profitDecomposition';
+import { useTheme } from '../../contexts/ThemeContext';
+import { themeColors } from '../../utils/theme';
 
 type Mode = 'Annual' | 'Cumulative' | 'Waterfall';
 
 export function ProfitDecomposition(): JSX.Element {
   const [mode, setMode] = useState<Mode>('Annual');
+  const { theme } = useTheme();
+  const primary = themeColors[theme].primary;
 
   const byKey = Object.fromEntries(
     decompositionComponents.map((c) => [c.key, c])
@@ -188,7 +192,7 @@ export function ProfitDecomposition(): JSX.Element {
               <Line
               type="monotone"
               dataKey="net"
-              stroke="#1D4ED8"
+              stroke={primary}
               strokeWidth={2}
               dot={false} />
             

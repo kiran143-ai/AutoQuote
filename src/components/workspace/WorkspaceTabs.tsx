@@ -45,7 +45,7 @@ export function WorkspaceTabs({ quote }: {quote: QuoteCase;}): JSX.Element {
           }
             {tab.primary && hasPricingIssue(quote) &&
           <AlertTriangleIcon
-            className="h-3.5 w-3.5 text-warning"
+            className="h-3.5 w-3.5 text-[#92400E]"
             strokeWidth={2}
             aria-label="Pricing has a pending issue" />
 

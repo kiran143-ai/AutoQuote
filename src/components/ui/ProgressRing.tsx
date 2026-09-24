@@ -3,7 +3,7 @@ import React from 'react';
 export function ProgressRing({
   value,
   size = 48,
-  tone = '#F59E0B'
+  tone = '#F0A500'
 
 
 

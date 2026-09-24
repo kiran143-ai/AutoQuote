@@ -92,10 +92,10 @@ export function NewQuotePage(): JSX.Element {
           <div className="flex items-start gap-3">
             <CheckIcon className="mt-0.5 h-5 w-5 shrink-0 text-success" strokeWidth={2} />
             <div className="flex-1">
-              <p className="text-sm font-semibold text-success">
+              <p className="text-sm font-semibold text-[#15803D]">
                 Cloned from <span className="font-bold">{sourceCase.name}</span>
               </p>
-              <p className="mt-1 text-sm text-success/90">
+              <p className="mt-1 text-sm text-[#15803D]">
                 Configuration and census pre-loaded. Just update the client details and client name to get started.
               </p>
             </div>

@@ -23,9 +23,9 @@ export default {content: [
         muted: '#6B7280',
         canvas: '#F1F3F5',
         line: '#E5E7EB',
-        success: { DEFAULT: '#16A34A', tint: '#ECFDF3' },
-        warning: { DEFAULT: '#F59E0B', tint: '#FFFBEB' },
-        danger: { DEFAULT: '#DC2626', tint: '#FEF2F2' },
+        success: { DEFAULT: '#28A745', tint: '#F2FAF4' },
+        warning: { DEFAULT: '#F0A500', tint: '#FEFAF0' },
+        danger: { DEFAULT: '#DC3545', tint: '#FDF3F4' },
         info: { DEFAULT: '#0EA5E9', tint: '#EFF6FF' },
       },
       fontFamily: {
