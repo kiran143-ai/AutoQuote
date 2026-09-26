@@ -2,15 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
+import { StatusBadge } from '../components/ui/StatusBadge';
 import {
+  AlertCircleIcon,
   AlertTriangleIcon,
   BoldIcon,
   CalendarIcon,
+  CheckCircleIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ClipboardIcon,
+  ClockIcon,
   CommandIcon,
   FileIcon,
   FilterIcon,
@@ -18,15 +22,18 @@ import {
   InboxIcon,
   InfoIcon,
   ItalicIcon,
+  LayoutTemplateIcon,
   ListIcon,
   Loader2Icon,
   MoreVerticalIcon,
   PaletteIcon,
   SearchIcon,
+  TargetIcon,
   TrophyIcon,
   UnderlineIcon,
   UploadIcon,
   UserIcon,
+  WalletIcon,
   XIcon,
   ZapIcon } from
 'lucide-react';
@@ -150,6 +157,39 @@ function TypeRow({
     </div>);
 
 }
+
+function DemoField({
+  label,
+  required = false,
+  value,
+  onChange,
+  placeholder
+}: {label: string;required?: boolean;value: string;onChange: (v: string) => void;placeholder?: string;}): JSX.Element {
+  const id = `ds-field-${label.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`;
+  return (
+    <div className="flex flex-col">
+      <label htmlFor={id} className="mb-1 text-xs text-muted">
+        {label}
+        {required && <span className="ml-1 font-semibold text-danger">*</span>}
+      </label>
+      <input
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="h-9 rounded-md border border-line bg-white px-2.5 text-sm text-ink placeholder:text-muted/80 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+
+    </div>);
+
+}
+
+const demoApprovalSteps = [
+'Actuary Review',
+'Actuary Lead Review',
+'Manager Review',
+'SLT Lead Review',
+'Approved'];
+
 
 // ---------------------------------------------------------------------------
 // AWS Quick App prompts
@@ -279,7 +319,20 @@ Date picker: a text input with a small #6B7280 calendar icon on the left side, n
 
     cards: `Card container: white (#FFFFFF) background, 10px corner radius, 1px border #E5E7EB, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title (#111827) and small meta text (#6B7280) beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (${c.primary} for emphasis, #F0A500 for warning, #DC3545 for danger) to flag the card's status at a glance.`,
 
-    layout: `Page layout: background #F1F3F5 (canvas) for the whole app, with white (#FFFFFF) rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar (${c.nav} background) + top bar (white #FFFFFF) shell around all pages.`
+    layout: `Page layout: background #F1F3F5 (canvas) for the whole app, with white (#FFFFFF) rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar (${c.nav} background) + top bar (white #FFFFFF) shell around all pages.`,
+
+    dashboardKpiCards: `Dashboard KPI card row: 3 equal-width cards side by side, each white (#FFFFFF) background, 10px corner radius, 1px border #E5E7EB, soft shadow, with a 2px ${c.primary} top border strip. Each card has: an 11px bold uppercase label in #6B7280 top-left, a large 34px bold number in #111827 below it, a small caption line in #6B7280 beneath the number, and a 20px line icon in #6B7280 in the top-right corner. Example content: "Total Premium in Pipeline" → "$250M" → "Across active quotes" (wallet icon); "Avg. MVP %" → "3.45%" → "Target 3.23%" (target icon); "Pending Actions" → "2" → "Actions awaiting review" (alert-circle icon).`,
+
+    newQuoteCaseDetails: `Case Details form section for a "New Quote" page: a card with a 2px ${c.primary} top border, header row with the title "Case details" on the left and a "Browse Templates" outline button (${c.primary} border/text, white #FFFFFF background) on the right.
+Body: a 2-column responsive grid of labeled text fields (12px label in #6B7280 above a 36px input, border #E5E7EB, focus border ${c.primary}) — "Case Name" (required, red #DC3545 asterisk after the label), "Client", "Producer", and a nested 2-column row of "Situs State" (text) and "Due Date" (native date input).
+Below the grid, a "Product" fieldset (label with a required red asterisk) showing 2 selectable option tiles side by side: each tile is a rounded-md bordered button with a product name; the selected tile has a ${c.primary} border, ${c.primaryTint} background, ${c.primary} text, and a small checkmark icon on the right, while unselected tiles are white (#FFFFFF) background with a #E5E7EB border and #111827 text.`,
+
+    newQuoteCensusSelector: `Census selection section for a "New Quote" page: a card titled "Census" with a 2px ${c.primary} top border. Inside, a top row has a search input (with a #6B7280 search icon inside on the left, placeholder "Search census files, uploaded by, or date...", border #E5E7EB, focus border ${c.primary}) taking most of the width, plus an "Upload New Census" outline button (${c.primary} border/text) on the right.
+Below, a bordered list of existing census files: each row is a clickable radio option with a radio input on the left, the file name in bold 14px #111827, and a line of small #6B7280 metadata below it (employee count, upload date, uploaded-by name) separated by bullets. Rows are divided by 1px #E5E7EB lines, the selected row gets a ${c.primaryTint} background, and a chevron-right icon (#6B7280) sits on the far right of each row.`,
+
+    workspaceCaseHeader: `Case workspace header block: a white (#FFFFFF) card with a 1px #E5E7EB border and soft shadow. Top row: a large 22px bold case name (#111827), a small status pill badge next to it (e.g. "Quoted" in ${c.primaryTint} background with ${c.primary} text), and a muted "Round 3" label (#6B7280). Below that, one line of muted (#6B7280) summary text (client, product, lives, state, premium, producer separated by middot). Below that, a horizontal row of inline metric pairs — each is a small uppercase 11px label in #6B7280 above/beside a bold 18px tabular-figure value (colors vary: #15803D for a positive "MVP" value, #111827 for neutral values like "Break-even", #DC3545 for a negative "Strain" value). At the bottom, a row of small pill "check chips" summarizing validation status — passed items show a green (#28A745) checkmark with #F2FAF4 background and #15803D text, not-applicable items show a gray dash with #F1F3F5 background and #6B7280 text.`,
+
+    workspaceApprovalStepper: `Multi-level approval workflow stepper card: outer card has a light ${c.primaryTint} background with a 2px ${c.primary} border, a small checkmark icon plus bold ${c.primary} title "Approval Workflow" and a muted ${c.primary} (80% opacity) subtitle "Submit for multi-level approval". Inside, a white (#FFFFFF) inner panel contains a horizontal 5-step progress row: each step is a 32px circle connected by thin horizontal lines to its neighbors (line color #28A745 for completed segments, #E5E7EB for upcoming ones, drawn so it appears to run behind the circles). Circle states: completed = solid #28A745 fill with a white checkmark icon; current = white fill with a 2px ${c.primary} border and a ${c.primary} clock icon; upcoming = white fill with a 1px #E5E7EB border and a gray (#6B7280) step number. Below each circle, a short step label (13px) — the current step's label is bold and colored ${c.primary}, completed labels are #111827, upcoming labels are #6B7280. Example steps: Actuary Review → Actuary Lead Review → Manager Review → SLT Lead Review → Approved.`
   };
 }
 
@@ -318,7 +371,12 @@ const sections: Section[] = [
 { id: 'table-pagination', label: 'Table & Pagination' },
 { id: 'treeview', label: 'Treeview' },
 { id: 'cards', label: 'Cards' },
-{ id: 'layout', label: 'Layout' }];
+{ id: 'layout', label: 'Layout' },
+{ id: 'dashboard-kpi-cards', label: 'Dashboard: KPI Cards' },
+{ id: 'newquote-case-details', label: 'New Quote: Case Details' },
+{ id: 'newquote-census-selector', label: 'New Quote: Census Selector' },
+{ id: 'workspace-case-header', label: 'Workspace: Case Header' },
+{ id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' }];
 
 
 function SectionAnchor({ id, children }: {id: string;children: React.ReactNode;}): JSX.Element {
@@ -957,6 +1015,12 @@ export function DesignSystemPage(): JSX.Element {
   const [selectedNode, setSelectedNode] = useState('avme');
   const [filterMine, setFilterMine] = useState(false);
   const [activeFilters, setActiveFilters] = useState(['Status: Quoted', 'Product: EPPVUL']);
+  const [demoCaseName, setDemoCaseName] = useState('Regional Bank BOLI 2026');
+  const [demoClient, setDemoClient] = useState('Regional Bank');
+  const [demoProducer, setDemoProducer] = useState('');
+  const [demoSitus, setDemoSitus] = useState('DE');
+  const [demoProduct, setDemoProduct] = useState('EPPVUL AVME');
+  const [demoCensusFile, setDemoCensusFile] = useState('NYL_Census_Q2_2024.xlsx');
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
@@ -1492,6 +1556,234 @@ export function DesignSystemPage(): JSX.Element {
               </div>
             </div>
             <PromptBlock text={prompts.layout} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="dashboard-kpi-cards">
+          <Card accent="primary" title="Dashboard: KPI Cards" meta="Top-of-page metric row from the Dashboard">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+              <Card accent="primary">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">Total Premium in Pipeline</p>
+                    <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">$250M</p>
+                    <p className="mt-1 text-xs text-muted tnum">Across active quotes</p>
+                  </div>
+                  <WalletIcon className="h-5 w-5 text-muted" strokeWidth={1.75} aria-hidden="true" />
+                </div>
+              </Card>
+              <Card accent="primary">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">Avg. MVP %</p>
+                    <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">3.45%</p>
+                    <p className="mt-1 text-xs text-muted tnum">Target 3.23%</p>
+                  </div>
+                  <TargetIcon className="h-5 w-5 text-muted" strokeWidth={1.75} aria-hidden="true" />
+                </div>
+              </Card>
+              <Card accent="primary">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">Pending Actions</p>
+                    <p className="mt-2 text-[34px] font-bold leading-9 text-ink tnum">2</p>
+                    <p className="mt-1 text-xs text-muted">Actions awaiting review</p>
+                  </div>
+                  <AlertCircleIcon className="h-5 w-5 text-muted" strokeWidth={1.75} aria-hidden="true" />
+                </div>
+              </Card>
+            </div>
+            <PromptBlock text={prompts.dashboardKpiCards} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="newquote-case-details">
+          <Card accent="primary" title="New Quote: Case Details Section" meta="Case details card, exactly as it appears on the New Quote form">
+            <Card
+              accent="primary"
+              title="Case details"
+              action={
+              <Button variant="outline" size="sm" icon={<LayoutTemplateIcon className="h-4 w-4" strokeWidth={1.75} />}>
+                  Browse Templates
+                </Button>
+              }>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <DemoField label="Case Name" required value={demoCaseName} onChange={setDemoCaseName} placeholder="e.g. Regional Bank BOLI 2026" />
+                <DemoField label="Client" value={demoClient} onChange={setDemoClient} placeholder="e.g. Regional Bank" />
+                <DemoField label="Producer" value={demoProducer} onChange={setDemoProducer} placeholder="e.g. Goldman Sachs" />
+                <div className="grid grid-cols-2 gap-4">
+                  <DemoField label="Situs State" value={demoSitus} onChange={setDemoSitus} placeholder="DE" />
+                  <div className="flex flex-col">
+                    <label htmlFor="ds-due-date" className="mb-1 text-xs text-muted">Due Date</label>
+                    <input id="ds-due-date" type="date" className="h-9 rounded-md border border-line bg-white px-2.5 text-sm text-ink tnum focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                  </div>
+                </div>
+              </div>
+              <fieldset className="mt-5">
+                <legend className="mb-2 text-xs text-muted">Product <span className="font-semibold text-danger">*</span></legend>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {['EPPVUL AVME', 'EPPVUL PBME'].map((p) => {
+                  const active = demoProduct === p;
+                  return (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setDemoProduct(p)}
+                      aria-pressed={active}
+                      className={`flex items-center justify-between rounded-md border px-3.5 py-3 text-left text-[13px] font-medium transition-colors duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                      active ? 'border-primary bg-primary-tint text-primary' : 'border-line bg-white text-ink hover:bg-canvas'}`
+                      }>
+
+                        {p}
+                        {active && <CheckIcon className="h-4 w-4" strokeWidth={2} aria-hidden="true" />}
+                      </button>);
+
+                })}
+                </div>
+              </fieldset>
+            </Card>
+            <PromptBlock text={prompts.newQuoteCaseDetails} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="newquote-census-selector">
+          <Card accent="primary" title="New Quote: Census Selector" meta="Census section, exactly as it appears on the New Quote form">
+            <Card accent="primary" title="Census">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="relative flex-1">
+                    <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" strokeWidth={1.75} aria-hidden="true" />
+                    <input placeholder="Search census files, uploaded by, or date..." className="h-10 w-full rounded-md border border-line bg-white pl-9 pr-3 text-sm text-ink placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                  </div>
+                  <Button variant="outline" icon={<UploadIcon className="h-4 w-4" strokeWidth={1.75} />}>
+                    Upload New Census
+                  </Button>
+                </div>
+                <div className="space-y-2 rounded-md border border-line">
+                  {[
+                  { name: 'NYL_Census_Q2_2024.xlsx', emp: 1310, date: 'Sep 12, 2024', by: 'David Chen' },
+                  { name: 'Census_Enterprise_Updated.xlsx', emp: 1420, date: 'Sep 5, 2024', by: 'John Smith' }].
+                  map((f) =>
+                  <label
+                    key={f.name}
+                    className={`flex cursor-pointer items-start gap-3 border-b border-line px-4 py-3 transition-colors last:border-0 hover:bg-canvas ${demoCensusFile === f.name ? 'bg-primary-tint' : ''}`}>
+
+                      <input type="radio" name="ds-census" checked={demoCensusFile === f.name} onChange={() => setDemoCensusFile(f.name)} className="mt-1 h-4 w-4 accent-primary" />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-ink">{f.name}</p>
+                        <div className="mt-1 flex flex-wrap gap-4 text-xs text-muted">
+                          <span>{f.emp.toLocaleString()} employees</span>
+                          <span>{f.date}</span>
+                          <span>By {f.by}</span>
+                        </div>
+                      </div>
+                      <ChevronRightIcon className="mt-1 h-4 w-4 text-muted" strokeWidth={1.75} />
+                    </label>
+                  )}
+                </div>
+              </div>
+            </Card>
+            <PromptBlock text={prompts.newQuoteCensusSelector} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="workspace-case-header">
+          <Card accent="primary" title="Workspace: Case Header" meta="Sticky case summary shown at the top of every workspace tab">
+            <div className="rounded-card border border-line bg-white p-5 shadow-card">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h2 className="text-[22px] font-bold leading-7 tracking-[-0.01em] text-ink">US Bank_01</h2>
+                <StatusBadge status="Quoted" />
+                <span className="text-xs text-muted tnum">Round 3</span>
+              </div>
+              <p className="mt-1 text-[13px] text-muted">US Bank_Steve · EPPVUL AVME · 30 lives · DE · $5M · Goldman</p>
+              <dl className="mt-3 flex flex-wrap items-baseline gap-x-8 gap-y-2">
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-micro font-medium uppercase tracking-[0.06em] text-muted">MVP</dt>
+                  <dd className="text-lg font-semibold tnum text-[#15803D]">3.25%</dd>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-micro font-medium uppercase tracking-[0.06em] text-muted">Break-even</dt>
+                  <dd className="text-lg font-semibold tnum text-ink">Mo 197</dd>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-micro font-medium uppercase tracking-[0.06em] text-muted">Strain</dt>
+                  <dd className="text-lg font-semibold tnum text-danger">−109.2%</dd>
+                </div>
+              </dl>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[
+                { label: 'Input ranges', state: 'pass' },
+                { label: 'Underwriting', state: 'pass' },
+                { label: 'Reconciliation', state: 'na' }].
+                map((chip) =>
+                <span
+                  key={chip.label}
+                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${
+                  chip.state === 'pass' ? 'border-success/40 bg-success-tint text-[#15803D]' : 'border-line bg-canvas text-muted'}`
+                  }>
+
+                    {chip.state === 'pass' ?
+                  <CheckIcon className="h-3 w-3" strokeWidth={2.5} aria-hidden="true" /> :
+
+                  <span aria-hidden="true">—</span>
+                  }
+                    {chip.label}
+                  </span>
+                )}
+              </div>
+            </div>
+            <PromptBlock text={prompts.workspaceCaseHeader} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="workspace-approval-stepper">
+          <Card accent="primary" title="Workspace: Approval Workflow Stepper" meta="5-step multi-level approval card from the Evidence tab">
+            <div className="rounded-lg border-2 border-primary bg-primary-tint p-5">
+              <div className="flex items-center gap-2">
+                <CheckCircleIcon className="h-5 w-5 text-primary" strokeWidth={2} aria-hidden="true" />
+                <div>
+                  <h2 className="text-[15px] font-bold text-primary">Approval Workflow</h2>
+                  <p className="text-xs text-primary/80">Submit for multi-level approval</p>
+                </div>
+              </div>
+              <div className="mt-4 rounded-card border border-line bg-white p-4">
+                <div className="relative">
+                  {demoApprovalSteps.slice(0, -1).map((_, i) => {
+                  const leftPct = (i + 0.5) / demoApprovalSteps.length * 100;
+                  const widthPct = 1 / demoApprovalSteps.length * 100;
+                  return (
+                    <div
+                      key={i}
+                      aria-hidden="true"
+                      className="absolute top-4 h-0.5 bg-line"
+                      style={{ left: `${leftPct}%`, width: `${widthPct}%` }} />);
+
+                })}
+                  <div className="relative flex items-start justify-between">
+                    {demoApprovalSteps.map((label, idx) =>
+                    <div key={label} className="flex flex-1 flex-col items-center">
+                        <div className="mb-2 flex items-center justify-center">
+                          {idx === 0 ?
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary bg-primary-tint">
+                              <ClockIcon className="h-4 w-4 text-primary" strokeWidth={2} />
+                            </div> :
+
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-line bg-white">
+                              <span className="text-xs font-semibold text-muted">{idx + 1}</span>
+                            </div>
+                        }
+                        </div>
+                        <p className={`max-w-[110px] text-center text-xs ${idx === 0 ? 'font-semibold text-primary' : 'font-medium text-muted'}`}>
+                          {label}
+                        </p>
+                      </div>
+                  )}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <PromptBlock text={prompts.workspaceApprovalStepper} />
           </Card>
         </SectionAnchor>
       </div>
