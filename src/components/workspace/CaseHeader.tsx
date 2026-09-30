@@ -9,7 +9,11 @@ import { premiumShort, signedPct } from '../../utils/format';
 import { useCaseStore } from '../../contexts/CaseStore';
 import type { QuoteCase } from '../../types';
 
-export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
+export function CaseHeader({
+  quote,
+  version,
+  onVersionChange
+}: {quote: QuoteCase;version?: 'v1' | 'v2';onVersionChange?: (v: 'v1' | 'v2') => void;}): JSX.Element {
   const { runPricing, newRound, advanceApproval } = useCaseStore();
   const location = useLocation();
   const isEvidenceTab = location.pathname.endsWith('/evidence');
@@ -18,13 +22,32 @@ export function CaseHeader({ quote }: {quote: QuoteCase;}): JSX.Element {
   return (
     <div className="border-b border-line bg-white">
       <div className="mx-auto max-w-[1440px] px-6 pb-4 pt-4">
-        <Link
-          to="/quotes"
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <div className="flex items-center justify-between gap-3">
+          <Link
+            to="/quotes"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
 
-          <ArrowLeftIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-          Quotes
-        </Link>
+            <ArrowLeftIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+            Quotes
+          </Link>
+
+          {version && onVersionChange &&
+          <div className="flex items-center gap-1.5">
+              <label htmlFor="workflow-version" className="text-micro font-medium text-muted">
+                Workflow Version
+              </label>
+              <select
+              id="workflow-version"
+              value={version}
+              onChange={(e) => onVersionChange(e.target.value as 'v1' | 'v2')}
+              className="h-7 rounded-md border border-line bg-white px-2 text-xs text-ink focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+
+                <option value="v1">Version 1 — Current Workflow</option>
+                <option value="v2">Version 2 — Simplified Workflow</option>
+              </select>
+            </div>
+          }
+        </div>
 
         <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">

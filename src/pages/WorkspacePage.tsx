@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Navigate, Outlet, useParams } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { CaseHeader } from '../components/workspace/CaseHeader';
 import { WorkspaceTabs } from '../components/workspace/WorkspaceTabs';
+import { WorkspaceTabsV2 } from '../components/workspace/WorkspaceTabsV2';
 import { useCaseStore } from '../contexts/CaseStore';
+
+type WorkflowVersion = 'v1' | 'v2';
 
 export function WorkspacePage(): JSX.Element {
   const { caseId } = useParams<{caseId: string;}>();
   const { getCase } = useCaseStore();
   const quote = caseId ? getCase(caseId) : undefined;
+  const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
+  const [version, setVersion] = useState<WorkflowVersion>('v1');
 
   useEffect(() => {
     const headerEl = headerRef.current;
@@ -26,12 +31,21 @@ export function WorkspacePage(): JSX.Element {
 
   if (!quote) return <Navigate to="/quotes" replace />;
 
+  const onVersionChange = (v: WorkflowVersion) => {
+    setVersion(v);
+    navigate(`/quotes/${quote.id}/overview`);
+  };
+
   return (
     <div className="flex flex-col bg-canvas">
       <div ref={headerRef}>
-        <CaseHeader quote={quote} />
+        <CaseHeader quote={quote} version={version} onVersionChange={onVersionChange} />
       </div>
-      <WorkspaceTabs quote={quote} showStickyReview={scrolledPastHeader} />
+      {version === 'v1' ?
+      <WorkspaceTabs quote={quote} showStickyReview={scrolledPastHeader} /> :
+
+      <WorkspaceTabsV2 quote={quote} showStickyReview={scrolledPastHeader} />
+      }
       <div className="mx-auto w-full max-w-[1440px] p-6">
         <Outlet context={quote} />
       </div>

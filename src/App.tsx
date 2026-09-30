@@ -19,6 +19,8 @@ import { IllustrationTab } from './pages/workspace/IllustrationTab';
 import { RoundsTab } from './pages/workspace/RoundsTab';
 import { HistoryTab } from './pages/workspace/HistoryTab';
 import { EvidenceTab } from './pages/workspace/EvidenceTab';
+import { PricingInputsPanel } from './pages/workspace/v2/PricingInputsPanel';
+import { PricingResultsPanel } from './pages/workspace/v2/PricingResultsPanel';
 
 export function App(): JSX.Element {
   return (
@@ -42,6 +44,8 @@ export function App(): JSX.Element {
                 <Route path="rounds" element={<RoundsTab />} />
                 <Route path="history" element={<HistoryTab />} />
                 <Route path="evidence" element={<EvidenceTab />} />
+                <Route path="v2/pricing-inputs" element={<PricingInputsPanel />} />
+                <Route path="v2/pricing-results" element={<PricingResultsPanel />} />
               </Route>
 
             <Route
