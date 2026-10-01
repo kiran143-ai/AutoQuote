@@ -73,7 +73,8 @@ export function NewQuotePage(): JSX.Element {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => navigate('/quotes/new/what-if')}
+            disabled
+            title="Coming in a later phase"
             icon={<TrendingUpIcon className="h-4 w-4" strokeWidth={1.75} />}>
             What-If
           </Button>
