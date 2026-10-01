@@ -6,6 +6,7 @@ import { StatusBadge } from '../components/ui/StatusBadge';
 import {
   AlertCircleIcon,
   AlertTriangleIcon,
+  ArrowLeftIcon,
   BoldIcon,
   CalendarIcon,
   CheckCircleIcon,
@@ -332,7 +333,11 @@ Below, a bordered list of existing census files: each row is a clickable radio o
 
     workspaceCaseHeader: `Case workspace header block: a white (#FFFFFF) card with a 1px #E5E7EB border and soft shadow. Top row: a large 22px bold case name (#111827), a small status pill badge next to it (e.g. "Quoted" in ${c.primaryTint} background with ${c.primary} text), and a muted "Round 3" label (#6B7280). Below that, one line of muted (#6B7280) summary text (client, product, lives, state, premium, producer separated by middot). Below that, a horizontal row of inline metric pairs — each is a small uppercase 11px label in #6B7280 above/beside a bold 18px tabular-figure value (colors vary: #15803D for a positive "MVP" value, #111827 for neutral values like "Break-even", #DC3545 for a negative "Strain" value). At the bottom, a row of small pill "check chips" summarizing validation status — passed items show a green (#28A745) checkmark with #F2FAF4 background and #15803D text, not-applicable items show a gray dash with #F1F3F5 background and #6B7280 text.`,
 
-    workspaceApprovalStepper: `Multi-level approval workflow stepper card: outer card has a light ${c.primaryTint} background with a 2px ${c.primary} border, a small checkmark icon plus bold ${c.primary} title "Approval Workflow" and a muted ${c.primary} (80% opacity) subtitle "Submit for multi-level approval". Inside, a white (#FFFFFF) inner panel contains a horizontal 5-step progress row: each step is a 32px circle connected by thin horizontal lines to its neighbors (line color #28A745 for completed segments, #E5E7EB for upcoming ones, drawn so it appears to run behind the circles). Circle states: completed = solid #28A745 fill with a white checkmark icon; current = white fill with a 2px ${c.primary} border and a ${c.primary} clock icon; upcoming = white fill with a 1px #E5E7EB border and a gray (#6B7280) step number. Below each circle, a short step label (13px) — the current step's label is bold and colored ${c.primary}, completed labels are #111827, upcoming labels are #6B7280. Example steps: Actuary Review → Actuary Lead Review → Manager Review → SLT Lead Review → Approved.`
+    workspaceApprovalStepper: `Multi-level approval workflow stepper card: outer card has a light ${c.primaryTint} background with a 2px ${c.primary} border, a small checkmark icon plus bold ${c.primary} title "Approval Workflow" and a muted ${c.primary} (80% opacity) subtitle "Submit for multi-level approval". Inside, a white (#FFFFFF) inner panel contains a horizontal 5-step progress row: each step is a 32px circle connected by thin horizontal lines to its neighbors (line color #28A745 for completed segments, #E5E7EB for upcoming ones, drawn so it appears to run behind the circles). Circle states: completed = solid #28A745 fill with a white checkmark icon; current = white fill with a 2px ${c.primary} border and a ${c.primary} clock icon; upcoming = white fill with a 1px #E5E7EB border and a gray (#6B7280) step number. Below each circle, a short step label (13px) — the current step's label is bold and colored ${c.primary}, completed labels are #111827, upcoming labels are #6B7280. Example steps: Actuary Review → Actuary Lead Review → Manager Review → SLT Lead Review → Approved.`,
+
+    backButton: `Two back-navigation patterns.
+Ghost back button: used at the top of a page/form to return to a parent list. Transparent background, ${c.primary} text, a left-chevron icon (16px) followed by a label like "All Quotes" or "Back to Quote Form", 13px medium font, fills ${c.primaryTint} on hover, 32px tall with tight horizontal padding so it sits flush with the page edge. Shows a 2px ${c.primary} focus ring when tabbed to.
+Inline back link: used inside a case/record header to return to its list view. Plain text link (no button background), ${c.primary} color, a left-arrow icon (14px) followed by a short label like "Quotes", 12px medium font, underlines on hover.`
   };
 }
 
@@ -376,7 +381,8 @@ const sections: Section[] = [
 { id: 'newquote-case-details', label: 'New Quote: Case Details' },
 { id: 'newquote-census-selector', label: 'New Quote: Census Selector' },
 { id: 'workspace-case-header', label: 'Workspace: Case Header' },
-{ id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' }];
+{ id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' },
+{ id: 'back-button', label: 'Back Button' }];
 
 
 function SectionAnchor({ id, children }: {id: string;children: React.ReactNode;}): JSX.Element {
@@ -1784,6 +1790,27 @@ export function DesignSystemPage(): JSX.Element {
               </div>
             </div>
             <PromptBlock text={prompts.workspaceApprovalStepper} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="back-button">
+          <Card accent="primary" title="Back Button" meta="Two patterns used for back navigation across the app">
+            <div className="space-y-5">
+              <div>
+                <p className="mb-2 text-micro font-semibold uppercase tracking-[0.06em] text-muted">Ghost back button — top of a page/form</p>
+                <Button variant="ghost" size="sm" icon={<ChevronLeftIcon className="h-4 w-4" strokeWidth={1.75} />}>
+                  All Quotes
+                </Button>
+              </div>
+              <div>
+                <p className="mb-2 text-micro font-semibold uppercase tracking-[0.06em] text-muted">Inline back link — case/record header</p>
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline">
+                  <ArrowLeftIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+                  Quotes
+                </span>
+              </div>
+            </div>
+            <PromptBlock text={prompts.backButton} />
           </Card>
         </SectionAnchor>
       </div>
