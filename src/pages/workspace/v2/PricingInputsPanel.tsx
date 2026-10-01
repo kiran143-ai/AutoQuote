@@ -7,8 +7,8 @@ export function PricingInputsPanel(): JSX.Element {
   const quote = useWorkspaceCase();
   return (
     <div className="space-y-5">
-      <CalibratePanel quote={quote} />
       <CaseInputsPanel quote={quote} />
+      <CalibratePanel quote={quote} />
     </div>);
 
 }
