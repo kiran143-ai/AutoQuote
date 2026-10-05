@@ -13,6 +13,7 @@ import { Button } from '../../components/ui/Button';
 import { ProgressRing } from '../../components/ui/ProgressRing';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { useCaseStore } from '../../contexts/CaseStore';
+import { useWorkflowVersion } from '../../contexts/WorkflowVersionContext';
 import { readinessSummary } from '../../utils/caseDerived';
 import { productLabel } from '../../data/products';
 import { currency } from '../../utils/format';
@@ -21,6 +22,11 @@ export function OverviewTab(): JSX.Element {
   const quote = useWorkspaceCase();
   const { runPricing, markLost } = useCaseStore();
   const navigate = useNavigate();
+  const isV2 = useWorkflowVersion() === 'v2';
+  const runAndOpenPricing = () => {
+    runPricing(quote.id);
+    navigate(`/quotes/${quote.id}/${isV2 ? 'v2/pricing-results' : 'pricing'}`);
+  };
   const summary = readinessSummary(quote);
 
   return (
@@ -77,7 +83,7 @@ export function OverviewTab(): JSX.Element {
               <Button
               variant="primary"
               className="mt-3"
-              onClick={() => runPricing(quote.id)}
+              onClick={runAndOpenPricing}
               icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
               
                 Run Pricing Now
@@ -98,7 +104,7 @@ export function OverviewTab(): JSX.Element {
               size="sm"
               variant="secondary"
               className="ml-auto"
-              onClick={() => navigate(`/quotes/${quote.id}/pricing`)}>
+              onClick={() => navigate(`/quotes/${quote.id}/${isV2 ? 'v2/pricing-results' : 'pricing'}`)}>
               
                 Open Pricing
               </Button>
@@ -118,7 +124,7 @@ export function OverviewTab(): JSX.Element {
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => runPricing(quote.id)}
+              onClick={runAndOpenPricing}
               icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
               
                 Run Pricing Now

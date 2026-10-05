@@ -4,6 +4,7 @@ import { CaseHeader } from '../components/workspace/CaseHeader';
 import { WorkspaceTabs } from '../components/workspace/WorkspaceTabs';
 import { WorkspaceTabsV2 } from '../components/workspace/WorkspaceTabsV2';
 import { useCaseStore } from '../contexts/CaseStore';
+import { WorkflowVersionContext } from '../contexts/WorkflowVersionContext';
 
 type WorkflowVersion = 'v1' | 'v2';
 
@@ -37,6 +38,7 @@ export function WorkspacePage(): JSX.Element {
   };
 
   return (
+    <WorkflowVersionContext.Provider value={version}>
     <div className="flex flex-col bg-canvas">
       <div ref={headerRef}>
         <CaseHeader quote={quote} version={version} onVersionChange={onVersionChange} />
@@ -49,6 +51,7 @@ export function WorkspacePage(): JSX.Element {
       <div className="mx-auto w-full max-w-[1440px] p-6">
         <Outlet context={quote} />
       </div>
-    </div>);
+    </div>
+    </WorkflowVersionContext.Provider>);
 
 }
