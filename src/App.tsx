@@ -9,6 +9,7 @@ import { NewQuotePage } from './pages/NewQuotePage';
 import { WhatIfPage } from './pages/WhatIfPage';
 import { GoalSeekPage } from './pages/GoalSeekPage';
 import { DesignSystemPage } from './pages/DesignSystemPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OverviewTab } from './pages/workspace/OverviewTab';
@@ -48,15 +49,7 @@ export function App(): JSX.Element {
                 <Route path="v2/pricing-results" element={<PricingResultsPanel />} />
               </Route>
 
-            <Route
-              path="/analytics"
-              element={
-              <PlaceholderPage
-                title="Analytics"
-                subtitle="Portfolio-level pricing analytics."
-                panels={['Pricing Trends', 'MVP Distribution', 'Round Activity']} />
-
-              } />
+            <Route path="/analytics" element={<AnalyticsPage />} />
             
             <Route
               path="/case-compare"
