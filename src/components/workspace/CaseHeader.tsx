@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, MailIcon, PlusIcon, RotateCwIcon } from 'lucide-react';
 import { StatusBadge } from '../ui/StatusBadge';
 import { CheckChip } from '../ui/CheckChip';
@@ -16,6 +16,13 @@ export function CaseHeader({
 }: {quote: QuoteCase;version?: 'v1' | 'v2';onVersionChange?: (v: 'v1' | 'v2') => void;}): JSX.Element {
   const { runPricing, newRound, advanceApproval } = useCaseStore();
   const location = useLocation();
+  const navigate = useNavigate();
+  const rerun = () => {
+    runPricing(quote.id);
+    if (location.pathname.endsWith('/v2/pricing-inputs')) {
+      navigate(`/quotes/${quote.id}/v2/pricing-results`);
+    }
+  };
   const isEvidenceTab = location.pathname.endsWith('/evidence');
   const m = quote.metrics;
 
@@ -68,7 +75,7 @@ export function CaseHeader({
           <div className="flex items-center gap-2">
             <Button
               variant="secondary"
-              onClick={() => runPricing(quote.id)}
+              onClick={rerun}
               icon={<RotateCwIcon className="h-4 w-4" strokeWidth={1.75} />}>
 
               Re-run
