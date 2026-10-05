@@ -122,7 +122,7 @@ export function OverviewTab(): JSX.Element {
             </Button>
             {quote.priced &&
             <Button
-              variant="secondary"
+              variant="primary"
               size="sm"
               onClick={runAndOpenPricing}
               icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
