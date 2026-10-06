@@ -17,6 +17,7 @@ import {
   ClipboardIcon,
   ClockIcon,
   CommandIcon,
+  DownloadIcon,
   FileIcon,
   FilterIcon,
   FolderIcon,
@@ -40,6 +41,7 @@ import {
 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { themeColors } from '../utils/theme';
+import designMd from '../../DESIGN.md?raw';
 
 // ---------------------------------------------------------------------------
 // Color swatches
@@ -196,8 +198,21 @@ const demoApprovalSteps = [
 // AWS Quick App prompts
 // ---------------------------------------------------------------------------
 
-function PromptBlock({ text }: {text: string;}): JSX.Element {
+function PromptBlock({
+  text,
+  label = 'Prompt for AWS Quick App',
+  downloadAs
+}: {text: string;label?: string;downloadAs?: string;}): JSX.Element {
   const [copied, setCopied] = useState(false);
+
+  const onDownload = () => {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/markdown' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = downloadAs ?? 'download.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const onCopy = async () => {
     try {
@@ -213,20 +228,32 @@ function PromptBlock({ text }: {text: string;}): JSX.Element {
     <div className="mt-4 rounded-md border border-line bg-canvas">
       <div className="flex items-center justify-between border-b border-line px-3 py-1.5">
         <span className="text-micro font-semibold uppercase tracking-[0.06em] text-muted">
-          Prompt for AWS Quick App
+          {label}
         </span>
-        <button
-          type="button"
-          onClick={onCopy}
-          className="flex items-center gap-1 text-micro font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <div className="flex items-center gap-3">
+          {downloadAs &&
+          <button
+            type="button"
+            onClick={onDownload}
+            className="flex items-center gap-1 text-micro font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
 
-          {copied ?
-          <CheckIcon className="h-3 w-3" strokeWidth={2} /> :
-
-          <ClipboardIcon className="h-3 w-3" strokeWidth={1.75} />
+              <DownloadIcon className="h-3 w-3" strokeWidth={1.75} />
+              Download
+            </button>
           }
-          {copied ? 'Copied' : 'Copy'}
-        </button>
+          <button
+            type="button"
+            onClick={onCopy}
+            className="flex items-center gap-1 text-micro font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+
+            {copied ?
+            <CheckIcon className="h-3 w-3" strokeWidth={2} /> :
+
+            <ClipboardIcon className="h-3 w-3" strokeWidth={1.75} />
+            }
+            {copied ? 'Copied' : 'Copy'}
+          </button>
+        </div>
       </div>
       <pre className="whitespace-pre-wrap px-3 py-2.5 font-mono text-micro leading-5 text-ink">{text}</pre>
     </div>);
@@ -382,7 +409,8 @@ const sections: Section[] = [
 { id: 'newquote-census-selector', label: 'New Quote: Census Selector' },
 { id: 'workspace-case-header', label: 'Workspace: Case Header' },
 { id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' },
-{ id: 'back-button', label: 'Back Button' }];
+{ id: 'back-button', label: 'Back Button' },
+{ id: 'design-md', label: 'DESIGN.md' }];
 
 
 function SectionAnchor({ id, children }: {id: string;children: React.ReactNode;}): JSX.Element {
@@ -1811,6 +1839,12 @@ export function DesignSystemPage(): JSX.Element {
               </div>
             </div>
             <PromptBlock text={prompts.backButton} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="design-md">
+          <Card accent="primary" title="DESIGN.md" meta="Written design guide for AutoQuote. Copy it or download it for docs, onboarding, or AI tools.">
+            <PromptBlock text={designMd} label="DESIGN.md" downloadAs="DESIGN.md" />
           </Card>
         </SectionAnchor>
       </div>
