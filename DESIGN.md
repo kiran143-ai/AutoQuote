@@ -1,37 +1,37 @@
 # AutoQuote Design System
 
-Design reference for the NYL AutoQuote Pricing Portal. A live version with interactive specimens and copyable AWS Quick App prompts is at `/design-system`. When the two disagree, the code in `tailwind.config.js`, `src/index.css` and `src/components/ui/` wins.
+Design guide for the NYL AutoQuote Pricing Portal, written to be implementation-agnostic so it can drive a build in AWS Quick App or any other tool. It describes how the product should look and behave, not how it is built. Interactive specimens and copyable Quick App prompts for each component are on the Design System page.
 
 ## 1. Principles
 
 - **Professional and precise.** This is a data-dense B2B pricing tool. Prefer clarity over decoration.
 - **Scannable first.** Labels are small and muted, values are large and bold, cards group related facts.
 - **One accent.** The primary blue marks action, selection and focus. Status colors mark state only.
-- **Accessible by default.** Visible focus rings, AA contrast, every control labelled, state never conveyed by color alone.
-- **Consistent surfaces.** White cards with a 2px primary top border on a light gray canvas.
+- **Accessible by default.** Visible focus indicators, AA contrast, every control labelled, state never conveyed by color alone.
+- **Consistent surfaces.** White cards with a 2px primary top border on a light gray page background.
 
 ## 2. Themes
 
-Two themes switch via the `data-theme` attribute on `<html>` (toggle in the top bar). Components use token classes (`bg-primary`, `text-nav-text`), never raw hex, so both themes work automatically. Tokens are CSS variables in `src/index.css`, mapped in `tailwind.config.js`, with a typed copy in `src/utils/theme.ts`.
+Two themes share the same layout and components and differ only in brand colors. Client is the default.
 
-| Token | Client (default) | Current |
+| Role | Client | Current |
 |---|---|---|
 | Primary | `#005991` | `#1D4ED8` |
 | Primary hover | `#00456F` | `#1A44BC` |
-| Primary tint | `#E6F4FB` | `#EFF6FF` |
-| Nav background | `#005991` | `#1F2937` |
-| Nav hover | `#0A6FA8` | `#374151` |
-| Nav text | `#D6E9F2` | `#9CA3AF` |
-| Nav active background | `#00A3E0` | `#1D4ED8` |
-| Nav active text | `#06283D` | `#FFFFFF` |
+| Primary tint (light backgrounds) | `#E6F4FB` | `#EFF6FF` |
+| Sidebar background | `#005991` | `#1F2937` |
+| Sidebar item hover | `#0A6FA8` | `#374151` |
+| Sidebar text | `#D6E9F2` | `#9CA3AF` |
+| Active sidebar item background | `#00A3E0` | `#1D4ED8` |
+| Active sidebar item text | `#06283D` | `#FFFFFF` |
 
-Client accent `#00A3E0` is reserved for the active sidebar item. Do not use it for button hover (white text on it fails contrast).
+The Client accent `#00A3E0` is reserved for the active sidebar item. Do not use it as a button hover color, because white text on it fails contrast.
 
 ## 3. Color
 
 Shared across both themes:
 
-| Token | Hex | Use |
+| Role | Hex | Use |
 |---|---|---|
 | Ink | `#111827` | Body and heading text |
 | Muted | `#6B7280` | Secondary and helper text |
@@ -47,14 +47,14 @@ NYL status palette:
 | Danger | `#DC3545` | `#FDF3F4` | `#B91C1C` |
 
 Rules:
-- Use the base color for borders, fills and large icons. Use the "readable text" shade for any text or small icon on a tint.
+- Use the base color for borders, fills and large icons. Use the "readable text" shade for text or small icons on a tint.
 - Warning base on white is 2.1:1. Never put white text on a solid warning fill, and use `#92400E` for warning icons.
 - Success base on white is 3.1:1. Fine for icons and fills, not for body text.
-- Chart series colors are a fixed categorical palette, except income/expense/claims and trend lines, which follow success/warning/danger and the theme primary.
+- Charts use a fixed categorical palette, except income, expense and claims series and trend lines, which follow success, warning, danger and the theme primary.
 
 ## 4. Typography
 
-Font: Inter, falling back to Segoe UI, system-ui, sans-serif. Numbers use tabular figures (`.tnum`) so columns align.
+Font: Inter, falling back to Segoe UI or the system font. Numbers use tabular figures so columns align.
 
 | Role | Size / weight |
 |---|---|
@@ -63,72 +63,62 @@ Font: Inter, falling back to Segoe UI, system-ui, sans-serif. Numbers use tabula
 | Body | 14px regular |
 | Buttons and secondary text | 13px medium |
 | Field labels and meta | 12px regular, muted |
-| Micro label / section tag | 11px semibold, uppercase, 0.06em tracking, muted |
+| Micro label / section tag | 11px semibold, uppercase, 0.06em letter-spacing, muted |
 | KPI number | 28 to 34px bold |
 
 ## 5. Shape, spacing, elevation
 
-- Card radius `10px`, controls `6px` (`rounded-md`), pills `rounded-full`.
+- Card corner radius 10px, controls 6px, pills fully rounded.
 - Card shadow `0 1px 3px rgba(0,0,0,0.08)`. Popovers and modals `0 8px 24px rgba(0,0,0,0.12)`.
-- Space between cards `20px`. Card padding `20px`. Page padding `24px`. Content max width `1440px`.
-- Control height `36px` (`h-9`), small `32px`.
+- Space between cards 20px. Card padding 20px. Page padding 24px. Content max width 1440px.
+- Control height 36px, small controls 32px.
 
 ## 6. Layout shell
 
-- Left sidebar `248px` (collapsible to `80px`), top bar `56px` with theme toggle, notifications and user.
-- Main content scrolls inside `<main>`. The body itself never scrolls.
-- Case workspace: case header, then a sticky tab strip, then single-column full-width cards. All tabs use the same card width.
+- Left sidebar 248px, collapsible to 80px. Top bar 56px with theme switch, notifications and user.
+- Only the main content area scrolls. The page frame stays fixed.
+- Case workspace: case header, then a sticky tab strip, then single-column full-width cards. Every tab uses the same card width.
 
 ## 7. Components
 
-Source files are in `src/components/ui/` unless noted.
+**Button.** Five variants: primary (solid primary, white text), secondary (white, gray border), outline (primary border and text on white), ghost (primary text, no border), danger (red text on white). Use one primary button per view for the main action. Disabled is 50% opacity.
 
-**Button** (`Button.tsx`): variants `primary`, `secondary`, `outline`, `ghost`, `danger`. Primary is solid primary with white text. Outline is a primary border and text on white. Danger is red text on white. Disabled is 50% opacity and not-allowed. Use primary for the single main action per view.
+**Card.** Optional title, meta line and right-aligned action. Content cards carry the 2px primary top border. Use a warning or danger top border only to flag state.
 
-**Card** (`Card.tsx`): optional `title`, `meta`, `action`. `accent="primary"` adds the 2px top border and is the default for content cards. Use `warning` or `danger` accents only to flag state.
+**Badges and chips.** Pills with a tinted background, the readable text shade and a 40% border. Used for case status, data readiness (HAVE, PARTIAL, BLOCKED) and validation (pass, pending).
 
-**Badges and chips**: `StatusBadge` for case status, `StatusChip` (`analytics/`) for HAVE / PARTIAL / BLOCKED, `CheckChip` for validation pass or pending. All are pills with a tinted background, readable text shade and a 40% border.
+**Metrics.** Metric tile (label above value, optional hint), KPI card (large number with caption and top border) and progress ring.
 
-**Metrics**: `MetricTile` (label above value, optional hint and emphasis), `KpiCard` (`analytics/`, large number with caption and top border), `ProgressRing`.
+**Forms.** 12px muted label above a 36px input with a Line border. Focus shows a primary border plus a soft primary glow. Required fields show a red asterisk after the label. Errors show a danger border and a helper line. Disabled uses the canvas background.
 
-**Forms**: 12px muted label above a 36px input with `Line` border. Focus is a primary border plus a 20% primary ring. Required marks a red asterisk after the label. Errors use a danger border and a helper line. Disabled uses the canvas background.
+**Navigation.** Underline tabs (primary text and 2px underline when active), segmented button groups, filter pills, an inline back link and a ghost back button.
 
-**Navigation**: underline tabs (primary text and 2px underline when active), segmented button groups with `aria-pressed`, filter pills, inline back link and ghost back button.
+**Overlays.** Modals and the command menu use a 50% ink backdrop and a centered white panel. They close on Escape or backdrop click, and focus moves into the panel.
 
-**Overlays**: modals and command menu use a 50% ink backdrop, centered white panel, Escape to close, backdrop click to close, focus moved into the panel.
-
-**Tables**: canvas header with uppercase muted labels, `Line` row dividers, canvas hover, right-aligned tabular numbers.
+**Tables.** Canvas header with uppercase muted labels, Line row dividers, canvas row hover, right-aligned tabular numbers, pagination below.
 
 ## 8. Signature patterns
 
-- **Page header** (`layout/PageHeader.tsx`): title and subtitle left, actions right.
-- **Case header**: name, status badge, round, summary line, inline MVP / Break-even / Strain metrics, validation chips. Re-run and New Round on the right, Send for Review on the Evidence tab.
-- **Approval stepper** (`workspace/ApprovalStepsCard.tsx`): five steps on a white panel inside a tinted card. Completed is solid success with a check, current is a primary ring with a clock, upcoming is a gray numbered circle.
-- **Readiness checks**: rows tinted by state (pass, fail, warn) with an icon, label and value.
-- **Census selector**: search plus Upload outline button above a radio list with metadata.
-- **Workflow versions**: Version 1 is the current tab set. Version 2 groups tabs into Overview, Setup, Pricing, Illustration, Evidence, with History as a secondary link. Both reuse the same panels.
+- **Page header.** Title and subtitle on the left, actions on the right.
+- **Case header.** Case name, status badge, round, one-line summary, inline MVP, Break-even and Strain metrics, validation chips. Re-run and New Round sit on the right, with Send for Review added on the Evidence tab.
+- **Approval stepper.** Five steps on a white panel inside a tinted card. Completed is a solid success circle with a check, current is a primary ring with a clock, upcoming is a gray numbered circle, joined by thin connector lines.
+- **Readiness checks.** Rows tinted by state (pass, fail, warn), each with an icon, label and value.
+- **Census selector.** Search and an Upload outline button above a radio list with file metadata.
+- **Workflow versions.** Version 1 uses the full tab set. Version 2 groups it into Overview, Setup (Census, Configuration), Pricing (Pricing Inputs, Results, Rounds), Illustration and Evidence, with History as a secondary link.
 
 ## 9. Accessibility checklist
 
-- Every interactive element has a visible 2px primary focus ring (`focus-visible`).
-- Text meets 4.5:1, large text and icons 3:1. Check new color pairs before shipping.
-- Icon-only buttons need `aria-label`. Decorative icons get `aria-hidden`.
-- Inputs have associated labels. Errors use `aria-invalid` and `aria-describedby`.
-- Use real buttons and links, never clickable `div`s.
-- State is never color alone: pair color with an icon or text.
-- Dynamic regions use `role="alert"` or `role="status"`. Selected tabs and filters expose `aria-selected` or `aria-pressed`. The current nav link uses `aria-current`.
+- Every interactive element shows a visible 2px primary focus indicator.
+- Text meets 4.5:1 contrast, large text and icons 3:1. Check any new color pair.
+- Icon-only buttons need an accessible name. Decorative icons are hidden from assistive tech.
+- Inputs have visible, associated labels. Errors are announced and linked to their field.
+- Use real buttons and links for anything clickable.
+- Never rely on color alone for state. Pair it with an icon or text.
+- Alerts and status messages are announced. Selected tabs, filters and the current page are exposed to assistive tech.
 
 ## 10. Do and don't
 
-- Do reuse `Card`, `Button` and the token classes. Don't hardcode hex in components.
+- Do reuse the same card, button and badge styles everywhere. Don't invent one-off variants.
 - Do use the primary accent for one main action per view. Don't use status colors for decoration.
-- Do keep cards full width in the workspace. Don't add per-tab max widths.
+- Do keep cards full width in the workspace. Don't give individual tabs their own narrower width.
 - Do explain why a metric is unavailable. Don't show a bare "N/A".
-- Don't set `overflow-x` without `overflow-y` on a container; the browser promotes it and shows a stray scrollbar.
-
-## 11. Where things live
-
-- Tokens: `tailwind.config.js`, `src/index.css`, `src/utils/theme.ts`
-- Shared UI: `src/components/ui/`, layout: `src/components/layout/`
-- Case workspace: `src/components/workspace/`, tab pages: `src/pages/workspace/`
-- Live reference and AWS Quick App prompts: `src/pages/DesignSystemPage.tsx`
