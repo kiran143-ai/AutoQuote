@@ -26,6 +26,7 @@ import {
   ItalicIcon,
   LayoutTemplateIcon,
   ListIcon,
+  MailIcon,
   Loader2Icon,
   MoreVerticalIcon,
   PaletteIcon,
@@ -362,6 +363,10 @@ Below, a bordered list of existing census files: each row is a clickable radio o
 
     workspaceApprovalStepper: `Multi-level approval workflow stepper card: outer card has a light ${c.primaryTint} background with a 2px ${c.primary} border, a small checkmark icon plus bold ${c.primary} title "Approval Workflow" and a muted ${c.primary} (80% opacity) subtitle "Submit for multi-level approval". Inside, a white (#FFFFFF) inner panel contains a horizontal 5-step progress row: each step is a 32px circle connected by thin horizontal lines to its neighbors (line color #28A745 for completed segments, #E5E7EB for upcoming ones, drawn so it appears to run behind the circles). Circle states: completed = solid #28A745 fill with a white checkmark icon; current = white fill with a 2px ${c.primary} border and a ${c.primary} clock icon; upcoming = white fill with a 1px #E5E7EB border and a gray (#6B7280) step number. Below each circle, a short step label (13px) — the current step's label is bold and colored ${c.primary}, completed labels are #111827, upcoming labels are #6B7280. Example steps: Actuary Review → Actuary Lead Review → Manager Review → SLT Lead Review → Approved.`,
 
+    primaryTabs: `Primary tab strip for switching between the main sections of a page. A sticky white (#FFFFFF) bar pinned to the top of the scroll area with a 1px bottom border #E5E7EB and a soft shadow (0 1px 3px rgba(0,0,0,0.08)). Tabs sit in one left-aligned horizontal row. Each tab is 13px medium text with 14px horizontal and 12px vertical padding and a 2px transparent bottom border. Inactive tabs use #6B7280 text and turn #111827 on hover. The active tab uses ${c.primary} text and a 2px ${c.primary} bottom border. Optional extras on a tab: a count badge (small pill, #F1F3F5 background, #6B7280 11px bold number) and a small #92400E warning triangle to flag an open issue. One tab may be bold to mark it as the main section. An optional right-aligned area can hold a secondary link (1px #E5E7EB border, 13px medium #6B7280 text, fills #F1F3F5 on hover) and a contextual primary button (${c.primary} fill, white text, 32px tall) that only appears when it is relevant, for example after the page header scrolls out of view. The row scrolls horizontally on narrow screens without a visible scrollbar. Tabs expose their selected state to assistive tech and show a 2px ${c.primary} focus ring.`,
+
+    secondaryTabs: `Secondary tab row for sub-sections that belong to the active primary tab. It sits directly beneath the primary tab strip inside the same sticky white (#FFFFFF) bar, separated by a 1px #E5E7EB top border, and only appears when the active primary tab has sub-sections. Sub-tabs are plain text links in a left-aligned row with 16px gaps and no underline or background. Each is 12px medium text with 4px horizontal and 8px vertical padding. The active sub-tab uses ${c.primary} text; the others use #6B7280 and turn #111827 on hover. Selecting a primary tab with sub-sections opens its first sub-tab. Keep sub-tab labels short, use at most five per group, and mark the active one for assistive tech as the current page. Show a 2px ${c.primary} focus ring when focused.`,
+
     backButton: `Two back-navigation patterns.
 Ghost back button: used at the top of a page/form to return to a parent list. Transparent background, ${c.primary} text, a left-chevron icon (16px) followed by a label like "All Quotes" or "Back to Quote Form", 13px medium font, fills ${c.primaryTint} on hover, 32px tall with tight horizontal padding so it sits flush with the page edge. Shows a 2px ${c.primary} focus ring when tabbed to.
 Inline back link: used inside a case/record header to return to its list view. Plain text link (no button background), ${c.primary} color, a left-arrow icon (14px) followed by a short label like "Quotes", 12px medium font, underlines on hover.`
@@ -410,6 +415,8 @@ const sections: Section[] = [
 { id: 'workspace-case-header', label: 'Workspace: Case Header' },
 { id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' },
 { id: 'back-button', label: 'Back Button' },
+{ id: 'primary-tabs', label: 'Primary Tabs' },
+{ id: 'secondary-tabs', label: 'Secondary Tabs' },
 { id: 'design-md', label: 'DESIGN.md' }];
 
 
@@ -1055,6 +1062,8 @@ export function DesignSystemPage(): JSX.Element {
   const [demoSitus, setDemoSitus] = useState('DE');
   const [demoProduct, setDemoProduct] = useState('EPPVUL AVME');
   const [demoCensusFile, setDemoCensusFile] = useState('NYL_Census_Q2_2024.xlsx');
+  const [demoPrimaryTab, setDemoPrimaryTab] = useState('Tab 1');
+  const [demoSecondaryTab, setDemoSecondaryTab] = useState('Sub-tab 1');
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {
@@ -1839,6 +1848,76 @@ export function DesignSystemPage(): JSX.Element {
               </div>
             </div>
             <PromptBlock text={prompts.backButton} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="primary-tabs">
+          <Card accent="primary" title="Primary Tabs" meta="Sticky tab strip for the main sections of a page, with optional badge, warning flag and contextual action">
+            <div className="overflow-hidden rounded-card border border-line bg-white shadow-card">
+              <div className="flex items-center justify-between gap-4 px-4">
+                <div role="tablist" aria-label="Primary tabs example" className="flex min-w-0 gap-1 overflow-x-auto overflow-y-hidden thin-scroll">
+                  {[
+                  { label: 'Tab 1' },
+                  { label: 'Tab 2', count: 12 },
+                  { label: 'Tab 3', bold: true, warn: true },
+                  { label: 'Tab 4' },
+                  { label: 'Tab 5' }].
+                  map((t) =>
+                  <button
+                    key={t.label}
+                    role="tab"
+                    aria-selected={demoPrimaryTab === t.label}
+                    type="button"
+                    onClick={() => setDemoPrimaryTab(t.label)}
+                    className={`-mb-px flex shrink-0 items-center gap-1.5 border-b-2 px-3.5 py-3 text-[13px] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                    demoPrimaryTab === t.label ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-ink'} ${
+                    t.bold ? 'font-bold' : 'font-medium'}`
+                    }>
+                    
+                      {t.label}
+                      {t.count !== undefined &&
+                    <span className="rounded-full bg-canvas px-1.5 py-0.5 text-micro font-semibold text-muted tnum">{t.count}</span>
+                    }
+                      {t.warn && <AlertTriangleIcon className="h-3.5 w-3.5 text-[#92400E]" strokeWidth={2} aria-label="Has an open issue" />}
+                    </button>
+                  )}
+                </div>
+                <div className="flex shrink-0 items-center gap-2 py-2">
+                  <span className="rounded-md border border-line px-3 py-1.5 text-[13px] font-medium text-muted">Secondary link</span>
+                  {demoPrimaryTab === 'Tab 5' &&
+                  <Button variant="primary" size="sm" icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
+                      Contextual action
+                    </Button>
+                  }
+                </div>
+              </div>
+            </div>
+            <p className="mt-2 text-micro text-muted">Select Tab 5 to see the contextual action button.</p>
+            <PromptBlock text={prompts.primaryTabs} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="secondary-tabs">
+          <Card accent="primary" title="Secondary Tabs" meta="Sub-section links that appear beneath the active primary tab">
+            <div className="overflow-hidden rounded-card border border-line bg-white shadow-card">
+              <div className="flex gap-4 overflow-x-auto px-4">
+                {['Sub-tab 1', 'Sub-tab 2', 'Sub-tab 3'].map((sub) =>
+                <button
+                  key={sub}
+                  type="button"
+                  aria-current={demoSecondaryTab === sub ? 'page' : undefined}
+                  onClick={() => setDemoSecondaryTab(sub)}
+                  className={`shrink-0 px-1 py-2 text-[12px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  demoSecondaryTab === sub ? 'text-primary' : 'text-muted hover:text-ink'}`
+                  }>
+                  
+                    {sub}
+                  </button>
+                )}
+              </div>
+            </div>
+            <p className="mt-2 text-micro text-muted">Sits directly under a primary tab strip, separated by a 1px divider.</p>
+            <PromptBlock text={prompts.secondaryTabs} />
           </Card>
         </SectionAnchor>
 
