@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useToast } from '../../contexts/ToastContext';
 import { Loader2Icon, PlayIcon } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 
 export function IllustrationTab(): JSX.Element {
   const [running, setRunning] = useState(false);
+  const toast = useToast();
 
   return (
     <div className="space-y-5">
@@ -18,7 +20,10 @@ export function IllustrationTab(): JSX.Element {
             variant="primary"
             onClick={() => {
               setRunning(true);
-              window.setTimeout(() => setRunning(false), 2500);
+              window.setTimeout(() => {
+                setRunning(false);
+                toast.success('Illustration generated', 'Current, midpoint and guaranteed scenarios are ready.');
+              }, 2500);
             }}
             disabled={running}
             icon={

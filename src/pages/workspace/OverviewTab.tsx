@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToast } from '../../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import {
   AlertOctagonIcon,
@@ -22,6 +23,7 @@ export function OverviewTab(): JSX.Element {
   const quote = useWorkspaceCase();
   const { runPricing, markLost } = useCaseStore();
   const navigate = useNavigate();
+  const toast = useToast();
   const isV2 = useWorkflowVersion() === 'v2';
   const runAndOpenPricing = () => {
     runPricing(quote.id);
@@ -161,6 +163,7 @@ export function OverviewTab(): JSX.Element {
           <Button
             size="sm"
             variant="secondary"
+            onClick={() => toast.success('Template published', 'Deal terms and configuration are now in the Template Marketplace.')}
             icon={<StarIcon className="h-4 w-4" strokeWidth={1.75} />}>
             
               Publish

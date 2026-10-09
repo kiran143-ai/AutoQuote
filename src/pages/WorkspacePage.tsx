@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useToast } from '../contexts/ToastContext';
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import { CaseHeader } from '../components/workspace/CaseHeader';
 import { WorkspaceTabs } from '../components/workspace/WorkspaceTabs';
@@ -13,6 +14,7 @@ export function WorkspacePage(): JSX.Element {
   const { getCase } = useCaseStore();
   const quote = caseId ? getCase(caseId) : undefined;
   const navigate = useNavigate();
+  const toast = useToast();
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
   const [version, setVersion] = useState<WorkflowVersion>('v1');
@@ -34,6 +36,7 @@ export function WorkspacePage(): JSX.Element {
 
   const onVersionChange = (v: WorkflowVersion) => {
     setVersion(v);
+    toast.info(v === 'v1' ? 'Switched to Version 1' : 'Switched to Version 2', v === 'v1' ? 'Current workflow' : 'Simplified workflow');
     navigate(`/quotes/${quote.id}/overview`);
   };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useToast } from '../../contexts/ToastContext';
 import {
   AlertTriangleIcon,
   CheckIcon,
@@ -33,6 +34,7 @@ function scrollToSection(id: string) {
 
 export function EvidenceTab(): JSX.Element {
   const quote = useWorkspaceCase();
+  const toast = useToast();
   const checks = readinessChecks(quote);
   const summary = readinessSummary(quote);
   const m = quote.metrics;
@@ -99,6 +101,7 @@ export function EvidenceTab(): JSX.Element {
             <Button
           size="sm"
           variant="secondary"
+          onClick={() => toast.info('Preparing PDF', 'Your evidence packet will download shortly.')}
           icon={<DownloadIcon className="h-4 w-4" strokeWidth={1.75} />}>
 
               Export PDF

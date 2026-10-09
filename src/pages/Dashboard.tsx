@@ -1,4 +1,5 @@
 import React from 'react';
+import { useToast } from '../contexts/ToastContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircleIcon, PlusIcon, TargetIcon, WalletIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -21,6 +22,7 @@ const pipelineOrder: CaseStatus[] = [
 export function Dashboard(): JSX.Element {
   const { cases } = useCaseStore();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const priced = cases.filter((c) => c.metrics);
   const avgMvp = priced.length ?
@@ -43,6 +45,7 @@ export function Dashboard(): JSX.Element {
   slice(0, 6);
 
   const handleReuse = (id: string) => {
+    toast.info('Reusing quote', 'Update the client details to create your new quote.');
     navigate(`/quotes/new?cloneFrom=${id}`);
   };
 

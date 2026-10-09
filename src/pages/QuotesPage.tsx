@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useToast } from '../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import { PlusIcon, SearchIcon, TargetIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -13,6 +14,7 @@ import type { CaseStatus } from '../types';
 export function QuotesPage(): JSX.Element {
   const { cases } = useCaseStore();
   const navigate = useNavigate();
+  const toast = useToast();
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<(typeof statusFilters)[number]>('All');
   const [product, setProduct] = useState('all');
@@ -47,6 +49,7 @@ export function QuotesPage(): JSX.Element {
   filter((p) => p.count > 0);
 
   const handleReuse = (id: string) => {
+    toast.info('Reusing quote', 'Update the client details to create your new quote.');
     navigate(`/quotes/new?cloneFrom=${id}`);
   };
 

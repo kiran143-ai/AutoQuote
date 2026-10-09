@@ -7,6 +7,7 @@ import React, {
 'react';
 import { defaultInputs, seedCases } from '../data/cases';
 import { runPricingEngine } from '../utils/pricing';
+import { useToast } from './ToastContext';
 import type {
   ApprovalStage,
   CaseInputs,
@@ -72,6 +73,7 @@ export function CaseStoreProvider({
 
 }: {children: React.ReactNode;}): JSX.Element {
   const [cases, setCases] = useState<QuoteCase[]>(seedCases);
+  const toast = useToast();
 
   const patchCase = useCallback(
     (id: string, updater: (c: QuoteCase) => QuoteCase) => {
@@ -124,8 +126,9 @@ export function CaseStoreProvider({
 
     };
     setCases((prev) => [next, ...prev]);
+    toast.success('Quote created', `${next.name} was saved as a draft.`);
     return next;
-  }, []);
+  }, [toast]);
 
   const cloneCase = useCallback(
     (id: string): QuoteCase | undefined => {
@@ -153,9 +156,10 @@ export function CaseStoreProvider({
 
       };
       setCases((prev) => [next, ...prev]);
+      toast.success('Quote cloned', `${next.name} was created from ${source.name}.`);
       return next;
     },
-    [cases]
+    [cases, toast]
   );
 
   const runPricing = useCallback(
@@ -168,8 +172,11 @@ export function CaseStoreProvider({
         approvalStage: c.approvalStage === 'Draft' ? 'Pricing' : c.approvalStage,
         updated: today
       }));
+      const c = cases.find((x) => x.id === id);
+      const mvp = c ? runPricingEngine(c.inputs).mvp.toFixed(2) : null;
+      toast.success('Pricing complete', mvp ? `MVP ${mvp}%. Results are updated.` : 'Results are updated.');
     },
-    [patchCase]
+    [patchCase, cases, toast]
   );
 
   const newRound = useCallback(
@@ -181,8 +188,10 @@ export function CaseStoreProvider({
         metrics: runPricingEngine(c.inputs),
         updated: today
       }));
+      const c = cases.find((x) => x.id === id);
+      toast.success(c ? `Round ${c.round + 1} started` : 'New round started', 'Pricing ran on the current inputs.');
     },
-    [patchCase]
+    [patchCase, cases, toast]
   );
 
   const updateInputs = useCallback(
@@ -228,15 +237,29 @@ export function CaseStoreProvider({
 
         };
       });
+      const c = cases.find((x) => x.id === id);
+      if (c) {
+        const nextStage = approvalStages[Math.min(approvalStages.indexOf(c.approvalStage) + 1, approvalStages.length - 1)];
+        const label: Record<string, string> = {
+          Pricing: 'Actuary Review',
+          Review: 'Actuary Lead Review',
+          Approval: 'Manager Review',
+          Final: 'SLT Lead Review'
+        };
+        if (c.approvalStage === 'Approved') toast.info('Already approved', 'This quote has completed all approval steps.');else
+        if (nextStage === 'Approved') toast.success('Quote approved', 'All approval steps are complete.');else
+        toast.success('Sent for review', `Now with ${label[nextStage] ?? nextStage}.`);
+      }
     },
-    [patchCase]
+    [patchCase, cases, toast]
   );
 
   const markLost = useCallback(
     (id: string) => {
       patchCase(id, (c) => ({ ...c, status: 'Lost', updated: today }));
+      toast.warning('Quote marked as lost', 'You can still review it from the quotes list.');
     },
-    [patchCase]
+    [patchCase, toast]
   );
 
   const addComment = useCallback(
@@ -254,8 +277,9 @@ export function CaseStoreProvider({
         }]
 
       }));
+      toast.success('Comment posted');
     },
-    [patchCase]
+    [patchCase, toast]
   );
 
   const value = useMemo<CaseStoreValue>(

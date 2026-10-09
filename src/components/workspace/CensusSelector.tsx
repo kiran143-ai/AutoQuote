@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from '../../contexts/ToastContext';
 import { SearchIcon, UploadIcon, ChevronRightIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 
@@ -26,6 +27,7 @@ export function CensusSelector({ onSelect }: CensusSelectorProps): JSX.Element {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const toast = useToast();
 
   const filteredFiles = mockCensusFiles.filter(f =>
     f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -34,6 +36,7 @@ export function CensusSelector({ onSelect }: CensusSelectorProps): JSX.Element {
 
   const handleSelect = (file: CensusFile) => {
     setSelectedId(file.id);
+    toast.info('Census selected', file.name);
     onSelect?.(file);
   };
 
@@ -111,7 +114,10 @@ export function CensusSelector({ onSelect }: CensusSelectorProps): JSX.Element {
             variant="secondary"
             size="sm"
             className="mt-3"
-            onClick={() => setShowUploadModal(false)}>
+            onClick={() => {
+              setShowUploadModal(false);
+              toast.info('Upload ready', 'Choose a CSV, TSV or XLSX file up to 5MB.');
+            }}>
             Choose File
           </Button>
         </div>

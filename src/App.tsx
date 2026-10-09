@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/layout/AppShell';
 import { CaseStoreProvider } from './contexts/CaseStore';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
@@ -26,6 +27,7 @@ import { PricingResultsPanel } from './pages/workspace/v2/PricingResultsPanel';
 export function App(): JSX.Element {
   return (
     <ThemeProvider>
+      <ToastProvider>
       <CaseStoreProvider>
         <BrowserRouter>
           <Routes>
@@ -138,6 +140,7 @@ export function App(): JSX.Element {
         </Routes>
       </BrowserRouter>
     </CaseStoreProvider>
+      </ToastProvider>
     </ThemeProvider>);
 
 }

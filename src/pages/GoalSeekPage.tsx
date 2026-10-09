@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useToast } from '../contexts/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import {
   ActivityIcon,
@@ -86,6 +87,7 @@ function StepBadge({ n }: {n: number;}): JSX.Element {
 
 export function GoalSeekPage(): JSX.Element {
   const navigate = useNavigate();
+  const toast = useToast();
   const [activeTool, setActiveTool] = useState('multi-objective');
   const [variable, setVariable] = useState('Annual Premium');
   const [rangeFrom, setRangeFrom] = useState('1000');
@@ -395,13 +397,16 @@ export function GoalSeekPage(): JSX.Element {
 
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex gap-3">
-              <Button variant="primary" icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
+              <Button variant="primary" onClick={() => toast.info('Solving', 'Estimated up to 17 iterations, roughly 3 to 9 seconds.')} icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
                 Solve
               </Button>
-              <Button variant="secondary" icon={<RotateCcwIcon className="h-4 w-4" strokeWidth={1.75} />}>
+              <Button variant="secondary" onClick={() => {
+                setConstraints(initialConstraints);
+                toast.info('Constraints reset', 'Restored the default constraints.');
+              }} icon={<RotateCcwIcon className="h-4 w-4" strokeWidth={1.75} />}>
                 Reset
               </Button>
-              <Button variant="outline" icon={<SaveIcon className="h-4 w-4" strokeWidth={1.75} />}>
+              <Button variant="outline" onClick={() => toast.success('Preset saved', 'Find it in the defaults dropdown.')} icon={<SaveIcon className="h-4 w-4" strokeWidth={1.75} />}>
                 Save as preset
               </Button>
             </div>

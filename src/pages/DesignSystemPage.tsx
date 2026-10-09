@@ -3,6 +3,8 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
 import { StatusBadge } from '../components/ui/StatusBadge';
+import { toastTones } from '../components/ui/Toast';
+import { useToast } from '../contexts/ToastContext';
 import {
   AlertCircleIcon,
   AlertTriangleIcon,
@@ -363,6 +365,8 @@ Below, a bordered list of existing census files: each row is a clickable radio o
 
     workspaceApprovalStepper: `Multi-level approval workflow stepper card: outer card has a light ${c.primaryTint} background with a 2px ${c.primary} border, a small checkmark icon plus bold ${c.primary} title "Approval Workflow" and a muted ${c.primary} (80% opacity) subtitle "Submit for multi-level approval". Inside, a white (#FFFFFF) inner panel contains a horizontal 5-step progress row: each step is a 32px circle connected by thin horizontal lines to its neighbors (line color #28A745 for completed segments, #E5E7EB for upcoming ones, drawn so it appears to run behind the circles). Circle states: completed = solid #28A745 fill with a white checkmark icon; current = white fill with a 2px ${c.primary} border and a ${c.primary} clock icon; upcoming = white fill with a 1px #E5E7EB border and a gray (#6B7280) step number. Below each circle, a short step label (13px) — the current step's label is bold and colored ${c.primary}, completed labels are #111827, upcoming labels are #6B7280. Example steps: Actuary Review → Actuary Lead Review → Manager Review → SLT Lead Review → Approved.`,
 
+    toasts: `Toast message: a short, temporary confirmation that appears after the user completes an action, without blocking the screen. Placement: bottom center of the viewport, 24px above the bottom edge, 360px wide (never wider than the screen minus 32px), stacked with 8px gaps and limited to 3 at a time. Style: white (#FFFFFF) card, 10px corner radius, 1px border #E5E7EB, a 4px colored left edge, drop shadow (0 8px 24px rgba(0,0,0,0.12)), 14px padding. Left side holds a 28px circular icon badge. Right side holds a bold 13px title in #111827, an optional one-line 12px description in #6B7280, and a small close (x) button (#6B7280, fills #F1F3F5 on hover). Four tones: Success (left edge #28A745, badge #F2FAF4 with a #15803D check icon), Info (left edge ${c.primary}, badge ${c.primaryTint} with a ${c.primary} info icon), Warning (left edge #F0A500, badge #FEFAF0 with a #92400E warning triangle), Danger (left edge #DC3545, badge #FDF3F4 with a #B91C1C error icon). Behavior: slides up 12px and fades in over 180ms (no motion if the user prefers reduced motion). Success and info close automatically after 2.5 seconds, warning and danger after 3 seconds. Hovering or focusing a toast pauses the timer. Keep titles under six words and descriptions to one short sentence. Announce success and info politely to screen readers and warning and danger as alerts. The close button has an accessible name and a 2px ${c.primary} focus ring.`,
+
     primaryTabs: `Primary tab strip for switching between the main sections of a page. A sticky white (#FFFFFF) bar pinned to the top of the scroll area with a 1px bottom border #E5E7EB and a soft shadow (0 1px 3px rgba(0,0,0,0.08)). Tabs sit in one left-aligned horizontal row. Each tab is 13px medium text with 14px horizontal and 12px vertical padding and a 2px transparent bottom border. Inactive tabs use #6B7280 text and turn #111827 on hover. The active tab uses ${c.primary} text and a 2px ${c.primary} bottom border. Optional extras on a tab: a count badge (small pill, #F1F3F5 background, #6B7280 11px bold number) and a small #92400E warning triangle to flag an open issue. One tab may be bold to mark it as the main section. An optional right-aligned area can hold a secondary link (1px #E5E7EB border, 13px medium #6B7280 text, fills #F1F3F5 on hover) and a contextual primary button (${c.primary} fill, white text, 32px tall) that only appears when it is relevant, for example after the page header scrolls out of view. The row scrolls horizontally on narrow screens without a visible scrollbar. Tabs expose their selected state to assistive tech and show a 2px ${c.primary} focus ring.`,
 
     secondaryTabs: `Secondary tab row for sub-sections that belong to the active primary tab. It sits directly beneath the primary tab strip inside the same sticky white (#FFFFFF) bar, separated by a 1px #E5E7EB top border, and only appears when the active primary tab has sub-sections. Sub-tabs are plain text links in a left-aligned row with 16px gaps and no underline or background. Each is 12px medium text with 4px horizontal and 8px vertical padding. The active sub-tab uses ${c.primary} text; the others use #6B7280 and turn #111827 on hover. Selecting a primary tab with sub-sections opens its first sub-tab. Keep sub-tab labels short, use at most five per group, and mark the active one for assistive tech as the current page. Show a 2px ${c.primary} focus ring when focused.`,
@@ -415,6 +419,7 @@ const sections: Section[] = [
 { id: 'workspace-case-header', label: 'Workspace: Case Header' },
 { id: 'workspace-approval-stepper', label: 'Workspace: Approval Stepper' },
 { id: 'back-button', label: 'Back Button' },
+{ id: 'toasts', label: 'Toast Messages' },
 { id: 'primary-tabs', label: 'Primary Tabs' },
 { id: 'secondary-tabs', label: 'Secondary Tabs' },
 { id: 'design-md', label: 'DESIGN.md' }];
@@ -1041,6 +1046,7 @@ export function DesignSystemPage(): JSX.Element {
   const { theme } = useTheme();
   const themeLabel = theme === 'current' ? 'Current' : 'Client';
   const prompts = getPrompts(theme);
+  const toast = useToast();
 
   // Interactive demo state
   const [tab, setTab] = useState('overview');
@@ -1848,6 +1854,41 @@ export function DesignSystemPage(): JSX.Element {
               </div>
             </div>
             <PromptBlock text={prompts.backButton} />
+          </Card>
+        </SectionAnchor>
+
+        <SectionAnchor id="toasts">
+          <Card accent="primary" title="Toast Messages" meta="Short confirmations that appear at the bottom center and dismiss on their own">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              {([
+              { tone: 'success', title: 'Item created', desc: 'Your changes were saved.' },
+              { tone: 'info', title: 'Selection updated', desc: 'The new option is applied.' },
+              { tone: 'warning', title: 'Item marked as lost', desc: 'You can still review it later.' },
+              { tone: 'danger', title: 'Action failed', desc: 'Please try again.' }] as const).
+              map((t) => {
+                const { accent, badge, icon: Icon } = toastTones[t.tone];
+                return (
+                  <div key={t.tone} className={`flex items-start gap-3 rounded-card border border-l-4 border-line bg-white p-3.5 shadow-pop ${accent}`}>
+                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${badge}`}>
+                      <Icon className="h-4 w-4" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[13px] font-semibold text-ink">{t.title}</p>
+                      <p className="mt-0.5 text-xs text-muted">{t.desc}</p>
+                    </div>
+                    <XIcon className="mt-1 h-3.5 w-3.5 text-muted" strokeWidth={2} aria-hidden="true" />
+                  </div>);
+
+              })}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button size="sm" variant="outline" onClick={() => toast.success('Item created', 'Your changes were saved.')}>Show success</Button>
+              <Button size="sm" variant="outline" onClick={() => toast.info('Selection updated', 'The new option is applied.')}>Show info</Button>
+              <Button size="sm" variant="outline" onClick={() => toast.warning('Item marked as lost', 'You can still review it later.')}>Show warning</Button>
+              <Button size="sm" variant="outline" onClick={() => toast.danger('Action failed', 'Please try again.')}>Show danger</Button>
+            </div>
+            <p className="mt-2 text-micro text-muted">The buttons trigger the live toast at the bottom center of the screen.</p>
+            <PromptBlock text={prompts.toasts} />
           </Card>
         </SectionAnchor>
 
