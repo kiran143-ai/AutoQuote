@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useToast } from '../../contexts/ToastContext';
+import { useTheme } from '../../contexts/ThemeContext';
+import { generateEvidencePdf } from '../../utils/evidencePdf';
 import {
   AlertTriangleIcon,
   CheckIcon,
@@ -35,6 +37,19 @@ function scrollToSection(id: string) {
 export function EvidenceTab(): JSX.Element {
   const quote = useWorkspaceCase();
   const toast = useToast();
+  const { theme } = useTheme();
+  const [exporting, setExporting] = useState(false);
+  const onExport = async () => {
+    setExporting(true);
+    try {
+      await generateEvidencePdf(quote, theme);
+      toast.success('Evidence packet downloaded', 'The PDF was saved to your downloads.');
+    } catch {
+      toast.danger('Export failed', 'Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  };
   const checks = readinessChecks(quote);
   const summary = readinessSummary(quote);
   const m = quote.metrics;
@@ -101,10 +116,11 @@ export function EvidenceTab(): JSX.Element {
             <Button
           size="sm"
           variant="secondary"
-          onClick={() => toast.info('Preparing PDF', 'Your evidence packet will download shortly.')}
+          onClick={onExport}
+          disabled={exporting}
           icon={<DownloadIcon className="h-4 w-4" strokeWidth={1.75} />}>
 
-              Export PDF
+              {exporting ? 'Preparing…' : 'Export PDF'}
             </Button>
             <span className="inline-flex items-center gap-1 rounded-md border border-line bg-canvas px-2.5 py-1.5 text-micro font-medium text-muted">
               <LockIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
