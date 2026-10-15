@@ -3,7 +3,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useRole } from '../../contexts/RoleContext';
 import { useToast } from '../../contexts/ToastContext';
 import { NotificationBell } from './NotificationBell';
-import { hiddenRoles, roleLabel, roles, type Role } from '../../utils/permissions';
+import { hiddenRoles, roleLabel, roleUser, roles, type Role } from '../../utils/permissions';
 import nylLogo from '../../nyl-logo-1.svg';
 
 export function TopBar(): JSX.Element {
@@ -50,11 +50,11 @@ export function TopBar(): JSX.Element {
         <NotificationBell />
         <div className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary-tint text-xs font-semibold text-primary">
-            KY
+            {roleUser[role].split(' ').map((w) => w.charAt(0)).join('').slice(0, 2)}
           </span>
           <div className="text-right">
             <p className="text-[13px] font-semibold leading-4 text-ink">
-              Kiran Yeligeti
+              {roleUser[role]}
             </p>
             <p className="text-micro uppercase tracking-wide text-muted">
               {roleLabel(role)}

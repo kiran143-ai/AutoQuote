@@ -3,7 +3,8 @@ import { CheckIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { ApprovalHistory, DeclineNotice } from './ApprovalHistory';
 import { StageActionButtons } from './StageActionButtons';
-import { wasReturned } from '../../utils/approvalFlow';
+import { stageOwnerRole, wasReturned } from '../../utils/approvalFlow';
+import { roleLabel, roleUser } from '../../utils/permissions';
 import type { ApprovalStage, QuoteCase } from '../../types';
 
 const steps: {stage: ApprovalStage;label: string;}[] = [
@@ -29,7 +30,8 @@ export function ApprovalWorkflowVertical({ quote }: {quote: QuoteCase;}): JSX.El
   const returned = wasReturned(quote);
   const currentIndex = Math.max(0, steps.findIndex((s) => s.stage === quote.approvalStage));
   const last = quote.feed[quote.feed.length - 1];
-  const owner = (last?.actor ?? 'Kiran Yeligeti').split(' ')[0];
+  const ownerRole = stageOwnerRole[quote.approvalStage];
+  const owner = ownerRole ? roleUser[ownerRole] : (last?.actor ?? '').split(' ')[0];
   const stamp = formatStamp(last?.time ?? new Date().toISOString());
 
   return (
@@ -73,7 +75,7 @@ export function ApprovalWorkflowVertical({ quote }: {quote: QuoteCase;}): JSX.El
                         {owner.charAt(0)}
                       </span>
                       <div className="min-w-0">
-                        <p className="text-[13px] font-semibold text-ink">{owner}</p>
+                        <p className="text-[13px] font-semibold text-ink">{owner}{ownerRole && <span className="font-normal text-muted"> · {roleLabel(ownerRole)}</span>}</p>
                         <p className="text-xs text-muted tnum">{stamp}</p>
                       </div>
                     </div>

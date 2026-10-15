@@ -1,4 +1,4 @@
-import { can, roleLabel, type Role } from './permissions';
+import { can, roleLabel, roleUser, type Role } from './permissions';
 import type { ApprovalStage, QuoteCase } from '../types';
 
 export const stageLabel: Record<ApprovalStage, string> = {
@@ -51,7 +51,7 @@ export const stageOwnerRole: Partial<Record<ApprovalStage, Role>> = {
   Final: 'SR_LEAD'
 };
 
-export const actorLabel = (role: Role): string => `Kiran Yeligeti (${roleLabel(role)})`;
+export const actorLabel = (role: Role): string => `${roleUser[role]} (${roleLabel(role)})`;
 
 export const wasReturned = (c: QuoteCase): boolean =>
 c.status === 'Declined' && c.approvalStage === 'Pricing' && c.resumeStage !== undefined;

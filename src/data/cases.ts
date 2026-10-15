@@ -54,37 +54,9 @@ export const seedCases: QuoteCase[] = [
   {
     id: 'f1',
     kind: 'Case Created',
-    actor: 'Kiran Yeligeti',
+    actor: 'Scott (Actuary)',
     detail: 'Product: EPPVUL — AV M&E (ICOLI) · Auto-calibration failed',
     time: daysAgo(1, '13:23')
-  },
-  {
-    id: 'f2',
-    kind: 'Submitted for Approval',
-    actor: 'Kiran Yeligeti',
-    detail: 'submitted → Review (Actuary Lead).',
-    time: daysAgo(1, '14:03')
-  },
-  {
-    id: 'f3',
-    kind: 'Approved',
-    actor: 'Kiran Yeligeti',
-    detail: 'approved → Approval (Manager). test',
-    time: daysAgo(1, '14:05')
-  },
-  {
-    id: 'f4',
-    kind: 'Approved',
-    actor: 'Kiran Yeligeti',
-    detail: 'approved → Final (Sr. Leadership). test',
-    time: daysAgo(1, '14:05')
-  },
-  {
-    id: 'f5',
-    kind: 'Approved',
-    actor: 'Kiran Yeligeti',
-    detail: 'approved → Approved. test',
-    time: daysAgo(1, '14:06')
   }]
 
 },
@@ -108,7 +80,7 @@ export const seedCases: QuoteCase[] = [
   {
     id: 'f1',
     kind: 'Case Created',
-    actor: 'Kiran Yeligeti',
+    actor: 'Scott (Actuary)',
     detail: 'Product: EPPVUL — AV M&E (ICOLI)',
     time: daysAgo(2, '09:12')
   }]

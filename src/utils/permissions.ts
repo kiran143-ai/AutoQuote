@@ -12,7 +12,7 @@ export type Permission =
 'sendEvidence';
 
 // Roles kept in the matrix but hidden from the "View as" dropdown in this prototype.
-export const hiddenRoles: Role[] = ['ADMIN', 'PRE_SALES'];
+export const hiddenRoles: Role[] = ['ADMIN', 'PRE_SALES', 'REVIEWER'];
 
 export const roles: {id: Role;label: string;short: string;}[] = [
 { id: 'ADMIN', label: 'Admin', short: 'Admin' },
@@ -20,7 +20,7 @@ export const roles: {id: Role;label: string;short: string;}[] = [
 { id: 'ACTUARY', label: 'Actuary', short: 'Actuary' },
 { id: 'ACT_LEAD', label: 'Actuary Lead', short: 'Act Lead' },
 { id: 'ACT_MGR', label: 'Actuary Manager', short: 'Act Mgr' },
-{ id: 'SR_LEAD', label: 'SLT Lead', short: 'SR Lead' },
+{ id: 'SR_LEAD', label: 'SLT', short: 'SLT' },
 { id: 'REVIEWER', label: 'Reviewer', short: 'Reviewer' }];
 
 
@@ -46,6 +46,17 @@ const matrix: Record<Role, Permission[]> = {
   ACT_MGR: ['create', 'edit', 'runPricing', 'approveManager', 'reject'],
   SR_LEAD: ['finalApproval', 'reject'],
   REVIEWER: []
+};
+
+// Demo user signed in for each role, so approval history reads as different people.
+export const roleUser: Record<Role, string> = {
+  ADMIN: 'Kiran Yeligeti',
+  PRE_SALES: 'Kiran Yeligeti',
+  ACTUARY: 'Scott',
+  ACT_LEAD: 'Daniel',
+  ACT_MGR: 'Anna',
+  SR_LEAD: 'Maria',
+  REVIEWER: 'Kiran Yeligeti'
 };
 
 export const can = (role: Role, permission: Permission): boolean => matrix[role].includes(permission);

@@ -178,7 +178,7 @@ export async function generateEvidencePdf(quote: QuoteCase, theme: Theme): Promi
   ['Client', quote.client],
   ['Product', productLabel(quote.product)],
   ['Producer', quote.producer],
-  ['Submitted by', 'Kiran Yeligeti'],
+  ['Submitted by', 'Scott (Actuary)'],
   ['Submission date', stamp],
   ['Round', `#${quote.round}`]];
 

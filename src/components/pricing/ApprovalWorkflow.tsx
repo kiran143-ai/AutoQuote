@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { CheckIcon, SendIcon, SettingsIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
 import { useRole } from '../../contexts/RoleContext';
-import { actorLabel, primaryActionFor } from '../../utils/approvalFlow';
+import { actorLabel, primaryActionFor, stageOwnerRole } from '../../utils/approvalFlow';
+import { roleLabel, roleUser } from '../../utils/permissions';
 import { Button } from '../ui/Button';
 import {
   approvalStages,
@@ -31,9 +32,9 @@ export function ApprovalWorkflow({ quote }: {quote: QuoteCase;}): JSX.Element {
       action={
       <p className="text-xs text-muted">
           Assigned to:{' '}
-          <span className="font-semibold text-primary">Kiran Yeligeti</span>
+          <span className="font-semibold text-primary">{roleUser[stageOwnerRole[quote.approvalStage] ?? role]}</span>
           <span className="ml-1.5 rounded bg-canvas px-1.5 py-0.5 text-micro font-semibold uppercase text-muted">
-            Admin
+            {roleLabel(stageOwnerRole[quote.approvalStage] ?? role)}
           </span>
         </p>
       }>

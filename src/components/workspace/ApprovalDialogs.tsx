@@ -3,7 +3,9 @@ import { AlertTriangleIcon, MailIcon, SendIcon, XIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { MetricTile } from '../ui/MetricTile';
 import { useToast } from '../../contexts/ToastContext';
-import { nextStage, stageLabel, stageOwnerLabel } from '../../utils/approvalFlow';
+import { useRole } from '../../contexts/RoleContext';
+import { roleUser } from '../../utils/permissions';
+import { nextStage, stageLabel, stageOwnerLabel, stageOwnerRole } from '../../utils/approvalFlow';
 import { readinessSummary } from '../../utils/caseDerived';
 import { productLabel } from '../../data/products';
 import { premiumShort, signedPct } from '../../utils/format';
@@ -61,12 +63,16 @@ export function SendForReviewDialog({
   onConfirm
 }: {quote: QuoteCase;onClose: () => void;onConfirm: (note: string) => void;}): JSX.Element {
   const toast = useToast();
+  const { role } = useRole();
+  const sender = roleUser[role];
   const panel = useDialogBasics(onClose);
   const [note, setNote] = useState('');
   const summary = readinessSummary(quote);
   const m = quote.metrics;
   const target = quote.approvalStage === 'Pricing' && quote.resumeStage ? quote.resumeStage : nextStage(quote.approvalStage);
-  const to = stageOwnerLabel[target];
+  const toRole = stageOwnerLabel[target];
+  const toName = stageOwnerRole[target] ? roleUser[stageOwnerRole[target]!] : toRole;
+  const to = `${toName} (${toRole})`;
   const [subject, setSubject] = useState(`[AutoQuote] ${quote.name} (Round ${quote.round}) ready for ${stageLabel[target]}`);
   const link = `${window.location.origin}/quotes/${quote.id}/evidence`;
   const mvpOk = m ? m.mvp >= TARGET_MVP : false;
@@ -106,7 +112,7 @@ export function SendForReviewDialog({
         <div className="divide-y divide-line border-b border-line text-[13px]">
           <div className="flex items-center gap-3 px-4 py-2">
             <span className="w-14 shrink-0 text-muted">From</span>
-            <span className="text-ink">Kiran Yeligeti</span>
+            <span className="text-ink">{sender}</span>
           </div>
           <div className="flex items-center gap-3 px-4 py-2">
             <span className="w-14 shrink-0 text-muted">To</span>
@@ -127,13 +133,13 @@ export function SendForReviewDialog({
         </div>
 
         <div className="thin-scroll flex-1 overflow-y-auto px-5 py-4 text-[13px] text-ink">
-          <p>Hello {to},</p>
+          <p>Hello {toName},</p>
           <p className="mt-2">
             <span className="font-semibold">{quote.name}</span> (Round {quote.round}) for {quote.client} is ready for your {stageLabel[target].toLowerCase()}. The key metrics are below.
           </p>
 
           <div className="mt-3">
-            <NoteField id="compose-note" label="Personal note (optional)" value={note} onChange={setNote} placeholder={`Add context for the ${to}…`} rows={3} />
+            <NoteField id="compose-note" label="Personal note (optional)" value={note} onChange={setNote} placeholder={`Add context for ${toName}…`} rows={3} />
           </div>
 
           <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
@@ -164,7 +170,7 @@ export function SendForReviewDialog({
             <p className="mt-2 break-all text-micro text-muted tnum">{link}</p>
           </div>
 
-          <p className="mt-4 text-xs text-muted">Kiran Yeligeti<br />NYL AutoQuote Pricing Engine</p>
+          <p className="mt-4 text-xs text-muted">{sender}<br />NYL AutoQuote Pricing Engine</p>
         </div>
       </div>
     </Backdrop>);

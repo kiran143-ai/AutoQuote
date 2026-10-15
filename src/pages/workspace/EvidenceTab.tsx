@@ -111,7 +111,7 @@ export function EvidenceTab(): JSX.Element {
       <Card
       accent="primary"
       title="Evidence Packet"
-      meta={`Frozen at submission · 9/5/2026, 2:11:34 PM · by Kiran Yeligeti`}
+      meta={`Frozen at submission · 9/5/2026, 2:11:34 PM · by Scott (Actuary)`}
       action={
       <>
             <Button

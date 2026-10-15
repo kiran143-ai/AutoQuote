@@ -11,6 +11,7 @@ import { useToast } from './ToastContext';
 import { useRole } from './RoleContext';
 import { stageLabel, stageOwnerRole } from '../utils/approvalFlow';
 import { roleLabel, type Role } from '../utils/permissions';
+import { actorLabel } from '../utils/approvalFlow';
 import type {
   ApprovalStage,
   CaseInputs,
@@ -120,7 +121,7 @@ export function CaseStoreProvider({
       {
         id: 'f1',
         kind: 'Case Created',
-        actor: 'Kiran Yeligeti',
+        actor: actorLabel(role),
         detail: `Product: ${
         draft.product === 'EPPVUL_AVME' ?
         'EPPVUL — AV M&E (ICOLI)' :
@@ -133,7 +134,7 @@ export function CaseStoreProvider({
     setCases((prev) => [next, ...prev]);
     toast.success('Quote created', `${next.name} was saved as a draft.`);
     return next;
-  }, [toast]);
+  }, [toast, role]);
 
   const cloneCase = useCallback(
     (id: string): QuoteCase | undefined => {
@@ -154,7 +155,7 @@ export function CaseStoreProvider({
         {
           id: 'f1',
           kind: 'Case Created',
-          actor: 'Kiran Yeligeti',
+          actor: actorLabel(role),
           detail: `Cloned from ${source.name} — deal terms and configuration reused.`,
           time: new Date().toISOString()
         }]
@@ -164,7 +165,7 @@ export function CaseStoreProvider({
       toast.success('Quote cloned', `${next.name} was created from ${source.name}.`);
       return next;
     },
-    [cases, toast]
+    [cases, toast, role]
   );
 
   const runPricing = useCallback(
@@ -219,7 +220,7 @@ export function CaseStoreProvider({
   );
 
   const advanceApproval = useCallback(
-    (id: string, comment: string, actor = 'Kiran Yeligeti') => {
+    (id: string, comment: string, actor = actorLabel(role)) => {
       const before = cases.find((x) => x.id === id);
       patchCase(id, (c) => {
         const index = approvalStages.indexOf(c.approvalStage);
@@ -260,11 +261,11 @@ export function CaseStoreProvider({
         );
       }
     },
-    [patchCase, cases, toast, continueAs]
+    [patchCase, cases, toast, continueAs, role]
   );
 
   const declineCase = useCallback(
-    (id: string, comment: string, actor = 'Kiran Yeligeti') => {
+    (id: string, comment: string, actor = actorLabel(role)) => {
       patchCase(id, (c) => ({
         ...c,
         resumeStage: c.approvalStage,
@@ -287,7 +288,7 @@ export function CaseStoreProvider({
       }));
       toast.warning('Declined and returned to Actuary', 'Comments were sent to the Actuary and earlier reviewers.', continueAs('ACTUARY'));
     },
-    [patchCase, toast, continueAs]
+    [patchCase, toast, continueAs, role]
   );
 
   const markLost = useCallback(
@@ -307,7 +308,7 @@ export function CaseStoreProvider({
         {
           id: `f${c.feed.length + 1}`,
           kind: 'Comment',
-          actor: 'Kiran Yeligeti',
+          actor: actorLabel(role),
           detail: body,
           time: new Date().toISOString()
         }]
@@ -315,7 +316,7 @@ export function CaseStoreProvider({
       }));
       toast.success('Comment posted');
     },
-    [patchCase, toast]
+    [patchCase, toast, role]
   );
 
   const value = useMemo<CaseStoreValue>(
