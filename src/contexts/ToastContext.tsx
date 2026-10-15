@@ -8,13 +8,19 @@ export interface ToastItem {
   tone: ToastTone;
   title: string;
   description?: string;
+  action?: ToastAction;
+}
+
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
 }
 
 interface ToastApi {
-  success: (title: string, description?: string) => void;
-  info: (title: string, description?: string) => void;
-  warning: (title: string, description?: string) => void;
-  danger: (title: string, description?: string) => void;
+  success: (title: string, description?: string, action?: ToastAction) => void;
+  info: (title: string, description?: string, action?: ToastAction) => void;
+  warning: (title: string, description?: string, action?: ToastAction) => void;
+  danger: (title: string, description?: string, action?: ToastAction) => void;
 }
 
 const ToastContext = createContext<ToastApi | null>(null);
@@ -29,16 +35,16 @@ export function ToastProvider({ children }: {children: React.ReactNode;}): JSX.E
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const push = useCallback((tone: ToastTone, title: string, description?: string) => {
-    setToasts((prev) => [...prev, { id: nextId++, tone, title, description }].slice(-MAX_VISIBLE));
+  const push = useCallback((tone: ToastTone, title: string, description?: string, action?: ToastAction) => {
+    setToasts((prev) => [...prev, { id: nextId++, tone, title, description, action }].slice(-MAX_VISIBLE));
   }, []);
 
   const api = useMemo<ToastApi>(
     () => ({
-      success: (t, d) => push('success', t, d),
-      info: (t, d) => push('info', t, d),
-      warning: (t, d) => push('warning', t, d),
-      danger: (t, d) => push('danger', t, d)
+      success: (t, d, a) => push('success', t, d, a),
+      info: (t, d, a) => push('info', t, d, a),
+      warning: (t, d, a) => push('warning', t, d, a),
+      danger: (t, d, a) => push('danger', t, d, a)
     }),
     [push]
   );

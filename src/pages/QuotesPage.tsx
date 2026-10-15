@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useToast } from '../contexts/ToastContext';
+import { useRole } from '../contexts/RoleContext';
 import { useNavigate } from 'react-router-dom';
 import { PlusIcon, SearchIcon, TargetIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -15,6 +16,7 @@ export function QuotesPage(): JSX.Element {
   const { cases } = useCaseStore();
   const navigate = useNavigate();
   const toast = useToast();
+  const { can, deny } = useRole();
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<(typeof statusFilters)[number]>('All');
   const [product, setProduct] = useState('all');
@@ -69,6 +71,8 @@ export function QuotesPage(): JSX.Element {
           <Button
             variant="primary"
             onClick={() => navigate('/quotes/new')}
+            disabled={!can('create')}
+            title={deny('create')}
             icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
             New Quote
           </Button>

@@ -12,6 +12,7 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { NumberField } from '../ui/NumberField';
 import { useCaseStore } from '../../contexts/CaseStore';
+import { useRole } from '../../contexts/RoleContext';
 import { premiumShort } from '../../utils/format';
 import type { CaseInputs, QuoteCase } from '../../types';
 
@@ -39,6 +40,7 @@ const fields: {
 
 export function CaseInputsPanel({ quote }: {quote: QuoteCase;}): JSX.Element {
   const { updateInputs } = useCaseStore();
+  const { can } = useRole();
 
   return (
     <Card
@@ -52,6 +54,7 @@ export function CaseInputsPanel({ quote }: {quote: QuoteCase;}): JSX.Element {
         {fields.map((field) =>
         <NumberField
           key={field.key}
+          disabled={!can('edit')}
           label={field.label}
           hint={field.hint}
           value={quote.inputs[field.key]}

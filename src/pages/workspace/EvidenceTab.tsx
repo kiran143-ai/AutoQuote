@@ -16,6 +16,7 @@ import { MetricTile } from '../../components/ui/MetricTile';
 import { ApprovalTimeline } from '../../components/workspace/ApprovalTimeline';
 import { ApprovalActions } from '../../components/workspace/ApprovalActions';
 import { ApprovalStepsCard } from '../../components/workspace/ApprovalStepsCard';
+import { ApprovalWorkflowVertical } from '../../components/workspace/ApprovalWorkflowVertical';
 import { RoleSwitcher } from '../../components/workspace/RoleSwitcher';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { readinessChecks, readinessSummary } from '../../utils/caseDerived';
@@ -54,7 +55,7 @@ export function EvidenceTab(): JSX.Element {
   const summary = readinessSummary(quote);
   const m = quote.metrics;
   const [currentRole, setCurrentRole] = useState('Actuary');
-  const [view, setView] = useState<ViewMode>('current');
+  const [view, setView] = useState<ViewMode>('alternate');
   const [activeSection, setActiveSection] = useState(pageSections[0].id);
 
   useEffect(() => {
@@ -247,6 +248,7 @@ export function EvidenceTab(): JSX.Element {
 
   return (
     <div>
+      {/* View selector hidden: only the Alternate View is used in this prototype.
       <div className="mb-4 flex items-center justify-end gap-2">
         <label htmlFor="evidence-view" className="text-xs font-medium text-muted">
           View
@@ -261,16 +263,18 @@ export function EvidenceTab(): JSX.Element {
           <option value="alternate">Alternate View</option>
         </select>
       </div>
+      */}
 
-      {view === 'current' ?
+      {/* Current View hidden (kept for reference):
       <div className="space-y-5">
           {approvalCard}
           {blockersAlert}
           {evidencePacketCard}
           {governanceCard}
           {readinessCard}
-        </div> :
-
+        </div>
+      */}
+      {
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-5">
             {blockersAlert}
@@ -280,7 +284,7 @@ export function EvidenceTab(): JSX.Element {
           </div>
 
           <div className="space-y-5 xl:sticky xl:top-16 xl:self-start">
-            {approvalCard}
+            <ApprovalWorkflowVertical quote={quote} />
 
             <Card accent="primary" title="On This Page">
               <nav aria-label="Evidence tab sections" className="flex flex-col gap-0.5">

@@ -46,6 +46,7 @@ export interface PricingMetrics {
 export type FeedKind =
 'Approved' |
 'Submitted for Approval' |
+'Declined' |
 'Case Created' |
 'Comment';
 
@@ -55,6 +56,9 @@ export interface FeedEntry {
   actor: string;
   detail: string;
   time: string;
+  comment?: string;
+  fromStage?: ApprovalStage;
+  toStage?: ApprovalStage;
 }
 
 export interface QuoteCase {
@@ -73,6 +77,7 @@ export interface QuoteCase {
   metrics: PricingMetrics | null;
   approvalStage: ApprovalStage;
   censusSource: 'synthetic' | 'actual';
+  resumeStage?: ApprovalStage;
   feed: FeedEntry[];
 }
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CheckIcon, SendIcon, SettingsIcon } from 'lucide-react';
 import { Card } from '../ui/Card';
+import { useRole } from '../../contexts/RoleContext';
+import { actorLabel, primaryActionFor } from '../../utils/approvalFlow';
 import { Button } from '../ui/Button';
 import {
   approvalStages,
@@ -11,6 +13,7 @@ import type { QuoteCase } from '../../types';
 
 export function ApprovalWorkflow({ quote }: {quote: QuoteCase;}): JSX.Element {
   const { advanceApproval } = useCaseStore();
+  const { role } = useRole();
   const [assignee, setAssignee] = useState('');
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
@@ -139,8 +142,9 @@ export function ApprovalWorkflow({ quote }: {quote: QuoteCase;}): JSX.Element {
           <Button
           variant="primary"
           className="mt-3"
+          disabled={!primaryActionFor(role, quote.approvalStage)}
           onClick={() => {
-            advanceApproval(quote.id, comment.trim());
+            advanceApproval(quote.id, comment.trim(), actorLabel(role));
             setComment('');
             setAssignee('');
             setName('');

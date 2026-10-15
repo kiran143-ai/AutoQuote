@@ -1,5 +1,6 @@
 import React from 'react';
 import { useToast } from '../contexts/ToastContext';
+import { useRole } from '../contexts/RoleContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircleIcon, PlusIcon, TargetIcon, WalletIcon } from 'lucide-react';
 import { Card } from '../components/ui/Card';
@@ -23,6 +24,7 @@ export function Dashboard(): JSX.Element {
   const { cases } = useCaseStore();
   const navigate = useNavigate();
   const toast = useToast();
+  const { can, deny } = useRole();
 
   const priced = cases.filter((c) => c.metrics);
   const avgMvp = priced.length ?
@@ -65,6 +67,8 @@ export function Dashboard(): JSX.Element {
           <Button
             variant="primary"
             onClick={() => navigate('/quotes/new')}
+            disabled={!can('create')}
+            title={deny('create')}
             icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
             New Quote
           </Button>

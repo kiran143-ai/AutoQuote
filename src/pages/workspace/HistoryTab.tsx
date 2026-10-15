@@ -4,7 +4,8 @@ import {
   FileTextIcon,
   MessageSquareIcon,
   SendIcon,
-  UploadCloudIcon } from
+  UploadCloudIcon,
+  XCircleIcon } from
 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
@@ -16,6 +17,7 @@ import type { FeedKind } from '../../types';
 const kindIcon: Record<FeedKind, React.ElementType> = {
   Approved: CheckCircle2Icon,
   'Submitted for Approval': UploadCloudIcon,
+  Declined: XCircleIcon,
   'Case Created': FileTextIcon,
   Comment: MessageSquareIcon
 };
@@ -23,6 +25,7 @@ const kindIcon: Record<FeedKind, React.ElementType> = {
 const kindTone: Record<FeedKind, string> = {
   Approved: 'text-success bg-success-tint border-success/30',
   'Submitted for Approval': 'text-[#7C3AED] bg-[#F5F3FF] border-[#7C3AED]/30',
+  Declined: 'text-danger bg-danger-tint border-danger/30',
   'Case Created': 'text-primary bg-primary-tint border-primary/30',
   Comment: 'text-muted bg-canvas border-line'
 };
@@ -150,6 +153,8 @@ export function HistoryTab(): JSX.Element {
                       'text-[#15803D]' :
                       entry.kind === 'Submitted for Approval' ?
                       'text-[#7C3AED]' :
+                      entry.kind === 'Declined' ?
+                      'text-[#B91C1C]' :
                       entry.kind === 'Case Created' ?
                       'text-primary' :
                       'text-ink'}`

@@ -18,6 +18,14 @@ export const defaultInputs: CaseInputs = {
   projectionMo: 0
 };
 
+// Seed activity is dated relative to today so waiting-time chips (Aging/Overdue) don't fire on first load.
+function daysAgo(days: number, hhmm: string): string {
+  const d = new Date();
+  d.setDate(d.getDate() - days);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${hhmm}:00`;
+}
+
 export const seedCases: QuoteCase[] = [
 {
   id: 'us-bank-01',
@@ -48,35 +56,35 @@ export const seedCases: QuoteCase[] = [
     kind: 'Case Created',
     actor: 'Kiran Yeligeti',
     detail: 'Product: EPPVUL — AV M&E (ICOLI) · Auto-calibration failed',
-    time: '2026-09-05T13:23:00'
+    time: daysAgo(1, '13:23')
   },
   {
     id: 'f2',
     kind: 'Submitted for Approval',
     actor: 'Kiran Yeligeti',
     detail: 'submitted → Review (Actuary Lead).',
-    time: '2026-09-05T14:03:00'
+    time: daysAgo(1, '14:03')
   },
   {
     id: 'f3',
     kind: 'Approved',
     actor: 'Kiran Yeligeti',
     detail: 'approved → Approval (Manager). test',
-    time: '2026-09-05T14:05:00'
+    time: daysAgo(1, '14:05')
   },
   {
     id: 'f4',
     kind: 'Approved',
     actor: 'Kiran Yeligeti',
     detail: 'approved → Final (Sr. Leadership). test',
-    time: '2026-09-05T14:05:00'
+    time: daysAgo(1, '14:05')
   },
   {
     id: 'f5',
     kind: 'Approved',
     actor: 'Kiran Yeligeti',
     detail: 'approved → Approved. test',
-    time: '2026-09-05T14:06:00'
+    time: daysAgo(1, '14:06')
   }]
 
 },
@@ -102,7 +110,7 @@ export const seedCases: QuoteCase[] = [
     kind: 'Case Created',
     actor: 'Kiran Yeligeti',
     detail: 'Product: EPPVUL — AV M&E (ICOLI)',
-    time: '2026-09-04T09:12:00'
+    time: daysAgo(2, '09:12')
   }]
 
 }];

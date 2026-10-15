@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { AlertTriangleIcon, MailIcon } from 'lucide-react';
-import { Button } from '../ui/Button';
-import { useCaseStore } from '../../contexts/CaseStore';
+import { AlertTriangleIcon } from 'lucide-react';
+import { StageActionButtons } from './StageActionButtons';
 import type { QuoteCase } from '../../types';
 
 export function hasPricingIssue(quote: QuoteCase): boolean {
@@ -13,7 +12,6 @@ export function WorkspaceTabs({
   quote,
   showStickyReview = false
 }: {quote: QuoteCase;showStickyReview?: boolean;}): JSX.Element {
-  const { advanceApproval } = useCaseStore();
   const location = useLocation();
   const isEvidenceTab = location.pathname.endsWith('/evidence');
 
@@ -66,14 +64,7 @@ export function WorkspaceTabs({
 
         {isEvidenceTab && showStickyReview &&
         <div className="flex shrink-0 items-center py-2">
-            <Button
-            variant="primary"
-            size="sm"
-            onClick={() => advanceApproval(quote.id, '')}
-            icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
-
-              Send for Review
-            </Button>
+            <StageActionButtons quote={quote} size="sm" compact withDecline={false} />
           </div>
         }
       </div>

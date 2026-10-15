@@ -7,6 +7,8 @@ import { Button } from '../ui/Button';
 import { caseSummaryLine, validationChips } from '../../utils/caseDerived';
 import { premiumShort, signedPct } from '../../utils/format';
 import { useCaseStore } from '../../contexts/CaseStore';
+import { useRole } from '../../contexts/RoleContext';
+import { StageActionButtons } from './StageActionButtons';
 import type { QuoteCase } from '../../types';
 
 export function CaseHeader({
@@ -14,7 +16,8 @@ export function CaseHeader({
   version,
   onVersionChange
 }: {quote: QuoteCase;version?: 'v1' | 'v2';onVersionChange?: (v: 'v1' | 'v2') => void;}): JSX.Element {
-  const { runPricing, newRound, advanceApproval } = useCaseStore();
+  const { runPricing, newRound } = useCaseStore();
+  const { can, deny } = useRole();
   const location = useLocation();
   const navigate = useNavigate();
   const rerun = () => {
@@ -38,6 +41,7 @@ export function CaseHeader({
             Quotes
           </Link>
 
+          {/* Workflow Version selector hidden: only the simplified workflow (Version 2) is used in this prototype.
           {version && onVersionChange &&
           <div className="flex items-center gap-1.5">
               <label htmlFor="workflow-version" className="text-micro font-medium text-muted">
@@ -54,6 +58,7 @@ export function CaseHeader({
               </select>
             </div>
           }
+          */}
         </div>
 
         <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
@@ -76,6 +81,8 @@ export function CaseHeader({
             <Button
               variant="secondary"
               onClick={rerun}
+              disabled={!can('runPricing')}
+              title={deny('runPricing')}
               icon={<RotateCwIcon className="h-4 w-4" strokeWidth={1.75} />}>
 
               Re-run
@@ -83,18 +90,14 @@ export function CaseHeader({
             <Button
               variant="outline"
               onClick={() => newRound(quote.id)}
+              disabled={!can('runPricing')}
+              title={deny('runPricing')}
               icon={<PlusIcon className="h-4 w-4" strokeWidth={2} />}>
 
               New Round
             </Button>
             {isEvidenceTab &&
-            <Button
-              variant="primary"
-              onClick={() => advanceApproval(quote.id, '')}
-              icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
-
-                Send for Review
-              </Button>
+            <StageActionButtons quote={quote} />
             }
           </div>
         </div>

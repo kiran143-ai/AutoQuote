@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckCircleIcon, Clock } from 'lucide-react';
 import { Card } from '../ui/Card';
+import { ApprovalHistory, DeclineNotice } from './ApprovalHistory';
 import type { ApprovalStage, QuoteCase } from '../../types';
 
 const steps: {stage: ApprovalStage;label: string;}[] = [
@@ -21,6 +22,7 @@ export function ApprovalStepsCard({ quote }: {quote: QuoteCase;}): JSX.Element {
       title="Approval Workflow"
       meta="Submit for multi-level approval">
 
+      <DeclineNotice quote={quote} />
       <div className="rounded-md bg-white p-4">
         <div className="relative">
           {steps.slice(0, -1).map((_, i) => {
@@ -73,6 +75,9 @@ export function ApprovalStepsCard({ quote }: {quote: QuoteCase;}): JSX.Element {
             })}
           </div>
         </div>
+      </div>
+      <div className="mt-4 rounded-md bg-white p-4">
+        <ApprovalHistory quote={quote} />
       </div>
     </Card>);
 

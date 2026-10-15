@@ -11,7 +11,8 @@ export const toastTones: Record<ToastTone, {accent: string;badge: string;icon: R
 
 function Toast({ toast, onDismiss }: {toast: ToastItem;onDismiss: (id: number) => void;}): JSX.Element {
   const [paused, setPaused] = useState(false);
-  const { accent, badge, icon: Icon, duration } = toastTones[toast.tone];
+  const { accent, badge, icon: Icon, duration: baseDuration } = toastTones[toast.tone];
+  const duration = toast.action ? 7000 : baseDuration;
 
   useEffect(() => {
     if (paused) return;
@@ -34,6 +35,18 @@ function Toast({ toast, onDismiss }: {toast: ToastItem;onDismiss: (id: number) =
       <div className="min-w-0 flex-1">
         <p className="text-[13px] font-semibold text-ink">{toast.title}</p>
         {toast.description && <p className="mt-0.5 text-xs text-muted">{toast.description}</p>}
+        {toast.action &&
+        <button
+          type="button"
+          onClick={() => {
+            toast.action!.onClick();
+            onDismiss(toast.id);
+          }}
+          className="mt-2 text-xs font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+          
+            {toast.action.label}
+          </button>
+        }
       </div>
       <button
         type="button"

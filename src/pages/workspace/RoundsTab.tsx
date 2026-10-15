@@ -4,11 +4,13 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { useCaseStore } from '../../contexts/CaseStore';
+import { useRole } from '../../contexts/RoleContext';
 import { premiumShort, signedPct } from '../../utils/format';
 
 export function RoundsTab(): JSX.Element {
   const quote = useWorkspaceCase();
   const { newRound } = useCaseStore();
+  const { can, deny } = useRole();
   const m = quote.metrics;
 
   const rounds = m ?
@@ -28,7 +30,7 @@ export function RoundsTab(): JSX.Element {
         meta={`${quote.round} round${quote.round === 1 ? '' : 's'} on this case`}
         padded={false}
         action={
-        <Button size="sm" variant="primary" onClick={() => newRound(quote.id)}>
+        <Button size="sm" variant="primary" onClick={() => newRound(quote.id)} disabled={!can('runPricing')} title={deny('runPricing')}>
             New round
           </Button>
         }>

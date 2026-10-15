@@ -8,6 +8,7 @@ interface NumberFieldProps {
   hint?: string;
   suffix?: string;
   trailing?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export function NumberField({
@@ -16,7 +17,8 @@ export function NumberField({
   onChange,
   hint,
   suffix,
-  trailing
+  trailing,
+  disabled = false
 }: NumberFieldProps): JSX.Element {
   const id = `field-${label.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`;
   return (
@@ -40,10 +42,11 @@ export function NumberField({
         <div className="relative flex-1">
           <input
             id={id}
+            disabled={disabled}
             inputMode="decimal"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="h-9 w-full rounded-md border border-line bg-white px-2.5 text-sm font-medium text-ink tnum transition-colors duration-150 ease-out focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+            className="h-9 w-full rounded-md border border-line bg-white px-2.5 text-sm font-medium text-ink tnum transition-colors duration-150 ease-out focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-muted" />
           
           {suffix &&
           <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-micro text-muted">

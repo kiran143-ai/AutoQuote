@@ -8,6 +8,9 @@ import React, {
 import { defaultInputs, seedCases } from '../data/cases';
 import { runPricingEngine } from '../utils/pricing';
 import { useToast } from './ToastContext';
+import { useRole } from './RoleContext';
+import { stageLabel, stageOwnerRole } from '../utils/approvalFlow';
+import { roleLabel, type Role } from '../utils/permissions';
 import type {
   ApprovalStage,
   CaseInputs,
@@ -52,7 +55,8 @@ interface CaseStoreValue {
   runPricing: (id: string) => void;
   newRound: (id: string) => void;
   updateInputs: (id: string, patch: Partial<CaseInputs>) => void;
-  advanceApproval: (id: string, comment: string) => void;
+  advanceApproval: (id: string, comment: string, actor?: string) => void;
+  declineCase: (id: string, comment: string, actor?: string) => void;
   markLost: (id: string) => void;
   addComment: (id: string, body: string) => void;
 }
@@ -74,6 +78,7 @@ export function CaseStoreProvider({
 }: {children: React.ReactNode;}): JSX.Element {
   const [cases, setCases] = useState<QuoteCase[]>(seedCases);
   const toast = useToast();
+  const { role, setRole } = useRole();
 
   const patchCase = useCallback(
     (id: string, updater: (c: QuoteCase) => QuoteCase) => {
@@ -205,15 +210,27 @@ export function CaseStoreProvider({
     [patchCase]
   );
 
+  const continueAs = useCallback(
+    (target: Role | undefined) => {
+      if (!target || role === 'ADMIN' || role === target) return undefined;
+      return { label: `Continue as ${roleLabel(target)}`, onClick: () => setRole(target) };
+    },
+    [role, setRole]
+  );
+
   const advanceApproval = useCallback(
-    (id: string, comment: string) => {
+    (id: string, comment: string, actor = 'Kiran Yeligeti') => {
+      const before = cases.find((x) => x.id === id);
       patchCase(id, (c) => {
         const index = approvalStages.indexOf(c.approvalStage);
         const nextStage =
+        c.approvalStage === 'Pricing' && c.resumeStage ?
+        c.resumeStage :
         approvalStages[Math.min(index + 1, approvalStages.length - 1)];
-        const isApproval = c.approvalStage !== 'Draft';
+        const isApproval = c.approvalStage !== 'Draft' && c.approvalStage !== 'Pricing';
         return {
           ...c,
+          resumeStage: undefined,
           approvalStage: nextStage,
           status: statusForStage(nextStage, c.priced),
           updated: today,
@@ -222,36 +239,55 @@ export function CaseStoreProvider({
           {
             id: `f${c.feed.length + 1}`,
             kind: isApproval ? 'Approved' : 'Submitted for Approval',
-            actor: 'Kiran Yeligeti',
-            detail: `${isApproval ? 'approved' : 'submitted'} → ${nextStage}${
-            nextStage === 'Review' ?
-            ' (Actuary Lead)' :
-            nextStage === 'Approval' ?
-            ' (Manager)' :
-            nextStage === 'Final' ?
-            ' (Sr. Leadership)' :
-            ''}.${
-            comment ? ` ${comment}` : ''}`,
+            actor,
+            detail: `${isApproval ? 'approved' : 'sent for review'}: ${stageLabel[c.approvalStage]} to ${stageLabel[nextStage]}.${comment ? ` ${comment}` : ''}`,
+            comment: comment || undefined,
+            fromStage: c.approvalStage,
+            toStage: nextStage,
             time: new Date().toISOString()
           }]
 
         };
       });
-      const c = cases.find((x) => x.id === id);
-      if (c) {
-        const nextStage = approvalStages[Math.min(approvalStages.indexOf(c.approvalStage) + 1, approvalStages.length - 1)];
-        const label: Record<string, string> = {
-          Pricing: 'Actuary Review',
-          Review: 'Actuary Lead Review',
-          Approval: 'Manager Review',
-          Final: 'SLT Lead Review'
-        };
-        if (c.approvalStage === 'Approved') toast.info('Already approved', 'This quote has completed all approval steps.');else
-        if (nextStage === 'Approved') toast.success('Quote approved', 'All approval steps are complete.');else
-        toast.success('Sent for review', `Now with ${label[nextStage] ?? nextStage}.`);
+      if (before) {
+        const next = before.approvalStage === 'Pricing' && before.resumeStage ? before.resumeStage : approvalStages[Math.min(approvalStages.indexOf(before.approvalStage) + 1, approvalStages.length - 1)];
+        if (before.approvalStage === 'Approved') toast.info('Already approved', 'This quote has completed all approval steps.');else
+        if (next === 'Approved') toast.success('Quote approved', 'All approval steps are complete.');else
+        toast.success(
+          before.approvalStage === 'Draft' || before.approvalStage === 'Pricing' ? 'Sent for review' : 'Approved',
+          `Now with ${stageLabel[next]}.`,
+          continueAs(stageOwnerRole[next])
+        );
       }
     },
-    [patchCase, cases, toast]
+    [patchCase, cases, toast, continueAs]
+  );
+
+  const declineCase = useCallback(
+    (id: string, comment: string, actor = 'Kiran Yeligeti') => {
+      patchCase(id, (c) => ({
+        ...c,
+        resumeStage: c.approvalStage,
+        approvalStage: 'Pricing',
+        status: 'Declined',
+        updated: today,
+        feed: [
+        ...c.feed,
+        {
+          id: `f${c.feed.length + 1}`,
+          kind: 'Declined',
+          actor,
+          detail: `declined at ${stageLabel[c.approvalStage]} and returned it to Actuary Review.${comment ? ` ${comment}` : ''}`,
+          comment: comment || undefined,
+          fromStage: c.approvalStage,
+          toStage: 'Pricing',
+          time: new Date().toISOString()
+        }]
+
+      }));
+      toast.warning('Declined and returned to Actuary', 'Comments were sent to the Actuary and earlier reviewers.', continueAs('ACTUARY'));
+    },
+    [patchCase, toast, continueAs]
   );
 
   const markLost = useCallback(
@@ -292,6 +328,7 @@ export function CaseStoreProvider({
       newRound,
       updateInputs,
       advanceApproval,
+      declineCase,
       markLost,
       addComment
     }),
@@ -304,6 +341,7 @@ export function CaseStoreProvider({
     newRound,
     updateInputs,
     advanceApproval,
+    declineCase,
     markLost,
     addComment]
 

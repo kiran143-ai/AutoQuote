@@ -190,7 +190,7 @@ export function ApprovalActions({ quote, currentRole }: ApprovalActionsProps): J
             variant="danger"
             disabled={isSubmitting}
             icon={<XIcon className="h-4 w-4" strokeWidth={2} />}>
-            Reject
+            Decline
           </Button>
         </div>
       </div>

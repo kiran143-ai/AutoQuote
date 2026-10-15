@@ -14,12 +14,14 @@ import { Button } from '../components/ui/Button';
 import { PageHeader } from '../components/layout/PageHeader';
 import { CensusSelector } from '../components/workspace/CensusSelector';
 import { useCaseStore } from '../contexts/CaseStore';
+import { useRole } from '../contexts/RoleContext';
 import { products } from '../data/products';
 import type { ProductId } from '../types';
 
 export function NewQuotePage(): JSX.Element {
   const { createCase, getCase } = useCaseStore();
   const navigate = useNavigate();
+  const { can, deny } = useRole();
   const [searchParams] = useSearchParams();
   const cloneFromId = searchParams.get('cloneFrom');
   const sourceCase = useMemo(() => cloneFromId ? getCase(cloneFromId) : null, [cloneFromId, getCase]);
@@ -103,6 +105,12 @@ export function NewQuotePage(): JSX.Element {
           </div>
         </div>
       )}
+
+      {!can('create') &&
+      <div role="status" className="mb-5 rounded-md border border-warning/40 bg-warning-tint px-4 py-3 text-[13px] text-[#92400E]">
+          Your role can't create quotes. You can look around, but Create Quote is turned off.
+        </div>
+      }
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Card
@@ -258,6 +266,8 @@ export function NewQuotePage(): JSX.Element {
             </Button>
             <Button
               type="submit"
+              disabled={!can('create')}
+              title={deny('create')}
               variant="primary"
               icon={<ZapIcon className="h-4 w-4" strokeWidth={1.75} />}>
 

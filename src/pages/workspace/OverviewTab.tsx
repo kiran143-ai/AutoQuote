@@ -1,5 +1,6 @@
 import React from 'react';
 import { useToast } from '../../contexts/ToastContext';
+import { useRole } from '../../contexts/RoleContext';
 import { useNavigate } from 'react-router-dom';
 import {
   AlertOctagonIcon,
@@ -24,6 +25,7 @@ export function OverviewTab(): JSX.Element {
   const { runPricing, markLost } = useCaseStore();
   const navigate = useNavigate();
   const toast = useToast();
+  const { can, deny } = useRole();
   const isV2 = useWorkflowVersion() === 'v2';
   const runAndOpenPricing = () => {
     runPricing(quote.id);
@@ -86,6 +88,8 @@ export function OverviewTab(): JSX.Element {
               variant="primary"
               className="mt-3"
               onClick={runAndOpenPricing}
+              disabled={!can('runPricing')}
+              title={deny('runPricing')}
               icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
               
                 Run Pricing Now
@@ -127,6 +131,8 @@ export function OverviewTab(): JSX.Element {
               variant="primary"
               size="sm"
               onClick={runAndOpenPricing}
+              disabled={!can('runPricing')}
+              title={deny('runPricing')}
               icon={<PlayIcon className="h-4 w-4" strokeWidth={1.75} />}>
               
                 Run Pricing Now

@@ -4,6 +4,7 @@ import {
   FileTextIcon,
   FlaskConicalIcon,
   GitCompareIcon,
+  ClipboardCheckIcon,
   LayoutDashboardIcon,
   LineChartIcon,
   PaletteIcon,
@@ -17,6 +18,7 @@ export interface NavItem {
   label: string;
   to: string;
   icon: LucideIcon;
+  adminOnly?: boolean;
 }
 
 export interface NavGroup {
@@ -30,6 +32,7 @@ export const navGroups: NavGroup[] = [
   items: [
   { label: 'Dashboard', to: '/', icon: LayoutDashboardIcon },
   { label: 'Quotes', to: '/quotes', icon: FileTextIcon },
+  { label: 'Approvals', to: '/approvals', icon: ClipboardCheckIcon },
   { label: 'Analytics', to: '/analytics', icon: LineChartIcon },
   { label: 'Case Compare', to: '/case-compare', icon: GitCompareIcon },
   { label: 'BRD References', to: '/brd-references', icon: BookOpenIcon },
@@ -47,9 +50,10 @@ export const navGroups: NavGroup[] = [
   {
     label: 'Actuarial Admin',
     to: '/actuarial-admin',
-    icon: FlaskConicalIcon
+    icon: FlaskConicalIcon,
+    adminOnly: true
   },
-  { label: 'Engine Health', to: '/engine-health', icon: ZapIcon }]
+  { label: 'Engine Health', to: '/engine-health', icon: ZapIcon, adminOnly: true }]
 
 },
 {

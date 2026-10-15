@@ -4,12 +4,14 @@ import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { MetricTile } from '../ui/MetricTile';
 import { useCaseStore } from '../../contexts/CaseStore';
+import { useRole } from '../../contexts/RoleContext';
 import { TARGET_MVP } from '../../utils/pricing';
 import { signedPct } from '../../utils/format';
 import type { QuoteCase } from '../../types';
 
 export function CalibratePanel({ quote }: {quote: QuoteCase;}): JSX.Element {
   const { runPricing } = useCaseStore();
+  const { can, deny } = useRole();
   const m = quote.metrics;
 
   return (
@@ -60,6 +62,8 @@ export function CalibratePanel({ quote }: {quote: QuoteCase;}): JSX.Element {
             size="sm"
             variant="secondary"
             onClick={() => runPricing(quote.id)}
+            disabled={!can('runPricing')}
+            title={deny('runPricing')}
             icon={<RotateCwIcon className="h-4 w-4" strokeWidth={1.75} />}>
             
               Recalculate

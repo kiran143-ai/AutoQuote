@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { navGroups } from '../../data/navigation';
+import { useRole } from '../../contexts/RoleContext';
 
 export function SideNav(): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { role } = useRole();
+  const groups = navGroups.
+  map((g) => ({ ...g, items: g.items.filter((i) => !i.adminOnly || role === 'ADMIN') })).
+  filter((g) => g.items.length > 0);
 
   return (
     <nav
@@ -39,7 +44,7 @@ export function SideNav(): JSX.Element {
       </div>
 
       <div className="flex flex-1 flex-col gap-6 pb-8">
-        {navGroups.map((group) =>
+        {groups.map((group) =>
         <div key={group.label}>
             {!isCollapsed && (
               <p className="px-5 pb-2 text-micro font-semibold uppercase tracking-[0.08em] text-nav-text">

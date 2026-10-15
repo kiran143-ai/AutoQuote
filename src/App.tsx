@@ -4,6 +4,8 @@ import { AppShell } from './components/layout/AppShell';
 import { CaseStoreProvider } from './contexts/CaseStore';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { ToastProvider } from './contexts/ToastContext';
+import { RoleProvider } from './contexts/RoleContext';
+import { ApprovalProvider } from './contexts/ApprovalContext';
 import { Dashboard } from './pages/Dashboard';
 import { QuotesPage } from './pages/QuotesPage';
 import { NewQuotePage } from './pages/NewQuotePage';
@@ -11,6 +13,8 @@ import { WhatIfPage } from './pages/WhatIfPage';
 import { GoalSeekPage } from './pages/GoalSeekPage';
 import { DesignSystemPage } from './pages/DesignSystemPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
+import { ApprovalsPage } from './pages/ApprovalsPage';
+import { ActuarialAdminPage } from './pages/ActuarialAdminPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OverviewTab } from './pages/workspace/OverviewTab';
@@ -28,7 +32,9 @@ export function App(): JSX.Element {
   return (
     <ThemeProvider>
       <ToastProvider>
+      <RoleProvider>
       <CaseStoreProvider>
+      <ApprovalProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<AppShell />}>
@@ -52,6 +58,8 @@ export function App(): JSX.Element {
               </Route>
 
             <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/approvals" element={<ApprovalsPage />} />
+            <Route path="/actuarial-admin" element={<ActuarialAdminPage />} />
             
             <Route
               path="/case-compare"
@@ -94,16 +102,6 @@ export function App(): JSX.Element {
               } />
             
             <Route
-              path="/actuarial-admin"
-              element={
-              <PlaceholderPage
-                title="Actuarial Admin"
-                subtitle="Governance thresholds, gold standards, and user roles."
-                panels={['Governance Thresholds', 'Gold Standards', 'Roles']} />
-
-              } />
-            
-            <Route
               path="/engine-health"
               element={
               <PlaceholderPage
@@ -139,7 +137,9 @@ export function App(): JSX.Element {
           </Route>
         </Routes>
       </BrowserRouter>
-    </CaseStoreProvider>
+    </ApprovalProvider>
+      </CaseStoreProvider>
+      </RoleProvider>
       </ToastProvider>
     </ThemeProvider>);
 

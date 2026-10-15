@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { MailIcon } from 'lucide-react';
-import { Button } from '../ui/Button';
-import { useCaseStore } from '../../contexts/CaseStore';
+import { StageActionButtons } from './StageActionButtons';
 import type { QuoteCase } from '../../types';
 
 interface SubTab {
@@ -40,7 +38,6 @@ export function WorkspaceTabsV2({
   quote,
   showStickyReview = false
 }: {quote: QuoteCase;showStickyReview?: boolean;}): JSX.Element {
-  const { advanceApproval } = useCaseStore();
   const location = useLocation();
   const base = `/quotes/${quote.id}`;
 
@@ -79,14 +76,7 @@ export function WorkspaceTabsV2({
             History
           </NavLink>
           {isEvidenceActive && showStickyReview &&
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => advanceApproval(quote.id, '')}
-            icon={<MailIcon className="h-4 w-4" strokeWidth={1.75} />}>
-
-              Send for Review
-            </Button>
+          <StageActionButtons quote={quote} size="sm" compact withDecline={false} />
           }
         </div>
       </div>

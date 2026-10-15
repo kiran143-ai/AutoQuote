@@ -17,7 +17,7 @@ export function WorkspacePage(): JSX.Element {
   const toast = useToast();
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrolledPastHeader, setScrolledPastHeader] = useState(false);
-  const [version, setVersion] = useState<WorkflowVersion>('v1');
+  const [version, setVersion] = useState<WorkflowVersion>('v2');
 
   useEffect(() => {
     const headerEl = headerRef.current;
