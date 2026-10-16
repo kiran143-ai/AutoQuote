@@ -286,6 +286,7 @@ export function EvidenceTab(): JSX.Element {
           <div className="space-y-5 xl:sticky xl:top-16 xl:self-start">
             <ApprovalWorkflowVertical quote={quote} />
 
+            {/* "On This Page" card hidden (kept for reference):
             <Card accent="primary" title="On This Page">
               <nav aria-label="Evidence tab sections" className="flex flex-col gap-0.5">
                 {pageSections.map((section) => {
@@ -312,6 +313,7 @@ export function EvidenceTab(): JSX.Element {
               })}
               </nav>
             </Card>
+            */}
           </div>
         </div>
       }
