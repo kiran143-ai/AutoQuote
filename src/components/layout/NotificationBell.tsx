@@ -77,11 +77,11 @@ export function NotificationBell(): JSX.Element {
         }
           <div className="border-t border-line px-4 py-2.5">
             <Link
-            to="/approvals"
+            to={role === 'ACTUARY' ? '/quotes' : '/approvals'}
             onClick={() => setOpen(false)}
             className="text-[13px] font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
             
-              Open approval queue
+              {role === 'ACTUARY' ? 'Open quotes' : 'Open approval queue'}
             </Link>
           </div>
         </div>

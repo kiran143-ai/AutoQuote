@@ -13,12 +13,14 @@ import {
   ZapIcon } from
 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import type { Role } from '../utils/permissions';
 
 export interface NavItem {
   label: string;
   to: string;
   icon: LucideIcon;
   adminOnly?: boolean;
+  hiddenForRoles?: Role[];
 }
 
 export interface NavGroup {
@@ -32,7 +34,7 @@ export const navGroups: NavGroup[] = [
   items: [
   { label: 'Dashboard', to: '/', icon: LayoutDashboardIcon },
   { label: 'Quotes', to: '/quotes', icon: FileTextIcon },
-  { label: 'Approvals', to: '/approvals', icon: ClipboardCheckIcon },
+  { label: 'Approvals', to: '/approvals', icon: ClipboardCheckIcon, hiddenForRoles: ['ACTUARY'] },
   { label: 'Analytics', to: '/analytics', icon: LineChartIcon },
   { label: 'Case Compare', to: '/case-compare', icon: GitCompareIcon },
   { label: 'BRD References', to: '/brd-references', icon: BookOpenIcon },

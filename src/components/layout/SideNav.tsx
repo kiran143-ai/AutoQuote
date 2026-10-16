@@ -8,7 +8,7 @@ export function SideNav(): JSX.Element {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { role } = useRole();
   const groups = navGroups.
-  map((g) => ({ ...g, items: g.items.filter((i) => !i.adminOnly || role === 'ADMIN') })).
+  map((g) => ({ ...g, items: g.items.filter((i) => (!i.adminOnly || role === 'ADMIN') && !i.hiddenForRoles?.includes(role)) })).
   filter((g) => g.items.length > 0);
 
   return (

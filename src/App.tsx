@@ -14,6 +14,13 @@ import { GoalSeekPage } from './pages/GoalSeekPage';
 import { DesignSystemPage } from './pages/DesignSystemPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ApprovalsPage } from './pages/ApprovalsPage';
+import { useRole } from './contexts/RoleContext';
+
+// The Actuary has nothing to approve, so the Approvals page is hidden for that role.
+function ApprovalsRoute(): JSX.Element {
+  const { role } = useRole();
+  return role === 'ACTUARY' ? <Navigate to="/quotes" replace /> : <ApprovalsPage />;
+}
 import { ActuarialAdminPage } from './pages/ActuarialAdminPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
@@ -58,7 +65,7 @@ export function App(): JSX.Element {
               </Route>
 
             <Route path="/analytics" element={<AnalyticsPage />} />
-            <Route path="/approvals" element={<ApprovalsPage />} />
+            <Route path="/approvals" element={<ApprovalsRoute />} />
             <Route path="/actuarial-admin" element={<ActuarialAdminPage />} />
             
             <Route
