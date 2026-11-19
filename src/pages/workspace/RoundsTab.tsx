@@ -1,30 +1,13 @@
 import React from 'react';
-import { AlertTriangleIcon } from 'lucide-react';
-import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
-import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
-import { useCaseStore } from '../../contexts/CaseStore';
-import { useRole } from '../../contexts/RoleContext';
-import { premiumShort, signedPct } from '../../utils/format';
 import { RollForwardSection } from '../../components/workspace/RollForwardSection';
 
+// The "Pricing rounds" card is hidden in this prototype. To restore it, bring back the card markup
+// below, plus: AlertTriangleIcon, Card, Button, useWorkspaceCase, useCaseStore, useRole,
+// premiumShort/signedPct, and the `rounds` list built from quote.metrics.
 export function RoundsTab(): JSX.Element {
-  const quote = useWorkspaceCase();
-  const { newRound } = useCaseStore();
-  const { can, deny } = useRole();
-  const m = quote.metrics;
-
-  const rounds = m ?
-  Array.from({ length: quote.round }, (_, i) => ({
-    round: i + 1,
-    mvp: m.mvp,
-    breakEven: m.breakEven,
-    strain: m.strain
-  })) :
-  [];
-
   return (
     <div className="space-y-5">
+      {/* "Pricing rounds" card hidden (kept for reference):
       <Card
         accent="primary"
         title="Pricing rounds"
@@ -102,6 +85,7 @@ export function RoundsTab(): JSX.Element {
           }
         </div>
       </Card>
+      */}
 
       <RollForwardSection />
     </div>);
