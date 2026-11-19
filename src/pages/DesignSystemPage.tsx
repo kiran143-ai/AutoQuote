@@ -348,7 +348,7 @@ Date picker: a text input with a small #6B7280 calendar icon on the left side, n
 
     treeview: `Expandable tree list for hierarchical data (e.g. product categories). Each row has a #6B7280 chevron icon that rotates 90° when expanded, a #6B7280 folder or file icon, and a text label (#111827), indented 20px per depth level. Selected row gets a ${c.primaryTint} background with ${c.primary} bold text. Rows highlight with background #F1F3F5 on hover. Use proper tree/treeitem accessibility roles so screen readers announce expand state and selection.`,
 
-    cards: `Card container: white (#FFFFFF) background, 10px corner radius, 1px border #E5E7EB, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title (#111827) and small meta text (#6B7280) beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (${c.primary} for emphasis, #F0A500 for warning, #DC3545 for danger) to flag the card's status at a glance.`,
+    cards: `Card container: white (#FFFFFF) background, 10px corner radius, 1px border #E5E7EB, soft drop shadow (0 1px 3px rgba(0,0,0,0.08)). Optional header row with a bold 15px title (#111827) and small meta text (#6B7280) beneath it, plus an optional right-aligned action button/link. Optional 2px colored top border strip (${c.primary} for emphasis, #28A745 for success or improvement, #F0A500 for warning, #DC3545 for danger) to flag the card's status at a glance.`,
 
     layout: `Page layout: background #F1F3F5 (canvas) for the whole app, with white (#FFFFFF) rounded cards floating on top for content sections — this contrast is what gives the app its clean, organized feel. Comfortable spacing between cards (~20px), generous internal card padding (~20px), and a consistent left sidebar (${c.nav} background) + top bar (white #FFFFFF) shell around all pages.`,
 
@@ -1574,12 +1574,15 @@ export function DesignSystemPage(): JSX.Element {
 
         <SectionAnchor id="cards">
           <Card accent="primary" title="Cards" meta="Rounded 10px · 1px line border · soft shadow · optional 2px top accent">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <Card title="No accent">
                 <p className="text-[13px] text-muted">Default card style</p>
               </Card>
               <Card accent="primary" title="Primary accent">
                 <p className="text-[13px] text-muted">Blue top border</p>
+              </Card>
+              <Card accent="success" title="Success accent">
+                <p className="text-[13px] text-muted">Green top border</p>
               </Card>
               <Card accent="warning" title="Warning accent">
                 <p className="text-[13px] text-muted">Amber top border</p>

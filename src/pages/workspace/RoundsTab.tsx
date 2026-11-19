@@ -1,11 +1,12 @@
 import React from 'react';
-import { AlertTriangleIcon, BarChart3Icon, LayersIcon } from 'lucide-react';
+import { AlertTriangleIcon } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useWorkspaceCase } from '../../hooks/useWorkspaceCase';
 import { useCaseStore } from '../../contexts/CaseStore';
 import { useRole } from '../../contexts/RoleContext';
 import { premiumShort, signedPct } from '../../utils/format';
+import { RollForwardSection } from '../../components/workspace/RollForwardSection';
 
 export function RoundsTab(): JSX.Element {
   const quote = useWorkspaceCase();
@@ -102,44 +103,7 @@ export function RoundsTab(): JSX.Element {
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-        <Card
-          title={
-          <span className="flex items-center gap-2">
-              <BarChart3Icon
-              className="h-4 w-4 text-muted"
-              strokeWidth={1.75}
-              aria-hidden="true" />
-            
-              Round Comparison &amp; Summary
-            </span>
-          }
-          meta={`${quote.round} rounds`}>
-          
-          <p className="rounded-md border border-dashed border-line bg-canvas px-4 py-6 text-center text-[13px] text-muted">
-            No round snapshots recorded yet. Snapshots are captured
-            automatically on each pricing run.
-          </p>
-        </Card>
-
-        <Card
-          title={
-          <span className="flex items-center gap-2">
-              <LayersIcon
-              className="h-4 w-4 text-muted"
-              strokeWidth={1.75}
-              aria-hidden="true" />
-            
-              MVP Bridge — Impact Attribution
-            </span>
-          }>
-          
-          <p className="rounded-md border border-dashed border-line bg-canvas px-4 py-6 text-center text-[13px] text-muted">
-            Need at least 2 rounds to compute an MVP bridge. Run pricing
-            multiple times with different parameters.
-          </p>
-        </Card>
-      </div>
+      <RollForwardSection />
     </div>);
 
 }

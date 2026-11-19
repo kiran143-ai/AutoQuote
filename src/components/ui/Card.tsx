@@ -5,7 +5,7 @@ interface CardProps {
   title?: React.ReactNode;
   meta?: React.ReactNode;
   action?: React.ReactNode;
-  accent?: 'none' | 'primary' | 'warning' | 'danger';
+  accent?: 'none' | 'primary' | 'success' | 'warning' | 'danger';
   padded?: boolean;
   className?: string;
   bodyClassName?: string;
@@ -15,6 +15,7 @@ interface CardProps {
 const accents: Record<NonNullable<CardProps['accent']>, string> = {
   none: '',
   primary: 'border-t-2 border-t-primary',
+  success: 'border-t-2 border-t-success',
   warning: 'border-t-2 border-t-warning',
   danger: 'border-t-2 border-t-danger'
 };

@@ -83,7 +83,7 @@ Font: Inter, falling back to Segoe UI or the system font. Numbers use tabular fi
 
 **Button.** Five variants: primary (solid primary, white text), secondary (white, gray border), outline (primary border and text on white), ghost (primary text, no border), danger (red text on white). Use one primary button per view for the main action. Disabled is 50% opacity.
 
-**Card.** Optional title, meta line and right-aligned action. Content cards carry the 2px primary top border. Use a warning or danger top border only to flag state.
+**Card.** Optional title, meta line and right-aligned action. Content cards carry the 2px primary top border. Use a success, warning or danger top border only to flag state. Success marks an improvement, danger marks a worsening, and a card with no change keeps no accent.
 
 **Badges and chips.** Pills with a tinted background, the readable text shade and a 40% border. Used for case status, data readiness (HAVE, PARTIAL, BLOCKED) and validation (pass, pending).
 
